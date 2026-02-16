@@ -1,3698 +1,1587 @@
-<?php echo $header; ?>
-<div class="container">
-<div itemscope itemtype="http://schema.org/BreadcrumbList" style="display:none;">
-<?php $position = 1; foreach ($breadcrumbs as $breadcrumb) { ?>
-<div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-<link itemprop="item" href="<?php echo $breadcrumb['href']; ?>">
-<meta itemprop="name" content="<?php echo $breadcrumb['text']; ?>" />
-<meta itemprop="position" content="<?php echo $position; ?>" />
-</div>
-<?php $position++; } ?>
-</div>
-<ul class="breadcrumb"><li class="br_ellipses" style="display: none;">...</li>
-<?php foreach ($breadcrumbs as $i=> $breadcrumb) { ?>
-<?php if($i+1<count($breadcrumbs)) { ?><li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li><?php } else { ?><?php } ?>
-<?php } ?>
-<li><h1 class="inbreadcrumb"><?php echo $heading_title; ?></h1></li>
-</ul>
-  <div class="row"><?php echo $column_left; ?>
-    <?php if ($column_left && $column_right) { ?>
-    <?php $class = 'col-sm-6'; $columns_dd = true ?>
-    <?php } elseif ($column_left || $column_right || ($products && $recpr_rightc)) { ?>
-    <?php $class = 'col-sm-9'; $columns_dd = true ?>
-    <?php } else { ?>
-    <?php $class = 'col-sm-12'; $columns_dd = false ?>
-    <?php } ?>
-    <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
-      <div class="row" itemscope itemtype="http://schema.org/Product">
-		<meta itemprop="name" content="<?php echo $heading_title; ?>" />
-		<meta itemprop="category" content="<?php echo $breadcrumbs[count($breadcrumbs)-2]['text']; ?>" />
-        <?php if ($column_left || $column_right) { ?>
-        <?php $class2 = 'col-sm-9 col-md-6'; ?>
-        <?php } else { ?>
-        <?php $class2 = 'col-sm-12 col-md-5'; ?>
-        <?php } ?>
-        <div class="<?php echo $class2; ?> product_informationss">
-			<?php if ($thumb || $images) { ?>
-				<div class="thumbnails">
-				<?php if ($thumb) { ?>
-					<div class="main_img_box">
-					<?php if ($zoom) { ?>
-						<div id="imageWrap" class="image">
-							<a class="main-image" id='zoom1' href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>"><img id="mainImage" class="img-responsive" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" itemprop="image" />
-								<?php if ($stikers_status) { ?>
-									<div class="stiker_panel">
-										<?php if (($quantity > 0 && $price_number != 0) || $zakaz) { ?>
-											<?php if ($stiker_spec) { ?>
-												<?php if ($special) { ?>
-													<span class="stiker stiker_spec"><?php echo '- ' . round(($price_number-$special_number)/$price_number*100) . '%' ?></span>
-												<?php } ?>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($stiker_best) { ?>
-											<span class="stiker stiker_best"><?php echo $text_catalog_stiker_best; ?></span>
-										<?php } ?>
-										<?php if ($stiker_last) { ?>
-											<span class="stiker stiker_last"><?php echo $text_catalog_stiker_last; ?></span>
-										<?php } ?>
-										<?php if ($stiker_sklad_status) { ?>
-											<span class="stiker stiker_netu"><?php echo $stiker_sklad_status; ?></span>
-										<?php } else if ($stiker_stock) { ?>
-											<?php if ($price_number == 0 && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu_2; ?></span>
-											<?php } elseif ($quantity < 1 && $price_number > 0 && !$zakaz) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && !$zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && $zakaz && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && $zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($stiker_upc) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_upc; ?></span>
-										<?php } ?>
-										<?php if ($stiker_ean) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_ean; ?></span>
-										<?php } ?>
-										<?php if ($stiker_jan) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_jan; ?></span>
-										<?php } ?>
-										<?php if ($stiker_isbn) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_isbn; ?></span>
-										<?php } ?>
-										<?php if ($stiker_mpn) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_mpn; ?></span>
-										<?php } ?>
-									</div>
-								<?php } ?>
-							</a>
-						</div>
-					<?php } else { ?>
-						<div class="image">
-							<a class="main-image" href="<?php echo $popup; ?>" title="<?php echo $heading_title; ?>" data-number="0"><img class="img-responsive" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" itemprop="image" />
-								<?php if ($stikers_status) { ?>
-									<div class="stiker_panel">
-										<?php if (($quantity > 0 && $price_number != 0) || $zakaz) { ?>
-											<?php if ($stiker_spec) { ?>
-												<?php if ($special) { ?>
-													<span class="stiker stiker_spec"><?php echo '- ' . round(($price_number-$special_number)/$price_number*100) . '%' ?></span>
-												<?php } ?>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($stiker_best) { ?>
-											<span class="stiker stiker_best"><?php echo $text_catalog_stiker_best; ?></span>
-										<?php } ?>
-										<?php if ($stiker_last) { ?>
-											<span class="stiker stiker_last"><?php echo $text_catalog_stiker_last; ?></span>
-										<?php } ?>
-										<?php if ($stiker_sklad_status) { ?>
-											<span class="stiker stiker_netu"><?php echo $stiker_sklad_status; ?></span>
-										<?php } else if ($stiker_stock) { ?>
-											<?php if ($price_number == 0 && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu_2; ?></span>
-											<?php } elseif ($quantity < 1 && $price_number > 0 && !$zakaz) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && !$zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && $zakaz && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } elseif ($quantity < 1 && $zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu; ?></span>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($stiker_upc) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_upc; ?></span>
-										<?php } ?>
-										<?php if ($stiker_ean) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_ean; ?></span>
-										<?php } ?>
-										<?php if ($stiker_jan) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_jan; ?></span>
-										<?php } ?>
-										<?php if ($stiker_isbn) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_isbn; ?></span>
-										<?php } ?>
-										<?php if ($stiker_mpn) { ?>
-											<span class="stiker stiker_user"><?php echo $stiker_mpn; ?></span>
-										<?php } ?>
-									</div>
-								<?php } ?>
-							</a>
-						</div>
-					<?php } ?>
+<html dir="ltr" lang="ru" class="product-product-54 opacity_minus">
+<!--<![endif]-->
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Apple iPhone 7 128GB Black - купить в интернет-магазине.</title>
+	<base href="https://apple.oc-mod.ru/">
+	<meta name="description" content="Купить Apple iPhone 7 128GB Black в интернет-магазине. Описание, характеристики, отзывы и цена Apple iPhone 7 128GB Black.">
+	<meta name="keywords" content="купить, продажа, цена, стоимость, описание, характеристики, отзывы, интернет магазин, Apple, Apple iPhone 7 128GB Black, MN942RU/A.">
+	<meta property="og:title" content="Apple iPhone 7 128GB Black - купить в интернет-магазине.">
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://apple.oc-mod.ru/apple_iphone_7_128gb_black">
+	<meta property="og:image" content="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-400x400.jpg">
+	<meta property="og:site_name" content="Мой Магазин">
+	<link href="catalog/view/theme/revolution/stylesheet/stylesheet_min.css" rel="stylesheet">
+	<link href="catalog/view/javascript/revolution/cloud-zoom/cloud-zoom.css" type="text/css" rel="stylesheet" media="screen">
+	<link href="catalog/view/javascript/jquery/magnific/magnific-popup.css" type="text/css" rel="stylesheet" media="screen">
+	<link href="catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" media="screen">
+	<script src="catalog/view/javascript/jquery/jquery-2.1.1.min.js"></script>
+	<script src="catalog/view/javascript/jquery/owl-carousel/owl.carousel.min.js"></script>
+	<link href="https://apple.oc-mod.ru/apple_iphone_7_128gb_black" rel="canonical">
+	<link href="https://apple.oc-mod.ru/image/catalog/revolution/cart.png" rel="icon">
+	<script src="catalog/view/javascript/revolution/cloud-zoom/cloud-zoom.1.0.2.js"></script>
+	<script src="catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js"></script>
+	<script src="catalog/view/javascript/jquery/datetimepicker/moment.js"></script>
+	<script src="catalog/view/javascript/jquery/datetimepicker/locale/ru-ru.js"></script>
+	<script src="catalog/view/javascript/jquery/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+	<script>
+	<!--
+	function max_height_div(div) {
+		var maxheight = 0;
+		$(div).each(function() {
+			$(this).removeAttr('style');
+			if($(this).height() > maxheight) {
+				maxheight = $(this).height();
+			}
+		});
+		$(div).height(maxheight);
+	}
+	//-->
+	</script>
+</head>
+
+<body>
+	<div class="all_content_mmenu">
+		<div itemscope="" itemtype="http://schema.org/Organization" style="display:none;">
+			<meta itemprop="name" content="Мой Магазин">
+			<link itemprop="url" href="https://apple.oc-mod.ru/apple_iphone_7_128gb_black">
+			<link itemprop="logo" href="https://apple.oc-mod.ru/image/catalog/revolution/logo.svg">
+			<meta itemprop="description" content="Купить Apple iPhone 7 128GB Black в интернет-магазине. Описание, характеристики, отзывы и цена Apple iPhone 7 128GB Black.">
+			<div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
+				<meta itemprop="postalCode" content="119021">
+				<meta itemprop="addressLocality" content="Москва">
+				<meta itemprop="streetAddress" content="Никольская, 25"> </div>
+			<meta itemprop="telephone" content="8 (800) 700-40-40">
+			<meta itemprop="email" content="mail@apple.oc-mod.ru"> </div>
+		<div id="pagefader"></div>
+		<div id="pagefader2"></div>
+		<header>
+			<div id="top">
+				<div class="container">
+					<div class="top-links hidden-xs verh nav pull-left text-center">
+						<ul class="list-inline ul_dop_menu">
+							<li><a href="o_kompanii">О компании</a></li>
+							<li><a href="dostavka_i_oplata">Доставка и Оплата</a></li>
+							<li><a href="garantiya">Гарантия</a></li>
+							<li class="dropdown"><a href="" class="dropdown-toggle" data-toggle="dropdown">Информация<i class="fa fa-chevron-down strdown"></i></a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="novosti_i_obzory">Новости и Обзоры</a></li>
+									<li><a href="politika_konfidencialnosti">Политика конфиденциальности</a></li>
+								</ul>
+							</li>
+							<li><a href="contact-us">Контакты</a></li>
+						</ul> <span class="foroppro" style="display:none;"></span> </div>
+					<div class="top-links verh nav pull-right ">
+						<ul class="list-inline">
+							<li><a href="https://apple.oc-mod.ru/compare-products/" class="dropdown-toggle"><span id="compare-total"><i class="fa fa-bar-chart"></i><span class="hidden-xs hidden-sm">Сравнение</span><sup>0</sup></span></a></li>
+							<li><a href="https://apple.oc-mod.ru/wishlist/" class="dropdown-toggle"><span id="wishlist-total"><i class="fa fa-heart"></i><span class="hidden-xs hidden-sm">Закладки</span><sup>0</sup></span></a></li>
+							<li class="dropdown "><a href="https://apple.oc-mod.ru/my_account/" title="Личный кабинет" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span class="hidden-xs hidden-sm">Личный кабинет</span><i class="fa fa-chevron-down strdown"></i></a>
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="javascript:void(0);" onclick="get_revpopup_login();">Авторизация</a></li>
+									<li><a href="https://apple.oc-mod.ru/register_account/">Регистрация</a></li>
+								</ul>
+							</li>
+						</ul>
 					</div>
-				<?php } ?>
-				<?php if ($images) { ?>
-					<?php if ($images_slider) { ?>
-						<div id="owl-images" class="owl-carousel owl-theme images-additional">
-							<div class="item">
-								<a href="<?php echo $popup; ?>" id="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>"><img src="<?php echo $thumb_small; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="0"/></a>
-							</div>
-							<?php $number = 1 ;?>
-							<?php foreach ($images as $image) { ?>
-								<div class="item">
-									<?php if ($image['video']) { ?>
-										<a class="mfp-iframe" href="<?php echo $image['video']; ?>" id="<?php echo $image['thumb_big']; ?>"><span></span>
-											<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-										</a>
-									<?php } else { ?>
-										<a href="<?php echo $image['popup']; ?>" id="<?php echo $image['thumb_big']; ?>" title="<?php echo $heading_title; ?>">
-											<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-										</a>
-									<?php } ?>
-								</div>
-							<?php $number++;?>
-							<?php } ?>
-						</div>
-					<?php } else { ?>
-						<div class="images-additional">
-								<a class="thumbnail" href="<?php echo $popup; ?>" id="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>">
-									<img src="<?php echo $thumb_small; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="0"/>
-								</a>
-							<?php $number = 1 ;?>
-							<?php foreach ($images as $image) { ?>
-								<?php if (!$zoom) { ?>
-									<?php if ($image['video']) { ?>
-										<a class="thumbnail mfp-iframe" href="<?php echo $image['video']; ?>"><span></span>
-											<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-										</a>
-									<?php } else { ?>
-										<a class="thumbnail" href="<?php echo $image['popup']; ?>" id="<?php echo $image['thumb_big']; ?>" title="<?php echo $heading_title; ?>">
-											<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-										</a>
-									<?php } ?>
-								<?php } else { ?>
-									<?php if ($image['video']) { ?>
-										<a class="thumbnail mfp-iframe" href="<?php echo $image['video']; ?>"><span></span>
-											<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-										</a>
-									<?php } else { ?>
-										<a class="thumbnail" href="<?php echo $image['popup']; ?>" id="<?php echo $image['thumb_big']; ?>" title="<?php echo $heading_title; ?>">
-										<img src="<?php echo $image['thumb']; ?>" title="<?php echo $heading_title; ?>" alt="<?php echo $heading_title; ?>" data-number="<?php echo $number; ?>"/>
-									<?php } ?>
-									</a>
-								<?php } ?>
-							<?php $number++;?>
-							<?php } ?>
-						</div>
-					<?php } ?>
-				<?php } ?>
 				</div>
-			<?php } ?>
-        </div>
-		<?php if ($column_left || $column_right) { ?>
-        <?php $class3 = 'col-sm-12 col-md-6'; ?>
-        <?php } else { ?>
-        <?php $class3 = 'col-sm-12 col-md-7'; ?>
-        <?php } ?>
-        <div class="<?php echo $class3; ?> product_informationss">
-			<meta itemprop="mpn" content="<?php echo $model; ?>">
-			<h1 class="product_title"><?=$heading_title;?></h1>
-			<?php if ($revtheme_product_all['short_desc'] && $short_description) { ?>
-				<div class="short_description"><?php echo $short_description; ?></div>
-			<?php } ?>
-			<?php if ($review_status) { ?>
-				<?php if ($reviews_number > 0) { ?>
-					<span itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
-					<meta itemprop="worstRating" content = "1">
-					<meta itemprop="bestRating" content = "5">
-					<meta itemprop="ratingValue" content = "<?php echo $rating; ?>">
-					<meta itemprop="reviewCount" content = "<?php echo $reviews_number; ?>">
-					</span>
-				<?php } ?>
-			<?php } ?>
-            <ul class="list-unstyled">
-			<?php if ($review_status) { ?>
-				<li class="rating dotted-line">
-					<div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_product_rating; ?></span><div class="dotted-line_line"></div></div>
-					<div class="dotted-line_right">
-						<?php for ($i = 1; $i <= 5; $i++) { ?>
-							<?php if ($rating < $i) { ?>
-								<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
-							<?php } else { ?>
-								<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
-							<?php } ?>
-						<?php } ?>
-						<?php if ($revtheme_product_all['pr_tabs']) { ?>
-							<sup><a class="adotted" onclick="$('a[href=\'#tab-review\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-review\']').offset().top - 2}, 250); return false;"><?php echo $reviews; ?></a></sup>
-						<?php } else { ?>
-							<sup><a class="adotted" onclick="$('html, body').animate({ scrollTop: $('.tab-review').offset().top - 70}, 250); return false;"><?php echo $reviews; ?></a></sup>
-						<?php } ?>
+			</div>
+			<div id="top2">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-3 logoblock">
+							<div id="logo">
+								<a href="https://apple.oc-mod.ru/"><img src="https://apple.oc-mod.ru/image/catalog/revolution/logo.svg" title="Мой Магазин" alt="Мой Магазин" class="img-responsive"></a>
+							</div>
+						</div>
+						<div class="hidden-xs hidden-sm bigsearch col-xs-12 col-sm-6 col-md-6">
+							<div class="header_search_doptext">
+								<p></p><span class="hszag">Фирменный интернет-магазин техники Apple в Москве</span>
+								<p></p>
+								<p><a href="latest">Новинки</a> &nbsp; &nbsp; <a href="best">Хиты продаж</a> &nbsp; &nbsp; <a href="iphone/iphone_7">iPhone 7</a> &nbsp; &nbsp; <a href="iphone/iphone_8">iPhone 8</a></p>
+							</div>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-3  contactblock">
+							<div class="header_conts t-ar">
+								<div class="tel"> <span class="header_phone_image"><i class="fa fa-mobile"></i></span>
+									<div class="header_phone_nomer"> <span class="s22">
+										<a href="tel:88007004040"><span class="telefon">8 (800)</span> 700-40-40</a>
+										</span>
+									</div>
+								</div>
+								<div class="phone_dop_text2"> <a href="contact-us">г. Москва, ул. Никольская, д. 25</a>
+									<br>(вход со стороны двора) </div>
+							</div>
+						</div>
 					</div>
-				</li>
-			<?php } ?>
-			<?php if ($manufacturer_status) { ?>
-				<?php if ($manufacturer) { ?>
-					<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_manufacturer; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><a href="<?php echo $manufacturers; ?>"><span itemprop="brand"><?php echo $manufacturer; ?></span></a></div></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if ($model_status) { ?>
-				<?php if ($model != '') { ?>
-					<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_model; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><span class="pr_model" itemprop="model"><?php echo $model; ?></span></div></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if ($sku_status) { ?>
-				<?php if ($sku != '') { ?>
-					<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_product_artikul; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><span itemprop="sku"><?php echo $sku; ?></span></div></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if ($ostatok_status) { ?>
-				<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_product_dostupno; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right">				<div class="nalich">
-					<?php if ($bonusbals_status) { ?>
-						<?php if ($reward) { ?>
-							<div class="reward"><span data-toggle="tooltip" data-placement="top" title="<?php echo $text_product_bonus_tooltip; ?>">+ <?php echo $reward; ?> <?php echo $text_product_bonusov; ?></span></div>
-						<?php } ?>
-					<?php } ?>	
-					<?php if ($sklad_status) { ?>
-				<span class="text-danger-inproduct bg-danger"><i class="fa fa-times" aria-hidden="true"></i> <?php echo $stock_st; ?></span>
-				<?php } ?>
-				</div></div></li>
-			<?php } else { ?>
-				<li class="hidden pr_quantity"><?php echo $stock_st; ?></li>
-			<?php } ?>
-			<?php if ($weight_status) { ?>
-				<?php if ($weight > 0) { ?>
-					<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_product_ves; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><span class="pr_weight" data-weight="<?php echo $weight_value; ?>" data-weight-unit="<?php echo $weight_unit; ?>"><?php echo $weight; ?></span> <?php echo $weight_format; ?></div></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if ($razmers) { ?>
-				<?php if ($length > 0 || $width > 0 || $height > 0) { ?>
-					<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $text_product_razmers; ?></span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><?php if ($length > 0) { ?><?php echo $length; ?><?php } else { ?> - <?php } ?> x <?php if ($width > 0) { ?><?php echo $width; ?><?php } else { ?> - <?php } ?> x <?php if ($height > 0) { ?><?php echo $height; ?><?php } else { ?> - <?php } ?> <?php echo $length_format; ?></div></li>
-				<?php } ?>
-			<?php } ?>
-			<?php if (!$atributs) { ?>
-				<?php if ($revtheme_product_all_attribute_group) { ?>	  
-					<?php foreach ($attribute_groups as $attribute_group) { ?>
-						<?php if (in_array($attribute_group['attribute_group_id'], $revtheme_product_all_attribute_group)) { ?>
-							<?php if (isset($revtheme_product_all['atributs_all_limit']) && $revtheme_product_all['atributs_all_limit']) {
-								$attribute_group['attribute'] = array_slice($attribute_group['attribute'], 0, $revtheme_product_all['atributs_all_limit']);
-							} ?>
-							<?php foreach ($attribute_group['attribute'] as $attribute) { ?>
-								<?php if ($attribute['text'] != '') { ?>	  
-									<li class="dotted-line"><div class="dotted-line_left"><span class="dotted-line_title"><?php echo $attribute['name']; ?>:</span><div class="dotted-line_line"></div></div><div class="dotted-line_right"><?php echo $attribute['text']; ?></div></li>
-								<?php } ?>
-							<?php } ?>
-						<?php } ?>
-					<?php } ?>
-					<?php if ($atributs_ssilka_all && $attribute_groups) { ?>
-						<li class="adotted_block">
-							<?php if ($revtheme_product_all['pr_tabs']) { ?>
-								<a class="adotted" onclick="$('a[href=\'#tab-specification\']').trigger('click'); $('html, body').animate({ scrollTop: $('a[href=\'#tab-specification\']').offset().top - 2}, 250); return false;"><?php echo $text_product_all_attribs; ?></a>
-							<?php } else { ?>
-								<a class="adotted" onclick="$('html, body').animate({ scrollTop: $('.tab-specification').offset().top - 70}, 250); return false;"><?php echo $text_product_all_attribs; ?></a>
-							<?php } ?>
-						</li>
-					<?php } ?>
-				<?php } ?>
-			<?php } ?>
-			
-			<?php if ($atributs) { ?> 
-				<?php foreach ($attribute_groups as $attribute_group) { ?>
-						<?php foreach ($attribute_group['attribute'] as $attribute) { ?>
-							<?php if ($attribute['text'] != '') { ?>	  
-								<li class="dotted-line" itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue"><div class="dotted-line_left"><span class="dotted-line_title" itemprop="name"><?php echo $attribute['name']; ?>:</span><div class="dotted-line_line"></div></div><div class="dotted-line_right" itemprop="value"><?php echo $attribute['text']; ?></div></li>
-							<?php } ?>
-						<?php } ?>
-				<?php } ?>
-			<?php } ?>
-            </ul>
-			<?php if ($zakaz_price_null || $price_number > 0) { ?>
-		    <div class="well well-sm product-info product_informationss">
-			<?php if ($share_status) { ?>
-				<script src="//yastatic.net/share2/share.js" charset="utf-8"></script>
-				<div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,viber,whatsapp,telegram" data-size="s"></div>
-			<?php } ?>
-            <?php if ($options) { ?>
-				<?php if ($revtheme_product_all['options_buy'] && $options_buy) { ?>
-					<div class="options_buy">
-						<table class="table">
-							<thead>
-								<tr>
-									<?php if ($revtheme_product_all['options_buy_foto']) { ?>
-										<td class="text-left hidden-xs">
-											<?php echo $text_foto_option; ?>
-										</td>
-									<?php } ?>
-									<td class="text-left">
-									<?php if ($revtheme_product_all['options_buy_optionname_one']) { ?>
-										<?php foreach ($options as $option) { ?>
-										<?php echo $option['name']; ?>
-										<?php } ?>
-									<?php } else { ?>
-										<?php echo $text_option_option; ?>
-									<?php } ?>
-									</td>
-									<?php if ($revtheme_product_all['options_buy_model']) { ?>
-										<td class="text-center options_buy_model"><?php echo $text_model_option; ?></td>
-									<?php } ?>
-									<td class="text-center options_buy_price"><?php echo $text_price_option; ?></td>
-									<?php if ($revtheme_product_all['options_buy_quantity']) { ?>
-										<td class="text-center options_buy_dostupno"><?php echo $text_dostupno_option; ?></td>
-									<?php } ?>
-									<td class="text-center options_buy_quantity"><?php echo $text_quantity_option; ?></td>
-									<td class="text-center"></td>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($options as $option) { ?>
-									<?php if ($revtheme_product_all['options_buy_optionname'] && !$revtheme_product_all['options_buy_optionname_one']) { ?>
-										<tr>
-										<?php if (!$revtheme_product_all['options_buy_quantity']) { ?>
-											<?php $colspan_option_name = 5 ?>
-										<?php } else if (!$revtheme_product_all['options_buy_quantity'] && !$revtheme_product_all['options_buy_quantity']) { ?>
-											<?php $colspan_option_name = 4 ?>
-										<?php } else { ?>
-											<?php $colspan_option_name = 6 ?>
-										<?php } ?>
-											<td colspan="<?php echo $colspan_option_name; ?>" class="text-left">
-												<b style="font-size:13px"><?php echo $option['name']; ?>:</b>
-											</td>
-										</tr>
-									<?php } ?>
-									<?php foreach ($option['product_option_value'] as $option_value) { ?>
-										<?php if ($option_value['price'] > 0 && $option_value['quantity'] > 0) { ?>
-											<tr class="pro_<?php echo $option_value['product_option_value_id']; ?>">
-												<input type="hidden" name="option[<?php echo $option['product_option_id']; ?>]" value="" />
-												<?php if ($revtheme_product_all['options_buy_foto']) { ?>
-													<td class="text-left hidden-xs">
-														<?php if ($option_value['image']) { ?>
-															<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail img-responsive" />
-														<?php } ?>
-													</td>
-												<?php } ?>
-												<td class="text-left">
-													<?php if ($revtheme_product_all['options_buy_click']) { ?>
-														<div class="radio">
-															<label for="optb_<?php echo $product_id; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-																<input onchange="update_options_buy(<?php echo $product_id; ?>,<?php echo $option['product_option_id']; ?>,<?php echo $option_value['product_option_value_id']; ?>);" type="radio" name="option_<?php echo $product_id; ?>" value="<?php echo $option_value['product_option_value_id']; ?>" id="optb_<?php echo $product_id; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-																<span class="options_buy_image_title"><?php echo $option_value['name']; ?></span>					
-															</label>
-														</div>
-													<?php } else { ?>	
-														<?php echo $option_value['name']; ?>
-													<?php } ?>
-												</td>
-												<?php if ($revtheme_product_all['options_buy_model']) { ?>
-													<td class="text-center options_buy_model">
-														<?php if ($option_value['model']) { ?><?php echo $option_value['model']; ?><?php } else { ?><?php echo $model; ?><?php } ?>
-													</td>
-												<?php } ?>
-												<td class="text-center options_buy_price">
-													<?php echo $option_value['price']; ?>
-												</td>
-												<?php if ($revtheme_product_all['options_buy_quantity']) { ?>
-													<td class="text-center options_buy_dostupno">
-														<?php echo $option_value['quantity']; ?> <?php echo $shtuki; ?>
-														<input type="hidden" class="option_value_quantity" value='<?php echo $minimum; ?>'>
-													</td>
-												<?php } ?>
-												<td class="text-center options_buy_quantity">
-													<div class="number">
-														<div class="frame-change-count">
-															<div class="btn-plus">
-																<button type="button" onclick="validate_pole_product_options(this,<?php echo $option_value['product_option_value_id']; ?>,'+',<?php echo $minimum; ?>,<?php echo $option_value['quantity']; ?>);">+</button>
+				</div>
+			</div>
+			<div id="top3" class="clearfix ">
+				<div class="container">
+					<div class="row image_in_ico_row">
+						<div class="hidden-xs hidden-sm col-md-10">
+							<nav id="menu">
+								<div class="collapse navbar-collapse navbar-ex1-collapse">
+									<ul class="nav dblock_zadergkaoff navbar-nav">
+										<li><a href="https://apple.oc-mod.ru/mac/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon-iMac-21x21.webp" alt=""></span>Mac<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a> <span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" style="position: initial">
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														<div class="image_in_ico_59 refine_categories clearfix">
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/mac/macbook/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/macbook-143x143.webp" title="MacBook" alt="MacBook"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/mac/macbook/">MacBook</a> </div>
 															</div>
-															<div class="btn-minus">
-																<button type="button" onclick="validate_pole_product_options(this,<?php echo $option_value['product_option_value_id']; ?>,'-',<?php echo $minimum; ?>,<?php echo $option_value['quantity']; ?>);">-</button>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/mac/imac/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/imac-143x143.webp" title="iMac" alt="iMac"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/mac/imac/">iMac</a> </div>
 															</div>
-														</div>
-														<input type="text" name="quantity" class="plus-minus" value='<?php echo $minimum; ?>' onchange="validate_pole_product_options(this,<?php echo $option_value['product_option_value_id']; ?>,'=',<?php echo $minimum; ?>,<?php echo $option_value['quantity']; ?>);" onkeyup="validate_pole_product_options(this,<?php echo $option_value['product_option_value_id']; ?>,'=',<?php echo $minimum; ?>,<?php echo $option_value['quantity']; ?>);">
-													</div>
-												</td>
-												<td class="text-center">
-													<div class="cart">
-														<a onclick="get_revpopup_cart_option(<?php echo $option['product_option_id']; ?>,<?php echo $option_value['product_option_value_id']; ?>,get_revpopup_cart_pr_option_quantity('<?php echo $option_value['product_option_value_id']; ?>'),<?php echo $product_id; ?>);return false;"><i class="fa fa-border fa-shopping-basket"><span class="prlistb hidden-xs hidden-md"><?php echo $button_cart; ?></span></i></a>
-													</div>
-												</td>
-											</tr>
-										<?php } ?>
-									<?php } ?>
-								<?php } ?>
-							</tbody>
-						</table>
-						<script><!--
-							function validate_pole_product_options (val, product_option_value_id, znak, minimumvalue, maximumvalue) {
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/mac/mac_mini/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/macmini-143x143.webp" title="Mac mini" alt="Mac mini"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/mac/mac_mini/">Mac mini</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/mac/mac_pro/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/macpro-143x143.webp" title="Mac Pro" alt="Mac Pro"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/mac/mac_pro/">Mac Pro</a> </div>
+															</div>
+														</div> <img class="img_sub" src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/apple-300x300.webp" alt="Mac"> </div>
+												</div>
+											</div>
+										</li>
+										<li><a href="https://apple.oc-mod.ru/iphone/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon_iPhone-21x21.webp" alt=""></span>iPhone<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a> <span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" style="position: initial">
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														<div class="image_in_ico_60 refine_categories clearfix">
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_5s/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/5s-143x143.webp" title="iPhone 5S" alt="iPhone 5S"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_5s/">iPhone 5S</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_se/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/5se-143x143.webp" title="iPhone SE" alt="iPhone SE"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_se/">iPhone SE</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_6/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/6-143x143.webp" title="iPhone 6" alt="iPhone 6"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_6/">iPhone 6</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_6_plus/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/6plus-143x143.webp" title="iPhone 6 Plus" alt="iPhone 6 Plus"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_6_plus/">iPhone 6 Plus</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_6s/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/6s-143x143.webp" title="iPhone 6S" alt="iPhone 6S"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_6s/">iPhone 6S</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_6s_plus/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/6splus-143x143.webp" title="iPhone 6S Plus" alt="iPhone 6S Plus"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_6s_plus/">iPhone 6S Plus</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_7/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/7-143x143.webp" title="iPhone 7" alt="iPhone 7"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_7/">iPhone 7</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_7_plus/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/7plus-143x143.webp" title="iPhone 7 Plus" alt="iPhone 7 Plus"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_7_plus/">iPhone 7 Plus</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_8/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/8-143x143.webp" title="iPhone 8" alt="iPhone 8"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_8/">iPhone 8</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_8_plus/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/8plus-143x143.webp" title="iPhone 8 Plus" alt="iPhone 8 Plus"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_8_plus/">iPhone 8 Plus</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/iphone/iphone_x/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/x-143x143.webp" title="iPhone X" alt="iPhone X"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/iphone/iphone_x/">iPhone X</a> </div>
+															</div>
+														</div> <img class="img_sub" src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/apple-300x300.webp" alt="iPhone"> </div>
+												</div>
+											</div>
+										</li>
+										<li><a href="https://apple.oc-mod.ru/watch/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon-watch-21x21.webp" alt=""></span>Watch<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a> <span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" style="position: initial">
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														<div class="image_in_ico_61 refine_categories clearfix">
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/watch/watch_series_1/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/watch_series_1-143x143.webp" title="Watch Series 1" alt="Watch Series 1"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/watch/watch_series_1/">Watch Series 1</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/watch/watch_series_2/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/watch_series_2-143x143.webp" title="Watch Series 2" alt="Watch Series 2"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/watch/watch_series_2/">Watch Series 2</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/watch/watch_series_3/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/watch_series_3-143x143.webp" title="Watch Series 3" alt="Watch Series 3"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/watch/watch_series_3/">Watch Series 3</a> </div>
+															</div>
+														</div> <img class="img_sub" src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/apple-300x300.webp" alt="Watch"> </div>
+												</div>
+											</div>
+										</li>
+										<li><a href="https://apple.oc-mod.ru/ipad/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon-iPad-21x21.webp" alt=""></span>iPad<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a> <span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" style="position: initial">
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														<div class="image_in_ico_62 refine_categories clearfix">
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipad/ipad_mini_4/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/iPad_mini_4-143x143.webp" title="iPad mini 4" alt="iPad mini 4"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipad/ipad_mini_4/">iPad mini 4</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipad/ipad_1/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/ipad-143x143.webp" title="iPad" alt="iPad"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipad/ipad_1/">iPad</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipad/ipad_pro/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/iPad_Pro-143x143.webp" title="iPad Pro" alt="iPad Pro"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipad/ipad_pro/">iPad Pro</a> </div>
+															</div>
+														</div> <img class="img_sub" src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/apple-300x300.webp" alt="iPad"> </div>
+												</div>
+											</div>
+										</li>
+										<li><a href="https://apple.oc-mod.ru/ipod/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon-iPod-21x21.webp" alt=""></span>iPod<span class="icorightmenu"><i class="fa fa-chevron-down"></i></span></a> <span class="dropdown-toggle visible-xs visible-sm"><i class="fa fa-plus"></i><i class="fa fa-minus"></i></span>
+											<div class="mmmenu" style="position: initial">
+												<div class="dropdown-menu">
+													<div class="dropdown-inner">
+														<div class="image_in_ico_63 refine_categories clearfix">
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipod/ipod_shuffle/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/iPod_shuffle-143x143.webp" title="iPod shuffle" alt="iPod shuffle"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipod/ipod_shuffle/">iPod shuffle</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipod/ipod_nano/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/iPod_nano-143x143.webp" title="iPod nano" alt="iPod nano"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipod/ipod_nano/">iPod nano</a> </div>
+															</div>
+															<div class="col-sm-3 col-lg-3">
+																<div class="pr_menu_left">
+																	<a href="https://apple.oc-mod.ru/ipod/ipod_touch/"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/iPod_touch-143x143.webp" title="iPod touch" alt="iPod touch"></a>
+																</div>
+																<div class="pr_menu_right"> <a href="https://apple.oc-mod.ru/ipod/ipod_touch/">iPod touch</a> </div>
+															</div>
+														</div> <img class="img_sub" src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/apple-300x300.webp" alt="iPod"> </div>
+												</div>
+											</div>
+										</li>
+										<li><a href="https://apple.oc-mod.ru/aksessuary/"><span class="hidden-md"><img src="https://apple.oc-mod.ru/image/cache/webp/catalog/revolution/demo_tovars/apple/cats/icon-accessory-21x21.webp" alt=""></span>Аксессуары</a></li>
+										<li> <a href="specials"><i class="hidden-md fa fa-percent"></i>Распродажа</a> </li>
+									</ul>
+								</div>
+							</nav>
+							<script>
+							<!--
+							$('#menu .nav > li .dropdown-menu').css('display', 'block');
+							var div = '#menu .image_in_ico_59.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							var div = '#menu .image_in_ico_60.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							var div = '#menu .image_in_ico_61.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							var div = '#menu .image_in_ico_62.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							var div = '#menu .image_in_ico_63.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							var div = '#menu .image_in_ico_64.refine_categories > a span';
+							var maxheight = 0;
+							$(div).each(function() {
+								$(this).removeAttr('style');
+								if($(this).height() > maxheight) {
+									maxheight = $(this).height();
+								}
+							});
+							$('#menu .nav > li .dropdown-menu').css('display', 'none');
+							//-->
+							</script>
+						</div>
+						<div class="col-xs-6 col-md-2">
+							<div id="cart" class="btn-group show-on-hover w100 ">
+								<button type="button" class="cart dropdown-toggle hidden-xs hidden-sm" data-toggle="dropdown"> <span id="cart-total"><span class="heading_ico_image"><img src="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/icon-cart-21x21.png" alt=""></span><span class="hidden-xs hidden-md">Корзина</span>: 0</span> <span class="icorightmenu"><i class="fa fa-chevron-down"></i></span> </button>
+								<ul class="dropdown-menu pull-right hidden-xs hidden-sm dblock22">
+									<li>
+										<p class="text-center">В корзине пусто!</p>
+									</li>
+								</ul>
+							</div>
+							<script>
+							<!--
+							$('#top3 #cart .dropdown-menu').removeClass('dblock22');
+							var global_cart_button;
+							$("#top3 #cart").hover(function() {
+								global_cart_button = setTimeout(function() {
+									$('#top3 #cart .dropdown-menu').addClass('dblock');
+									$('#top3 #cart .dropdown-menu').removeClass('dblock22');
+								}, 250)
+							}, function() {
+								$('#top3 #cart .dropdown-menu').removeClass('dblock');
+								clearTimeout(global_cart_button);
+								$('#top3 #cart .dropdown-menu').removeClass('dblock22');
+							});
+							$('#top2 #cart .dropdown-menu').removeClass('dblock');
+							$("#top2 #cart").hover(function() {
+								global_cart_button = setTimeout(function() {
+									$('#top2 #cart .dropdown-menu').addClass('dblock');
+									$('#top2 #cart .dropdown-menu').removeClass('dblock22');
+								}, 0)
+							}, function() {
+								$('#top2 #cart .dropdown-menu').removeClass('dblock');
+								clearTimeout(global_cart_button);
+								$('#top2 #cart .dropdown-menu').removeClass('dblock22');
+							});
+
+							function masked(element, status) {
+								if(status == true) {
+									$('<div/>').attr({
+										'class': 'masked'
+									}).prependTo(element);
+									$('<div class="masked_loading" />').insertAfter($('.masked'));
+								} else {
+									$('.masked').remove();
+									$('.masked_loading').remove();
+								}
+							}
+
+							function cart_update() {
+								return;
+							}
+
+							function update_cart_manual(val, product_id, minimumvalue, maximumvalue) {
 								val.value = val.value.replace(/[^\d,]/g, '');
-								if (val.value == '') val.value = minimumvalue;
-								if (maximumvalue < 1) maximumvalue = 9999;
-								input_val = $('.pro_'+product_option_value_id+' .plus-minus');
+								input_val = $('#cart input.plus-minus.cartid_' + product_id);
 								quantity = parseInt(input_val.val());
-								<?php if ($q_zavisimost) { ?>
-								if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
-								else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-								else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
-								if (quantity < 1 || quantity < minimumvalue) {
+								if(quantity <= minimumvalue) {
+									input_val.val(minimumvalue);
+									return;
+								}
+								if(quantity > maximumvalue) {
+									input_val.val(maximumvalue);
+									return;
+								}
+								cart.update(product_id, input_val.val());
+								cart_update();
+							}
+
+							function validate_pole_cart(val, product_id, znak, minimumvalue, maximumvalue) {
+								val.value = val.value.replace(/[^\d,]/g, '');
+								if(val.value == '') val.value = minimumvalue;
+								input_val = $('#cart input.plus-minus.cartid_' + product_id);
+								quantity = parseInt(input_val.val());
+								if(znak == '+' && input_val.val() < maximumvalue) input_val.val(quantity + 1);
+								else if(znak == '-' && input_val.val() > minimumvalue) input_val.val(quantity - 1);
+								else if(znak == '=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
+								if(quantity < 1 || quantity < minimumvalue) {
 									input_val.val(minimumvalue);
 									val.value = minimumvalue;
-								} else if (quantity > maximumvalue) {
+								} else if(quantity > maximumvalue) {
 									input_val.val(maximumvalue);
 									val.value = maximumvalue;
 								}
-								<?php } else { ?>
-								if(znak=='+') input_val.val(quantity+1);
-								else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-								else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
-								if (quantity < 1 || quantity < minimumvalue) {
-									input_val.val(minimumvalue);
-									val.value = minimumvalue;
-								}
-								<?php } ?>
+								cart.update(product_id, input_val.val());
+								cart_update();
 							}
-							function get_revpopup_cart_pr_option_quantity (product_option_value_id) {
-								input_val = $('.pro_'+product_option_value_id+' .plus-minus').val();
-								quantity  = parseInt(input_val);
-								return quantity;
-							}
-						//--></script>
-					</div>
-				<?php } else { ?>
-					<div class="options_no_buy">
-						<?php foreach ($options as $option) { ?>
-							<?php if ($option['type'] == 'select') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-									<label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-									<select onchange="update_prices_product(<?php echo $product_id; ?>,<?php echo $minimum; ?>);" name="option[<?php echo $option['product_option_id']; ?>]" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control">
-										<option value=""><?php echo $text_select; ?></option>
-										<?php foreach ($option['product_option_value'] as $option_value) { ?>
-											<option value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-												<?php if ($opt_price) { ?>
-													<?php if ($option_value['price']) { ?>
-														<span class="option_price">(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)</span>
-													<?php } ?>
-												<?php } ?>
-											</option>
-										<?php } ?>
-									</select>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'radio') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-									<label class="control-label"><?php echo $option['name']; ?>:</label>
-									<div id="input-option<?php echo $option['product_option_id']; ?>">
-										<?php foreach ($option['product_option_value'] as $option_value) { ?>
-											<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-												<?php if (isset($option_value['model']) && preg_match('#^http[s]{0,1}://#', $option_value['model'])){ ?>
-													<input onchange="location='<?php echo $option_value['model'] ?>';" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-												<?php } else { ?>
-													<input onchange="update_prices_product(<?php echo $product_id; ?>,<?php echo $minimum; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-												<?php } ?>
-												<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-													<?php if ($option_value['image']) { ?>
-														<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-													<?php } else { ?>
-														<span><?php echo $option_value['name']; ?></span>
-													<?php } ?>
-													<?php if ($option_value['price']) { ?>
-														<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-													<?php } ?>
-													<i class="fa fa-check"></i>	
-												</label>
-											</div>
-										<?php } ?>
-									</div>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'checkbox') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-									<label class="control-label"><?php echo $option['name']; ?>:</label>
-									<div id="input-option<?php echo $option['product_option_id']; ?>">
-										<?php foreach ($option['product_option_value'] as $option_value) { ?>
-											<div class="radio checkbox<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-												<input onchange="update_prices_product(<?php echo $product_id; ?>,<?php echo $minimum; ?>);" type="checkbox" name="option[<?php echo $option['product_option_id']; ?>][]" value="<?php echo $option_value['product_option_value_id']; ?>" id="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-												<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-													<?php if ($option_value['image']) { ?>
-														<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-													<?php } else { ?>
-														<span><?php echo $option_value['name']; ?></span>
-													<?php } ?>
-													<?php if ($option_value['price']) { ?>
-														<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-													<?php } ?>
-													<i class="fa fa-check"></i>
-												</label>
-											</div>
-										<?php } ?>
-									</div>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'image') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-									<label class="control-label"><?php echo $option['name']; ?>:</label>
-									<div id="input-option<?php echo $option['product_option_id']; ?>">
-										<?php foreach ($option['product_option_value'] as $option_value) { ?>
-											<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-												<input onchange="update_prices_product(<?php echo $product_id; ?>,<?php echo $minimum; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-												<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-													<?php if ($option_value['image']) { ?>
-														<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-													<?php } else { ?>
-														<span><?php echo $option_value['name']; ?></span>
-													<?php } ?>
-													<?php if ($option_value['price']) { ?>
-														<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-													<?php } ?>
-													<i class="fa fa-check"></i>	
-												</label>
-											</div>
-										<?php } ?>
-									</div>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'text') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-								  <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'textarea') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-								  <textarea name="option[<?php echo $option['product_option_id']; ?>]" rows="5" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control"><?php echo $option['value']; ?></textarea>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'file') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label"><?php echo $option['name']; ?>:</label>
-								  <button type="button" id="button-upload<?php echo $option['product_option_id']; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default btn-block"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-								  <input type="hidden" name="option[<?php echo $option['product_option_id']; ?>]" value="" id="input-option<?php echo $option['product_option_id']; ?>" />
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'date') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-								  <div class="input-group date">
-									<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-									<span class="input-group-btn">
-									<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-									</span></div>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'datetime') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-								  <div class="input-group datetime">
-									<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-									<span class="input-group-btn">
-									<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-									</span></div>
-								</div>
-							<?php } ?>
-							<?php if ($option['type'] == 'time') { ?>
-								<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-								  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-								  <div class="input-group time">
-									<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-									<span class="input-group-btn">
-									<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-									</span></div>
-								</div>
-							<?php } ?>
-						<?php } ?>
-					</div>
-					<hr>
-				<?php } ?>
-            <?php } ?>
-			<?php if (($options && !$revtheme_product_all['options_buy']) || !$options_buy) { ?>
-            <?php if ($recurrings) { ?>
-            <hr>
-            <h3><?php echo $text_payment_recurring ?></h3>
-            <div class="form-group required">
-              <select name="recurring_id" class="form-control">
-                <option value=""><?php echo $text_select; ?></option>
-                <?php foreach ($recurrings as $recurring) { ?>
-                <option value="<?php echo $recurring['recurring_id'] ?>"><?php echo $recurring['name'] ?></option>
-                <?php } ?>
-              </select>
-              <div class="help-block" id="recurring-description"></div>
-            </div>
-            <?php } ?>
-            <div class="form-group">
-				<?php if ($price) { ?>
-				<?php if ($price_number > 0) { ?>
-				  <div class="list-unstyled" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-				    <meta itemprop="url" content="<?php echo array_pop($breadcrumbs)['href']; ?>">
-					<?php if ($special_end) { ?>
-						<meta itemprop="priceValidUntil" content="<?php echo $special_end; ?>">
-					<?php } else { ?>
-						<meta itemprop="priceValidUntil" content="<?php echo date('Y-m-d', strtotime('+1 month')); ?>">
-					<?php } ?>
-					<span class="prq_title hidden-xs"><?php echo $text_product_all_stoimost; ?></span>
-					<?php if (!$special) { ?>
-					<span class="update_price"><?php echo $price; ?></span>
-					<span class="update_special dnone"></span>
-					<meta itemprop="price" content="<?php echo $price_number; ?>">
-					<?php } else { ?>
-					<span class="update_price oldprice"><?php echo $price; ?></span>
-					<span class="update_special"><?php echo $special; ?></span>
-					<meta itemprop="price" content="<?php echo $special_number; ?>">
-					<?php if ($special_end) { ?>
-						<div class="countdown"><?php echo $text_countdown; ?> <span id="countdown"></span></div>
-						<script><!--
-							function countdown_timer(){
-								var names = {
-								days:      JSON.parse(JSON.stringify({1:" день ", 2:" дня ", 3: " дней "})),
-								hours:     JSON.parse(JSON.stringify({1:" час ", 2: " часа ", 3: " часов "})),
-								minutes:   JSON.parse(JSON.stringify({1:" минута ", 2: " минуты ", 3: " минут "})),
-								seconds:   JSON.parse(JSON.stringify({1:" секунда ", 2: " секунды ", 3: " секунд "})),
-								};
-								var day_name = names['days'][3];
-								var hur_name = names['hours'][3];
-								var min_name = names['minutes'][3];
-								var sec_name = names['seconds'][3];
-								var today = new Date();
-								function parseDate(input) {
-								var parts = input.match(/(\d+)/g);
-								return new Date(parts[0], parts[1]-1, parts[2]);
-								}
-								var BigDay = parseDate('<?php echo $special_end;  ?>');
-								var timeLeft = (BigDay.getTime() - today.getTime());
-								var e_daysLeft = timeLeft / 86400000;
-								var daysLeft = Math.floor(e_daysLeft);
-								var slice_day = String(daysLeft).slice(-1);
-								if(parseInt(slice_day) == 1 && (parseInt(daysLeft) < 10 || parseInt(daysLeft) > 20)){
-									day_name = names['days'][1];
-								}else if((parseInt(slice_day) == 2 || parseInt(slice_day) == 3 || parseInt(slice_day) == 4) && (parseInt(daysLeft) < 10 || parseInt(daysLeft) > 20)){
-									day_name = names['days'][2];
-								}else{
-									day_name = names['days'][3];
-								}
-								var e_hrsLeft = (e_daysLeft - daysLeft)*24;
-								var hrsLeft = Math.floor(e_hrsLeft);
-								var slice_hours = String(hrsLeft).slice(-1);
-								if(parseInt(slice_hours) == 1 && (parseInt(hrsLeft) < 10 || parseInt(hrsLeft) > 20)){
-									hur_name = names['hours'][1];
-								}else if((parseInt(slice_hours) == 2 || parseInt(slice_hours) == 3 || parseInt(slice_hours) == 4)  && (parseInt(hrsLeft) < 10 || parseInt(hrsLeft) > 20)){
-									hur_name = names['hours'][2];
-								}else{
-									hur_name = names['hours'][3];
-								}
-								var e_minsLeft = (e_hrsLeft - hrsLeft)*60;
-								var minsLeft = Math.floor(e_minsLeft);
-								var slice_min = String(minsLeft).slice(-1);
-								if(parseInt(slice_min) == 1 && (parseInt(minsLeft) < 10 || parseInt(minsLeft) > 20)){
-									min_name = names['minutes'][1];
-								}else if((parseInt(slice_min) == 2 || parseInt(slice_min) == 3 || parseInt(slice_min) == 4) && (parseInt(minsLeft) < 10 || parseInt(minsLeft) > 20)){
-									min_name = names['minutes'][2];
-								}else{
-									min_name = names['minutes'][3];
-								}
-								var seksLeft = Math.floor((e_minsLeft - minsLeft)*60);
-								if(seksLeft < 10){
-									seksLeft = '0'+seksLeft;
-								}
-								var slice_sec = String(seksLeft).slice(-1);
-								if(parseInt(slice_sec) == 1 && (parseInt(seksLeft) < 10 || parseInt(seksLeft) > 20)){
-									sec_name = names['seconds'][1];
-								}else if((parseInt(slice_sec) == 2 || parseInt(slice_sec) == 3 || parseInt(slice_sec) == 4) && (parseInt(seksLeft) < 10 || parseInt(seksLeft) > 20)){
-									sec_name = names['seconds'][2];
-								}else{
-									sec_name = names['seconds'][3];
-								}
-								if (BigDay.getTime() > today.getTime() ){
-									if (daysLeft <= 0) {
-										if (minsLeft <= 0) {
-											document.getElementById("countdown").innerHTML = hrsLeft+hur_name;
-										} else {
-											document.getElementById("countdown").innerHTML = hrsLeft+hur_name+minsLeft+min_name+seksLeft+sec_name;
-										}
-									} else {
-										if (minsLeft <= 0) {
-											document.getElementById("countdown").innerHTML = daysLeft+day_name+hrsLeft+hur_name;
-										} else {
-											document.getElementById("countdown").innerHTML = daysLeft+day_name+hrsLeft+hur_name+minsLeft+min_name+seksLeft+sec_name;
-										}
-									}
-									if (daysLeft <= 0 && hrsLeft <= 0) {
-										if (minsLeft <= 0) {
-											document.getElementById("countdown").innerHTML = '';
-										} else {
-											document.getElementById("countdown").innerHTML = minsLeft+min_name+seksLeft+sec_name;
-										}
-									} else {
-										if (minsLeft <= 0) {
-											document.getElementById("countdown").innerHTML = daysLeft+day_name+hrsLeft+hur_name;
-										} else {
-											document.getElementById("countdown").innerHTML = daysLeft+day_name+hrsLeft+hur_name+minsLeft+min_name+seksLeft+sec_name;
-										}
-									}
-								}
-							}
-							setInterval("countdown_timer()", 100);
-						//--></script>
-					<?php } ?>
-					<?php } ?>
-					<?php if ($points) { ?>
-					<div class="reward-product"><?php echo $text_points; ?> <span class="pr_points"><?php echo $points; ?></span></div>
-					<?php } ?>
-					<link itemprop="availability" href="http://schema.org/<?php echo ($quantity > 0)?"InStock":"OutOfStock"; ?>" />
-					<meta itemprop="priceCurrency" content="<?php echo $currency_code; ?>">
-				  </div>
-				<?php } else { ?>
-				<div class="list-unstyled"><?php echo $text_catalog_price_na_zakaz; ?></div>
-				<?php } ?>
-				<?php } ?>
-			
-			</div>
-			<?php } ?>
-			<?php if ($discounts && !$special) { ?>
-			<div class="discounts"<?php if (($options && $revtheme_product_all['options_buy']) && $options_buy) { ?>style="padding: 0;"<?php } ?>>
-			<hr>
-			<?php foreach ($discounts as $discount) { ?>
-			<span><?php echo $discount['quantity']; ?><?php echo $text_discount; ?><?php echo $discount['price']; ?></span><br/>
-			<?php } ?>
-			</div>
-			<?php } ?>
-			<?php if ($minimum > 1) { ?>
-			<div class="clearfix"></div>
-            <div class="alert alert-info"><i class="fa fa-info-circle"></i> <?php echo $text_minimum; ?><input type="hidden" class="minimumvalue" value="<?php echo $minimum; ?>"></div>
-            <?php } ?>
-			<?php if (($options && !$revtheme_product_all['options_buy']) || !$options_buy) { ?>
-				<?php if ((($price_number > 0 || $zakaz_price_null) && ($zakaz || $quantity > 0 || $predzakaz_button)) || $rev_srav_prod || $rev_wish_prod || ($popup_purchase && ($price_number > 0 || $zakaz_price_null) && ($zakaz || $quantity > 0))) { ?>
-					<div class="form-group pokupka">
-						<?php if (($price_number > 0 || $zakaz_price_null) && ($zakaz || $quantity > 0)) { ?>
-							<?php if ($quantity < 1 && $predzakaz_button) { ?>
-								<div class="pop_left">
-									<input type="hidden" name="quantity" class="plus-minus" value="<?php echo $minimum; ?>">
-									<button type="button" id="button-cart" onclick="get_revpopup_predzakaz(<?php echo $product_id; ?>);"><i class="fa fa-shopping-basket predzakaz"></i><?php echo $text_predzakaz; ?></button>
-								</div>
-							<?php } else { ?>
-								<div class="pop_left">
-									<label class="control-label prq_title hidden-xs"><?php echo $text_product_kolichvo; ?></label>
-									<div class="number">
-										<div class="frame-change-count">
-											<div class="btn-plus">
-												<button type="button" onclick="validate_pole(this,<?php echo $product_id; ?>,'+',<?php echo $minimum; ?>,<?php echo $quantity; ?>);">+</button>
-											</div>
-											<div class="btn-minus">
-												<button type="button" onclick="validate_pole(this,<?php echo $product_id; ?>,'-',<?php echo $minimum; ?>,<?php echo $quantity; ?>);">-</button>
-											</div>
-										</div>
-										<input type="text" name="quantity" class="plus-minus" value="<?php echo $minimum; ?>" onchange="validate_pole(this,<?php echo $product_id; ?>,'=',<?php echo $minimum; ?>,<?php echo $quantity; ?>);" onkeyup="validate_pole(this,<?php echo $product_id; ?>,'=',<?php echo $minimum; ?>,<?php echo $quantity; ?>);">
-									</div>
-									<button type="button" id="button-cart" onclick="get_revpopup_cart(<?php echo $product_id; ?>,'product',get_revpopup_cart_quantity('<?php echo $product_id; ?>'));" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i><?php echo $button_cart; ?></button>
-								</div>
-							<?php } ?>
-						<?php } else { ?>
-							<?php if ($predzakaz_button) { ?>
-								<div class="pop_left">
-									<input type="hidden" name="quantity" class="plus-minus" value="<?php echo $minimum; ?>">
-									<button type="button" id="button-cart" onclick="get_revpopup_predzakaz(<?php echo $product_id; ?>);"><i class="fa fa-shopping-basket predzakaz"></i><?php echo $text_predzakaz; ?></button>
-								</div>
-							<?php } else { ?>
-								<input type="hidden" name="quantity" class="plus-minus" value="<?php echo $minimum; ?>">
-							<?php } ?>
-						<?php } ?>
-						<?php if ($rev_srav_prod || $rev_wish_prod || $popup_purchase) { ?>
-							<div class="pop_right <?php if ($columns_dd) { echo 'columns_dd'; }?>">
-							<?php if ($popup_purchase && ($price_number > 0 || $zakaz_price_null) && ($zakaz || $quantity > 0)) { ?>
-								<a class="pop_ico" onclick="get_revpopup_purchase('<?php echo $product_id; ?>');"><i class='fa fa-border fa-gavel'></i><span class="hidden-xs hidden-md"><?php echo $text_catalog_revpopup_purchase; ?></span></a>
-							<?php } ?>
-							<?php if ($rev_wish_prod) { ?>
-								<a class="<?php echo $wishlist_class ?> wishlist pjid_<?php echo $product_id; ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product_id; ?>');" title="<?php echo $button_wishlist; ?>"><i class="fa fa-border fa-heart"></i></a>
-							<?php } ?>
-							<?php if ($rev_srav_prod) { ?>
-								<a class="<?php echo $compare_class ?> compare pjid_<?php echo $product_id; ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product_id; ?>', '<?php echo $brand; ?>');" title="<?php echo $button_compare; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-							<?php } ?>
-							</div>
-						<?php } ?>
-						<?php if ($text_blocks_all || $text_blocks) { ?>
-							<div class="preimushestva">
-								<?php if ($text_block_zagolovok) { ?>
-									<h4 style="margin-bottom: 0; margin-top: 20px;"><?php echo $text_block_zagolovok; ?></h4>
-								<?php } ?>
-								<?php if ($text_blocks_all) { ?>
-									<?php foreach ($text_blocks_all as $block) { ?>
-										<div class="home_block p_text_blocks_all <?php echo $text_block_cols_all; ?>">
-											<?php if ($block['link']) { ?>
-												<a href="<?php echo $block['link']; ?>" <?php if ($block['checkbox']) { ?>class="popup_html_content"<?php } ?>>
-											<?php } ?>
-												<div class="image <?php echo $block['style']; ?>"><?php echo $block['image']; ?></div>
-												<?php if ($block['title'] || $block['description']) { ?>
-													<div class="text">
-														<?php if ($block['title']) { ?>
-															<span class="title"><?php echo $block['title']; ?></span>
-														<?php } ?>
-														<?php if ($block['description']) { ?>
-															<p><?php echo $block['description']; ?></p>
-														<?php } ?>
-													</div>
-												<?php } ?>
-											<?php if ($block['link']) { ?>
-											</a>
-											<?php } ?>
-										</div>
-									<?php } ?>
-								<?php } ?>
-								<?php if ($text_blocks_all && $text_blocks) { ?><div class="clearfix"></div><hr style="margin: 20px -10px 0px -10px;"><?php } ?>
-								<?php if ($text_blocks) { ?>
-									<?php foreach ($text_blocks as $block) { ?>
-										<div class="home_block p_text_blocks <?php echo $text_block_cols; ?>">
-											<?php if ($block['link']) { ?>
-												<a href="<?php echo $block['link']; ?>" <?php if ($block['checkbox']) { ?>class="popup_html_content"<?php } ?>>
-											<?php } ?>
-												<div class="image <?php echo $block['style']; ?>"><?php echo $block['image']; ?></div>
-												<?php if ($block['title'] || $block['description']) { ?>
-													<div class="text">
-														<?php if ($block['title']) { ?>
-															<span class="title"><?php echo $block['title']; ?></span>
-														<?php } ?>
-														<?php if ($block['description']) { ?>
-															<p><?php echo $block['description']; ?></p>
-														<?php } ?>
-													</div>
-												<?php } ?>
-											<?php if ($block['link']) { ?>
-											</a>
-											<?php } ?>
-										</div>
-									<?php } ?>
-								<?php } ?>
-							</div>
-						<?php } ?>
-					</div>
-				<?php } ?>
-			<?php } else { ?>
-				<?php if ($points || $bonusbals_status || $sklad_status || $rev_srav_prod || $rev_wish_prod || $popup_purchase) { ?>
-					<hr>
-				<?php } ?>
-				<?php if ($points) { ?>
-					<div class="reward-product" style="float: left; padding-bottom: 10px;"><?php echo $text_points; ?> <span class="pr_points"><?php echo $points; ?></span></div>
-				<?php } ?>
-				<?php if ($bonusbals_status || $sklad_status) { ?>
-					<div class="nalich" style="padding-bottom: 10px;">
-						<?php if ($bonusbals_status) { ?>
-							<?php if ($reward) { ?>
-								<div class="reward"><span data-toggle="tooltip" data-placement="top" title="<?php echo $text_product_bonus_tooltip; ?>">+ <?php echo $reward; ?> <?php echo $text_product_bonusov; ?></span></div>
-							<?php } ?>
-						<?php } ?>	
-						
-					</div>
-					<div class="clearfix"></div>
-				<?php } ?>
-				<div class="form-group pokupka">
-					<?php if ($rev_srav_prod || $rev_wish_prod || $popup_purchase) { ?>
-						<div class="pop_right <?php if ($columns_dd) { echo 'columns_dd'; }?>" style="<?php if ($text_blocks_all || $text_blocks) { ?>padding-bottom: 10px;<?php } ?> margin-top: 0;">
-						<?php if ($popup_purchase && ($price_number > 0 || $zakaz_price_null) && ($zakaz || $quantity > 0)) { ?>
-							<a class="pop_ico" onclick="get_revpopup_purchase('<?php echo $product_id; ?>');"><i class='fa fa-border fa-gavel'></i><span><?php echo $text_catalog_revpopup_purchase; ?></span></a>
-						<?php } ?>
-						<?php if ($rev_wish_prod) { ?>
-							<a class="<?php echo $wishlist_class ?> wishlist pjid_<?php echo $product_id; ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product_id; ?>');" title="<?php echo $button_wishlist; ?>"><i class="fa fa-border fa-heart"></i></a>
-						<?php } ?>
-						<?php if ($rev_srav_prod) { ?>
-							<a class="<?php echo $compare_class ?> compare pjid_<?php echo $product_id; ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product_id; ?>', '<?php echo $brand; ?>');" title="<?php echo $button_compare; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-						<?php } ?>
+							//-->
+							</script>
 						</div>
-					<?php } ?>
-					<?php if ($text_blocks_all || $text_blocks) { ?>
-						<div class="preimushestva optsbuy">
-							<?php if ($text_block_zagolovok) { ?>
-								<h4 style="margin-bottom: 0; margin-top: 20px;"><?php echo $text_block_zagolovok; ?></h4>
-							<?php } ?>
-							<?php if ($text_blocks_all) { ?>
-								<?php foreach ($text_blocks_all as $block) { ?>
-									<div class="home_block p_text_blocks_all <?php echo $text_block_cols_all; ?>">
-										<?php if ($block['link']) { ?>
-											<a href="<?php echo $block['link']; ?>" <?php if ($block['checkbox']) { ?>class="popup_html_content"<?php } ?>>
-										<?php } ?>
-											<div class="image <?php echo $block['style']; ?>"><?php echo $block['image']; ?></div>
-											<?php if ($block['title'] || $block['description']) { ?>
-												<div class="text">
-													<?php if ($block['title']) { ?>
-														<span class="title"><?php echo $block['title']; ?></span>
-													<?php } ?>
-													<?php if ($block['description']) { ?>
-														<p><?php echo $block['description']; ?></p>
-													<?php } ?>
-												</div>
-											<?php } ?>
-										<?php if ($block['link']) { ?>
-										</a>
-										<?php } ?>
-									</div>
-								<?php } ?>
-							<?php } ?>
-							<?php if ($text_blocks_all && $text_blocks) { ?><div class="clearfix"></div><hr style="margin: 20px -10px 0px -10px;"><?php } ?>
-							<?php if ($text_blocks) { ?>
-								<?php foreach ($text_blocks as $block) { ?>
-									<div class="home_block p_text_blocks <?php echo $text_block_cols; ?>">
-										<?php if ($block['link']) { ?>
-											<a href="<?php echo $block['link']; ?>" <?php if ($block['checkbox']) { ?>class="popup_html_content"<?php } ?>>
-										<?php } ?>
-											<div class="image <?php echo $block['style']; ?>"><?php echo $block['image']; ?></div>
-											<?php if ($block['title'] || $block['description']) { ?>
-												<div class="text">
-													<?php if ($block['title']) { ?>
-														<span class="title"><?php echo $block['title']; ?></span>
-													<?php } ?>
-													<?php if ($block['description']) { ?>
-														<p><?php echo $block['description']; ?></p>
-													<?php } ?>
-												</div>
-											<?php } ?>
-										<?php if ($block['link']) { ?>
-										</a>
-										<?php } ?>
-									</div>
-								<?php } ?>
-							<?php } ?>
-						</div>
-					<?php } ?>
-				</div>
-			<?php } ?>
-			</div>
-		<?php } ?>
-        </div>
-		<div style="height: 0px; width: 100%; clear: both;"></div>
-		
-    
-	<?php if ($viewed_products) { ?>
-		<div id="product_products2" class="rev_slider">
-			<div class="heading_h"><h3><?php echo $viewed_products_zagolovok ?></h3></div>
-			<div class="row">
-				<div class="viewed_products">
-					<?php foreach ($viewed_products as $product) { ?>
-						<div class="product-layout col-lg-12 item">
-						  <div class="product-thumb product_<?php echo $product['product_id']; ?>">
-							<div class="image">
-								<?php if ($product['product_in_cart']) { ?>
-									<div class="pr_in_cart_i"><i class="fa fa-check"></i></div>
-								<?php } ?>
-								<?php if ($img_slider) { ?>		
-									<div class="image owl-carousel owlproduct">
-										<div class="item text-center">
-											<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" /></a>
-										</div>			
-										<?php if ($product['images']) { ?>
-											<?php foreach ($product['images'] as $image) { ?>
-												<!--noindex-->
-												<div class="item text-center">
-													<a href="<?php echo $product['href']; ?>"><img src="<?php echo $image['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" rel="nofollow" /></a>
-												</div>
-												<!--/noindex-->
-											<?php } ?>
-										<?php } ?>
-									</div>
-								<?php } else { ?>
-									<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" /></a>
-								<?php } ?>
-								<?php if ($stikers_status) { ?>
-									<div class="stiker_panel">
-										<?php if (($product['quantity'] > 0 && $product['price_number'] != 0) || $zakaz) { ?>
-											<?php if ($product['stiker_spec']) { ?>
-												<?php if ($product['special']) { ?>
-													<span class="stiker stiker_spec"><span class="price-old special_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span></span>
-												<?php } else { ?>
-													<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-												<?php } ?>
-											<?php } else { ?>
-												<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-											<?php } ?>
-										<?php } else { ?>
-											<span class="special_no_format<?php echo $product['product_id']; ?>" style="display:none"></span>
-										<?php } ?>
-										<?php if ($product['stiker_best']) { ?>
-											<span class="stiker stiker_best"><?php echo $text_catalog_stiker_best; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_last']) { ?>
-											<span class="stiker stiker_last"><?php echo $text_catalog_stiker_last; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_sklad_status']) { ?>
-											<span class="stiker stiker_netu"><?php echo $product['stiker_sklad_status']; ?></span>
-										<?php } else if ($product['stiker_stock']) { ?>
-											<?php if ($product['price_number'] == 0 && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu_2; ?></span>
-											<?php } elseif ($product['quantity'] < 1 && $product['price_number'] > 0 && !$zakaz) { ?>
-												<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-											<?php } elseif ($product['quantity'] < 1 && !$zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-											<?php } elseif ($product['quantity'] < 1 && $zakaz && !$zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-											<?php } elseif ($product['quantity'] < 1 && $zakaz && $zakaz_price_null) { ?>
-												<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($product['stiker_upc']) { ?>
-											<span class="stiker stiker_user"><?php echo $product['stiker_upc']; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_ean']) { ?>
-											<span class="stiker stiker_user"><?php echo $product['stiker_ean']; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_jan']) { ?>
-											<span class="stiker stiker_user"><?php echo $product['stiker_jan']; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_isbn']) { ?>
-											<span class="stiker stiker_user"><?php echo $product['stiker_isbn']; ?></span>
-										<?php } ?>
-										<?php if ($product['stiker_mpn']) { ?>
-											<span class="stiker stiker_user"><?php echo $product['stiker_mpn']; ?></span>
-										<?php } ?>
-									</div>
-								<?php } ?>
-								<?php if ($revpopuporder || $popup_view || (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod'])) { ?>
-									<div class="fapanel <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'rev_wish_srav_prod'; } ?>">		
-										<?php if (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod']) { ?>
-											<?php if ($rev_wish_prod) { ?>
-												<div class="wishlist">
-													<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-												</div>
-											<?php } ?>
-											<?php if ($rev_srav_prod) { ?>
-												<div class="compare">
-													<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-												</div>
-											<?php } ?>
-										<?php } ?>
-										<?php if ($popup_view) { ?>
-											<div class="lupa">
-												<a onclick="get_revpopup_view('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'data-placement="left"'; } ?> title="<?php echo $text_catalog_revpopup_view; ?>" class='fa fa-border fa-eye'></i></a>
-											</div>
-										<?php } ?>
-										<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-											<?php if ($revpopuporder) { ?>
-												<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-													<div class="zakaz">
-														<a onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'data-placement="left"'; } ?> title="<?php echo $text_catalog_revpopup_purchase; ?>" class='fa fa-border fa-gavel'></i></a>
-													</div>
-												<?php } ?>
-											<?php } ?>
-										<?php } ?>
-									</div>
-								<?php } ?>
-							</div>
-							<div class="caption product-info clearfix">
-								<h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
-								<?php if ($product['rating']) { ?>
-								<div class="rating">
-								  <?php for ($i = 1; $i <= 5; $i++) { ?>
-								  <?php if ($product['rating'] < $i) { ?>
-								  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-								  <?php } else { ?>
-								  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-								  <?php } ?>
-								  <?php } ?>
-								</div>
-								<?php } ?>
-								
-								<div class="description_options">
-									<div class="description <?php echo (($product['options'] && $product['options_buy']) ? 'description_options_buy_price' : ''); ?>">
-										<?php if ($description_options['short_desc'] && $product['short_description']) { ?>
-											<div class="short_description"><?php echo $product['short_description']; ?></div>
-										<?php } ?>
-										<?php echo $product['description']; ?>
-										<?php if (!$description_options['zamena_description']) { ?><span class="hidden pr_quantity_<?php echo $product['product_id']; ?>"></span><?php } ?>
-									</div>
-									<?php if ($revtheme_product_all['options_buy'] && $product['options'] && $product['options_buy']) { ?>
-										<div class="well well-sm product-info options_buy">
-											<div id="option_<?php echo $product['product_id']; ?>" class="options">
-												<div class="form-group">
-													<?php if ($revtheme_product_all['options_buy_optionname_one']) { ?>
-														<label class="control-label options_buy_label"><?php foreach ($product['options'] as $option) { ?><?php echo $option['name']; ?>:<?php } ?></label>
-													<?php } else { ?>
-														<label class="control-label options_buy_label"><?php echo $text_option_option; ?>:</label>
-													<?php } ?>
-													<select class="form-control" onchange="get_product_option_id_product_products2('<?php echo $product['product_id']; ?>')" name="" id="product_products2_soption_<?php echo $product['product_id']; ?>">
-															<?php foreach ($product['options'] as $option) { ?>
-																<?php if ($revtheme_product_all['options_buy_optionname']) { ?>
-																	<optgroup label="<?php echo $option['name']; ?>:" >
-																<?php } ?>
-																<?php foreach ($option['product_option_value'] as $option_value) { ?>
-																	<?php if ($option_value['price'] > 0 && $option_value['quantity'] > 0) { ?>
-																		<option product_option_id="<?php echo $option['product_option_id']; ?>" value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-																		<?php if ($opt_price) { ?>
-																			<?php if ($option_value['price']) { ?>
-																			<span class="option_price">(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)</span>
-																			<?php } ?>
-																		<?php } ?>
-																		</option>
-																	<?php } ?>
-																<?php } ?>
-																<?php if ($revtheme_product_all['options_buy_optionname']) { ?>
-																	</optgroup>
-																<?php } ?>
-															<?php } ?>
-													</select>
-												</div>
-											</div>
-										</div>
-										<script><!--
-										$('#product_products2 select.form-control option:nth-child(1)').attr('selected', 'selected');
-										$( document ).ready(function() {
-											get_product_option_id_product_products2 (<?php echo $product['product_id']; ?>);
-										});
-										function get_product_option_id_product_products2 (product_id) {
-											var sel_option_id = document.getElementById('product_products2_soption_'+product_id);
-											var option_id = sel_option_id.options[sel_option_id.selectedIndex].getAttribute('product_option_id');
-											sel_option_id.setAttribute('name', 'option['+option_id+']');
-											update_prices_product_product_products2(product_id,1);
-										}
-										--></script>
-									<?php } else if ($product['options']) { ?>
-										<div class="well well-sm product-info">
-											<div id="option_<?php echo $product['product_id']; ?>" class="options">
-											<?php foreach ($product['options'] as $option) { ?>
-												<?php if ($option['type'] == 'select') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-														<label class="control-label" for="product_products2_input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-														<select onchange="update_prices_product_product_products2(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" name="option[<?php echo $option['product_option_id']; ?>]" id="product_products2_input-option<?php echo $option['product_option_id']; ?>" class="form-control">
-															<option value=""><?php echo $text_select; ?></option>
-															<?php foreach ($option['product_option_value'] as $option_value) { ?>
-																<option value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-																	<?php if ($opt_price) { ?>
-																		<?php if ($option_value['price']) { ?>
-																			<span class="option_price">(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)</span>
-																		<?php } ?>
-																	<?php } ?>
-																</option>
-															<?php } ?>
-														</select>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'radio') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-														<label class="control-label"><?php echo $option['name']; ?>:</label>
-														<div id="input-option<?php echo $option['product_option_id']; ?>">
-															<?php foreach ($option['product_option_value'] as $option_value) { ?>
-																<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-																	<input onchange="update_prices_product_product_products2(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-																	<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-																		<?php if ($option_value['image']) { ?>
-																			<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-																		<?php } else { ?>
-																			<span><?php echo $option_value['name']; ?></span>
-																		<?php } ?>
-																		<?php if ($option_value['price']) { ?>
-																			<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-																		<?php } ?>
-																		<i class="fa fa-check"></i>	
-																	</label>
-																</div>
-															<?php } ?>
-														</div>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'checkbox') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-														<label class="control-label"><?php echo $option['name']; ?>:</label>
-														<div id="input-option<?php echo $option['product_option_id']; ?>">
-															<?php foreach ($option['product_option_value'] as $option_value) { ?>
-																<div class="radio checkbox<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-																	<input onchange="update_prices_product_product_products2(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="checkbox" name="option[<?php echo $option['product_option_id']; ?>][]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-																	<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-																		<?php if ($option_value['image']) { ?>
-																			<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-																		<?php } else { ?>
-																			<span><?php echo $option_value['name']; ?></span>
-																		<?php } ?>
-																		<?php if ($option_value['price']) { ?>
-																			<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-																		<?php } ?>
-																		<i class="fa fa-check"></i>
-																	</label>
-																</div>
-															<?php } ?>
-														</div>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'image') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-														<label class="control-label"><?php echo $option['name']; ?>:</label>
-														<div id="input-option<?php echo $option['product_option_id']; ?>">
-															<?php foreach ($option['product_option_value'] as $option_value) { ?>
-																<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-																	<input onchange="update_prices_product_product_products2(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-																	<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products2_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-																		<?php if ($option_value['image']) { ?>
-																			<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-																		<?php } else { ?>
-																			<span><?php echo $option_value['name']; ?></span>
-																		<?php } ?>
-																		<?php if ($option_value['price']) { ?>
-																			<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-																		<?php } ?>
-																		<i class="fa fa-check"></i>	
-																	</label>
-																</div>
-															<?php } ?>
-														</div>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'text') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-													  <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'textarea') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-													  <textarea name="option[<?php echo $option['product_option_id']; ?>]" rows="5" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control"><?php echo $option['value']; ?></textarea>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'file') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label"><?php echo $option['name']; ?>:</label>
-													  <button type="button" id="button-upload<?php echo $option['product_option_id']; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default btn-block"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-													  <input type="hidden" name="option[<?php echo $option['product_option_id']; ?>]" value="" id="input-option<?php echo $option['product_option_id']; ?>" />
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'date') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-													  <div class="input-group date">
-														<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-														<span class="input-group-btn">
-														<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-														</span></div>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'datetime') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-													  <div class="input-group datetime">
-														<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-														<span class="input-group-btn">
-														<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-														</span></div>
-													</div>
-												<?php } ?>
-												<?php if ($option['type'] == 'time') { ?>
-													<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-													  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-													  <div class="input-group time">
-														<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-														<span class="input-group-btn">
-														<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-														</span></div>
-													</div>
-												<?php } ?>
-											<?php } ?>
-											</div>
-										</div>
-									<?php } ?>
-								</div>
-								<div class="product_buttons">
-									<?php if ($revpopuporder || $popup_view || (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod'])) { ?>
-										<div class="fapanel-price">
-											<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-												<?php if ($revpopuporder) { ?>
-													<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-														<div class="zakaz">
-															<a onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="top" title="<?php echo $text_catalog_revpopup_purchase; ?>" class='fa fa-border fa-gavel'></i></a>
-														</div>
-													<?php } ?>
-												<?php } ?>
-											<?php } ?>
-											<?php if ($popup_view) { ?>
-												<div class="lupa">
-													<a onclick="get_revpopup_view('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="top" title="<?php echo $text_catalog_revpopup_view; ?>" class='fa fa-border fa-eye'></i></a>
-												</div>
-											<?php } ?>
-											<?php if (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod']) { ?>
-											<?php if ($rev_srav_prod) { ?>
-												<div class="compare">
-													<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-												</div>
-											<?php } ?>
-											<?php if ($rev_wish_prod) { ?>
-												<div class="wishlist">
-													<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-												</div>
-											<?php } ?>
-										<?php } ?>
-										</div>
-									<?php } ?>
-									<?php if ($product['price']) { ?>
-										<?php if ($product['price_number'] > 0) { ?>
-											<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-												<div class="price">
-												<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-													<?php if (!$product['special']) { ?>
-														<span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span>
-													<?php } else { ?>
-														<span class="price-new"><span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['special']; ?></span></span>
-													<?php } ?>
-												<?php } ?>
-												</div>
-											<?php } else { ?>
-												<?php if ($predzakaz_button) { ?>
-													<div class="price">
-													<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-														<?php if (!$product['special']) { ?>
-															<span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span>
-														<?php } else { ?>
-															<span class="price-new"><span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['special']; ?></span></span>
-														<?php } ?>
-													<?php } ?>
-													</div>
-												<?php } else { ?>
-													<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-												<?php } ?>
-											<?php } ?>
-											<?php if ($ch_quantity && ($product['price_number'] > 0 || $zakaz_price_null) && ($product['quantity'] > 0 || $zakaz)) { ?>
-												<div class="number">
-													<div class="frame-change-count">
-														<div class="btn-plus">
-															<button type="button" onclick="validate_pole_product_products2(this,<?php echo $product['product_id']; ?>,'+',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">+</button>
-														</div>
-														<div class="btn-minus">
-															<button type="button" onclick="validate_pole_product_products2(this,<?php echo $product['product_id']; ?>,'-',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">-</button>
-														</div>
-													</div>
-													<input type="text" name="quantity" class="plus-minus" value='<?php echo $product['minimum']; ?>' onchange="validate_pole_product_products2(this);" onkeyup="validate_pole_product_products2(this,<?php echo $product['product_id']; ?>,'=',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">
-												</div>
-											<?php } else { ?>
-												<div class="number bordnone"></div>
-												<input type="hidden" name="quantity" class="plus-minus" value='<?php echo $product['minimum']; ?>'>
-											<?php } ?>
-											<div class="clearfix"></div>
-										<?php } else { ?>
-											<?php if ($zakaz || $zakaz_price_null) { ?>
-												<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-												<?php if ($product['price_number'] == 0 && !$zakaz_price_null) { ?>
-												<?php } else if ($product['quantity'] > 0 || $zakaz) { ?>
-													<div class="price_na_zakaz"><?php echo $text_catalog_price_na_zakaz; ?></div>
-												<?php } ?>
-											<?php } else { ?>
-												<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-											<?php } ?>
-										<?php } ?>
-									<?php } ?>
-									<?php if (($rev_srav_prod || $rev_wish_prod) && !$setting_catalog_all['rev_wish_srav_prod']) { ?>
-										<?php if ($rev_srav_prod) { ?>
-											<div class="compare">
-												<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-											</div>
-										<?php } ?>
-										<?php if ($rev_wish_prod) { ?>
-											<div class="wishlist">
-												<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-											</div>
-										<?php } ?>
-									<?php $button_cart_class = 'prlistb'; } else { $button_cart_class = 'prlistb active'; }?>
-									<?php if ($product['quantity'] > 0 || $zakaz || $predzakaz_button) { ?>
-										<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-											<?php if ($product['quantity'] < 1 && $predzakaz_button) { ?>
-												<div class="cart predzakaz_cart">
-													<a onclick="get_revpopup_predzakaz(<?php echo $product['product_id']; ?>);" <?php if ($button_cart_class != 'prlistb active') { ?>data-toggle="tooltip" title="<?php echo $text_predzakaz; ?>"<?php } ?>><i class="fa fa-border fa-shopping-basket predzakaz"><span class="<?php echo $button_cart_class; ?>"><?php echo $text_predzakaz; ?></span></i></a>
-												</div>
-											<?php } else { ?>
-												<div class="cart">
-													<a onclick="get_revpopup_cart(<?php echo $product['product_id']; ?>,'module_in_product',get_revpopup_cart_quantity_product_products2('<?php echo $product['product_id']; ?>'),'product_products2');" <?php if ($button_cart_class != 'prlistb active') { ?>data-toggle="tooltip" title="<?php echo $button_cart; ?>"<?php } ?>><i class="fa fa-border fa-shopping-basket"><span class="<?php echo $button_cart_class; ?>"><?php echo $button_cart; ?></span></i></a>
-												</div>
-												<?php if ($revpopuporder_settings['quick_btn']) { ?>
-													<a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i class="fa fa-hand-pointer-o"></i><?php echo $text_catalog_revpopup_purchase; ?></a>
-												<?php } ?>
-											<?php } ?>
-										<?php } ?>
-									<?php } ?>
-								</div>
-							</div>
-						  </div>
-						</div>
-					<?php } ?>
+					</div>
 				</div>
 			</div>
-			<script><!--
-			$('.viewed_products').owlCarousel({
-				responsiveBaseWidth: '.viewed_products',
-				<?php if ($chislo_ryad) { ?>
-					<?php if ($setting_all_settings['mobil_two']) { ?>
-						itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [1170, 4]],
-					<?php } else { ?>
-						itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [1170, 4]],
-					<?php } ?>
-				<?php } else { ?>
-					<?php if ($setting_all_settings['mobil_two']) { ?>
-						itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [980, 5]],
-					<?php } else { ?>
-						itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [980, 5]],
-					<?php } ?>
-				<?php } ?>
-				mouseDrag: true,
-				navigation: true,
-				navigationText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
-				pagination: true
+		</header>
+		<section class="main-content">
+			<div class="container">
+				<div itemscope="" itemtype="http://schema.org/BreadcrumbList" style="display:none;">
+					<div itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+						<link itemprop="item" href="https://apple.oc-mod.ru/">
+						<meta itemprop="name" content="Главная">
+						<meta itemprop="position" content="1"> </div>
+					<div itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+						<link itemprop="item" href="https://apple.oc-mod.ru/iphone/">
+						<meta itemprop="name" content="iPhone">
+						<meta itemprop="position" content="2"> </div>
+					<div itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+						<link itemprop="item" href="https://apple.oc-mod.ru/iphone/iphone_7/">
+						<meta itemprop="name" content="iPhone 7">
+						<meta itemprop="position" content="3"> </div>
+					<div itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+						<link itemprop="item" href="https://apple.oc-mod.ru/apple_iphone_7_128gb_black">
+						<meta itemprop="name" content="Apple iPhone 7 128GB Black">
+						<meta itemprop="position" content="4"> </div>
+				</div>
+				<ul class="breadcrumb">
+					<li class="br_ellipses" style="display: none;">...</li>
+					<li><a href="https://apple.oc-mod.ru/">Главная</a></li>
+					<li><a href="https://apple.oc-mod.ru/iphone/">iPhone</a></li>
+					<li><a href="https://apple.oc-mod.ru/iphone/iphone_7/">iPhone 7</a></li>
+					<li>
+						<h1 class="inbreadcrumb">Apple iPhone 7 128GB Black</h1></li>
+				</ul>
+				<div class="row">
+					<div id="content" class="col-sm-12">
+						<div class="row" itemscope="" itemtype="http://schema.org/Product">
+							<meta itemprop="name" content="Apple iPhone 7 128GB Black">
+							<meta itemprop="category" content="iPhone 7">
+							<div class="col-sm-12 col-md-5 product_informationss">
+								<div class="thumbnails">
+									<div class="main_img_box">
+										<div id="imageWrap" class="image">
+											<a class="main-image" href="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-800x800.jpg" title="Apple iPhone 7 128GB Black"><img id="mainImage" class="img-responsive" src="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-400x400.jpg" title="Apple iPhone 7 128GB Black" alt="Apple iPhone 7 128GB Black" itemprop="image">
+												<div class="stiker_panel"> <span class="stiker stiker_best">Хит</span> </div>
+											</a>
+										</div>
+									</div>
+									<div id="owl-images" class="images-additional">
+										<div class="item">
+											<a href="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-800x800.jpg" id="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-400x400.jpg" title="Apple iPhone 7 128GB Black"><img src="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7-74x74.jpg" title="Apple iPhone 7 128GB Black" alt="Apple iPhone 7 128GB Black" data-number="0"></a>
+										</div>
+										<div class="item">
+											<a href="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_2-800x800.jpg" id="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_2-400x400.jpg" title="Apple iPhone 7 128GB Black"> <img src="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_2-74x74.jpg" title="Apple iPhone 7 128GB Black" alt="Apple iPhone 7 128GB Black" data-number="1"> </a>
+										</div>
+										<div class="item">
+											<a href="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_3-800x800.jpg" id="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_3-400x400.jpg" title="Apple iPhone 7 128GB Black"> <img src="https://apple.oc-mod.ru/image/cache/catalog/revolution/demo_tovars/apple/prods/7_3-74x74.jpg" title="Apple iPhone 7 128GB Black" alt="Apple iPhone 7 128GB Black" data-number="2"> </a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-12 col-md-7 product_informationss">
+								<meta itemprop="mpn" content="MN942RU/A">
+								<ul class="list-unstyled">
+									<li class="dotted-line">
+										<div class="dotted-line_left"><span class="dotted-line_title">Производитель:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right"><a href="https://apple.oc-mod.ru/apple"><span itemprop="brand">Apple</span></a></div>
+									</li>
+									<li class="dotted-line">
+										<div class="dotted-line_left"><span class="dotted-line_title">Модель:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right"><span class="pr_model" itemprop="model">MN942RU/A</span></div>
+									</li>
+									<li class="dotted-line">
+										<div class="dotted-line_left"><span class="dotted-line_title">Доступно:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right"><span class="pr_quantity">1</span> шт.</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Емкость памяти:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">128 Гб</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Экран:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">4.7"</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Разрешение экрана:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">1334 x 750</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Камера:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">12 Мп</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Поддержка 3G:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">Да</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Поддержка 4G:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">Да</div>
+									</li>
+									<li class="dotted-line" itemprop="additionalProperty" itemscope="" itemtype="http://schema.org/PropertyValue">
+										<div class="dotted-line_left"><span class="dotted-line_title" itemprop="name">Поддержка Wi-Fi:</span>
+											<div class="dotted-line_line"></div>
+										</div>
+										<div class="dotted-line_right" itemprop="value">Да</div>
+									</li>
+								</ul>
+								<div class="well well-sm product-info product_informationss">
+									<div class="form-group">
+										<div class="list-unstyled" itemprop="offers" itemscope="" itemtype="http://schema.org/Offer">
+											<link itemprop="url" href="https://apple.oc-mod.ru/apple_iphone_7_128gb_black">
+											<meta itemprop="priceValidUntil" content="2026-03-16"> <span class="prq_title hidden-xs">Цена:</span> <span class="update_price">51 990 р.</span> <span class="update_special dnone"></span>
+											<meta itemprop="price" content="51990">
+											<link itemprop="availability" href="http://schema.org/InStock">
+											<meta itemprop="priceCurrency" content="RUB"> </div>
+										<div class="nalich"> <span class="text-success bg-success"><i class="fa fa-check" aria-hidden="true"></i> Есть в наличии</span> </div>
+									</div>
+									<div class="form-group pokupka">
+										<div class="pop_left">
+											<label class="control-label prq_title hidden-xs">Количество:</label>
+											<div class="number">
+												<div class="frame-change-count">
+													<div class="btn-plus">
+														<button type="button" onclick="validate_pole(this,54,'+',1,1);">+</button>
+													</div>
+													<div class="btn-minus">
+														<button type="button" onclick="validate_pole(this,54,'-',1,1);">-</button>
+													</div>
+												</div>
+												<input type="text" name="quantity" class="plus-minus" value="1" onchange="validate_pole(this,54,'=',1,1);" onkeyup="validate_pole(this,54,'=',1,1);"> </div>
+											<button type="button" id="button-cart" onclick="get_revpopup_cart(54,'product',get_revpopup_cart_quantity('54'));" data-loading-text="Загрузка..." class="btn btn-primary btn-lg"><i class="fa fa-shopping-basket"></i>В корзину</button>
+										</div>
+										<div class="pop_right "> <a class="pop_ico" onclick="get_revpopup_purchase('54');"><i class="fa fa-border fa-gavel"></i><span class="hidden-xs hidden-md">Купить в 1 клик</span></a> <a class=" wishlist pjid_54" data-toggle="tooltip" onclick="wishlist.add('54');" title="В закладки"><i class="fa fa-border fa-heart"></i></a> <a class=" compare pjid_54" data-toggle="tooltip" onclick="compare.add('54', 'iPhone 7');" title="В сравнение"><i class="fa fa-border fa-bar-chart-o"></i></a> </div>
+									</div>
+								</div>
+							</div>
+							<div style="height: 20px; width: 100%; clear: both;"></div>
+							<div class="col-sm-12 mb20">
+								<ul class="nav nav-tabs">
+									<li><a href="#tab-answers" data-toggle="tab">Вопрос - Ответ <sup>1</sup></a></li>
+								</ul>
+								<div class="tab-content">
+									<div class="tab-pane active" id="tab-description" itemprop="description"></div>
+									<div class="tab-pane" id="tab-answers">
+										<div id="answers">
+											<div class="review-list">
+												<div class="author"><span>Валера</span> <span class="rdate">/ 02.10.2017</span></div>
+												<div class="text">Никого не смущает тот факт, что в беззвучном режиме, когда телефон лежит на столе, вибрация совершенно не ощущается?</div>
+												<div class="name_admin">Администратор</div>
+												<div class="answer_admin">
+													<div>Не смущает, в кармане же чувствуется..</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group required mb0 mt12">
+											<div class="well well-sm otz">
+												<div class="text-right"> <a class="btn btn-primary" id="open-answers-box"><i class="fa fa-comment-o" aria-hidden="true"></i>Задать вопрос</a> </div>
+												<div class="row" id="post-answers-box" style="display:none;">
+													<div class="col-md-12">
+														<form class="form-answers form-horizontal">
+															<div class="form-group required">
+																<label class="col-sm-2 control-label" for="input-name-2">Имя</label>
+																<div class="col-sm-10">
+																	<input type="text" name="name_answer" value="" id="input-name-2" class="form-control"> </div>
+															</div>
+															<div class="form-group required">
+																<label class="col-sm-2 control-label" for="input-answer">Вопрос</label>
+																<div class="col-sm-10">
+																	<textarea name="text_answer" rows="5" id="input-answer" class="form-control"></textarea>
+																</div>
+															</div>
+															<fieldset class="fieldsetcaptcha">
+																<div class="form-group required">
+																	<label class="col-xs-4 col-sm-2 control-label" for="input-captcha">Введите код:</label>
+																	<div class="col-xs-8 col-sm-10">
+																		<input type="text" name="captcha" id="input-captcha" class="form-control"> <img src="index.php?route=extension/captcha/basic_captcha/captcha" alt=""> </div>
+																</div>
+															</fieldset>
+															<div class="pull-right text-right"> <a class="btn btn-default" href="#" id="close-answers-box" style="display:none; margin-right: 10px;">Отмена</a>
+																<button type="button" id="button-answers" data-loading-text="Загрузка..." class="btn btn-danger">Отправить</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+											<script>
+											<!--
+											$('#open-answers-box').click(function(e) {
+												$('#post-answers-box').slideDown(400, function() {
+													$('#new-answers').trigger('autosize.resize');
+													$('#new-answers').focus();
+												});
+												$('#open-answers-box').fadeOut(100);
+												$('#close-answers-box').show();
+											});
+											$('#close-answers-box').click(function(e) {
+												e.preventDefault();
+												$('#post-answers-box').slideUp(300, function() {
+													$('#new-answers').focus();
+													$('#open-answers-box').fadeIn(100);
+												});
+												$('#close-answers-box').hide();
+											});
+											//-->
+											</script>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+			<!--
+			$(document).ready(function() {
+				$('.nav.nav-tabs li:first-child a').tab('show');
 			});
-			
-			<?php foreach ($viewed_products as $product) { if ($product['minimum'] > 1 && $recalc_price) { ?>
-				update_quantity_product_products2(<?php echo $product['product_id']; ?>, <?php echo $product['minimum']; ?>);
-			<?php } } ?>
-			function get_revpopup_cart_quantity_product_products2(product_id) {
-				input_val = $('#product_products2 .product_'+product_id+' .plus-minus').val();
-				quantity  = parseInt(input_val);
+			var owl = $("#owl-images");
+			owl.owlCarousel({
+				responsiveBaseWidth: '.container',
+				itemsCustom: [
+					[0, 2],
+					[448, 3],
+					[650, 3],
+					[750, 3],
+					[970, 4]
+				],
+				navigation: true,
+				navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
+				pagination: false
+			});
+			$('select[name=\'recurring_id\'], input[name="quantity"]').change(function() {
+				$.ajax({
+					url: 'index.php?route=product/product/getRecurringDescription',
+					type: 'post',
+					data: $('input[name=\'product_id\'], input[name=\'quantity\'], select[name=\'recurring_id\']'),
+					dataType: 'json',
+					beforeSend: function() {
+						$('#recurring-description').html('');
+					},
+					success: function(json) {
+						$('.alert, .text-danger').remove();
+						if(json['success']) {
+							$('#recurring-description').html(json['success']);
+						}
+					}
+				});
+			});
+			$('.date').datetimepicker({
+				pickTime: false
+			});
+			$('.datetime').datetimepicker({
+				pickDate: true,
+				pickTime: true
+			});
+			$('.time').datetimepicker({
+				pickDate: false
+			});
+			$('button[id^=\'button-upload\']').on('click', function() {
+				var node = this;
+				$('#form-upload').remove();
+				$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
+				$('#form-upload input[name=\'file\']').trigger('click');
+				if(typeof timer != 'undefined') {
+					clearInterval(timer);
+				}
+				timer = setInterval(function() {
+					if($('#form-upload input[name=\'file\']').val() != '') {
+						clearInterval(timer);
+						$.ajax({
+							url: 'index.php?route=tool/upload',
+							type: 'post',
+							dataType: 'json',
+							data: new FormData($('#form-upload')[0]),
+							cache: false,
+							contentType: false,
+							processData: false,
+							beforeSend: function() {
+								$(node).button('loading');
+							},
+							complete: function() {
+								$(node).button('reset');
+							},
+							success: function(json) {
+								$('.text-danger').remove();
+								if(json['error']) {
+									$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
+								}
+								if(json['success']) {
+									alert(json['success']);
+									$(node).parent().find('input').attr('value', json['code']);
+								}
+							},
+							error: function(xhr, ajaxOptions, thrownError) {
+								alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+							}
+						});
+					}
+				}, 500);
+			});
+			$('#review').delegate('.pagination a', 'click', function(e) {
+				e.preventDefault();
+				$('#review').fadeOut('slow');
+				$('#review').load(this.href);
+				$('#review').fadeIn('slow');
+			});
+			$('#review').load('index.php?route=product/product/review&product_id=54');
+			$('#button-review').on('click', function() {
+				$.ajax({
+					url: 'index.php?route=product/product/write&product_id=54',
+					type: 'post',
+					dataType: 'json',
+					data: $(".form-review").serialize(),
+					beforeSend: function() {
+						$('#button-review').button('loading');
+					},
+					complete: function() {
+						$('#button-review').button('reset');
+					},
+					success: function(json) {
+						$('.alert-success, .alert-danger').remove();
+						if(json['error']) {
+							get_revpopup_notification('alert-danger', 'Ошибка', json['error']);
+						}
+						if(json['success']) {
+							get_revpopup_notification('alert-success', 'Спасибо за отзыв', json['success']);
+							$('input[name=\'name\']').val('');
+							$('textarea[name=\'text\']').val('');
+							$('input[name=\'rating\']:checked').prop('checked', false);
+							$('#post-review-box').slideUp(300);
+							$('#new-review').focus();
+							$('#open-review-box').fadeIn(100);
+							$('#close-review-box').hide();
+							$('#ratings-hidden').val('');
+							$('.stars .glyphicon').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
+						}
+					}
+				});
+			});
+			$('#button-answers').on('click', function() {
+				$.ajax({
+					url: 'index.php?route=revolution/revstorereview/writeanswer&product_id=54',
+					type: 'post',
+					dataType: 'json',
+					data: $(".form-answers").serialize(),
+					beforeSend: function() {
+						$('#button-answers').button('loading');
+					},
+					complete: function() {
+						$('#button-answers').button('reset');
+					},
+					success: function(json) {
+						$('.alert-success, .alert-danger').remove();
+						if(json['error']) {
+							get_revpopup_notification('alert-danger', 'Ошибка', json['error']);
+						}
+						if(json['success']) {
+							get_revpopup_notification('alert-success', 'Спасибо за вопрос', json['success']);
+							$('input[name=\'name_answer\']').val('');
+							$('textarea[name=\'text_answer\']').val('');
+							$('#post-answers-box').slideUp(300);
+							$('#new-answers').focus();
+							$('#open-answers-box').fadeIn(100);
+							$('#close-answers-box').hide();
+						}
+					}
+				});
+			});
+			$('.thumbnails .main-image').magnificPopup({
+				type: 'image',
+				removalDelay: 170,
+				callbacks: {
+					beforeOpen: function() {
+						this.st.mainClass = 'mfp-zoom-in';
+					},
+					open: function() {
+						$('body').addClass('razmiv2');
+						$('#pagefader2').fadeIn(70);
+						if(document.body.scrollHeight > document.body.offsetHeight) {
+							$('#top3').css('right', '8.5px');
+						}
+					},
+					close: function() {
+						$('body').removeClass('razmiv2');
+						$('#pagefader2').fadeOut(70);
+						$('#top3').css('right', 'initial');
+					}
+				}
+			});
+			$('.thumbnails .images-additional').magnificPopup({
+				type: 'image',
+				delegate: 'a',
+				gallery: {
+					enabled: true
+				},
+				removalDelay: 170,
+				callbacks: {
+					beforeOpen: function() {
+						this.st.mainClass = 'mfp-zoom-in';
+					},
+					open: function() {
+						$('body').addClass('razmiv2');
+						$('#pagefader2').fadeIn(70);
+						if(document.body.scrollHeight > document.body.offsetHeight) {
+							$('#top3').css('right', '8.5px');
+						}
+					},
+					close: function() {
+						$('body').removeClass('razmiv2');
+						$('#pagefader2').fadeOut(70);
+						$('#top3').css('right', 'initial');
+					}
+				}
+			});
+			if($(window).width() > 991) {
+				$('#imageWrap > a').addClass('cloud-zoom');
+				$('.images-additional img').click(function() {
+					var oldsrc = $(this).attr('src');
+					newsrc = $(this).parent().attr('id');
+					newhref = $(this).parent().attr('href');
+					number = $(this).attr('data-number');
+					$('#imageWrap img').attr('src', newsrc);
+					$('.main-image img').attr('src', newsrc);
+					$('.main-image').attr('href', newhref);
+					$('.main-image').attr('data-number', number);
+					$('.cloud-zoom').CloudZoom();
+					return false;
+				});
+				$('#imageWrap.image').bind('click', function() {
+					if($('.images-additional').length > 0) {
+						var startnumber = $('.cloud-zoom.main-image').attr('data-number');
+						$('.images-additional').magnificPopup('open', startnumber);
+						return false
+					} else {
+						$('.cloud-zoom.main-image').magnificPopup('open');
+						return false
+					}
+				});
+				$('.cloud-zoom').attr('rel', 'position:\'inside\'').CloudZoom();
+			} else {
+				$('.thumbnails .main-image img').click(function() {
+					if($('.images-additional').length > 0) {
+						var startnumber = $(this).parent().attr('data-number');
+						$('.images-additional').magnificPopup('open', startnumber);
+						return false
+					} else {
+						$('.main-image').magnificPopup('open');
+						return false
+					}
+				});
+			}
+
+			function get_revpopup_cart_quantity() {
+				input_val = $('.product-info.product_informationss .plus-minus').val();
+				quantity = parseInt(input_val);
 				return quantity;
 			}
-			function validate_pole_product_products2(val, product_id, znak, minimumvalue, maximumvalue) {
+
+			function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
 				val.value = val.value.replace(/[^\d,]/g, '');
-				if (val.value == '') val.value = minimumvalue;
-				maximumvalue = Number($('#product_products2 .pr_quantity_'+product_id).text());
-				if (maximumvalue < 1) maximumvalue = 9999;
-				input_val = $('#product_products2 .product_'+product_id+' .plus-minus');	
+				if(val.value == '') val.value = minimumvalue;
+				maximumvalue = Number($('.product_informationss .pr_quantity').text());
+				if(maximumvalue < 1) maximumvalue = 9999;
+				input_val = $('.product-info.product_informationss .plus-minus');
 				quantity = parseInt(input_val.val());
-				<?php if ($q_zavisimost) { ?>
-				if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
-				else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-				else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
-				if (quantity < 1 || quantity < minimumvalue) {
+				if(znak == '+' && input_val.val() < maximumvalue) input_val.val(quantity + 1);
+				else if(znak == '-' && input_val.val() > minimumvalue) input_val.val(quantity - 1);
+				else if(znak == '=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
+				if(quantity < 1 || quantity < minimumvalue) {
 					input_val.val(minimumvalue);
 					val.value = minimumvalue;
-				} else if (quantity > maximumvalue) {
+				} else if(quantity > maximumvalue) {
 					input_val.val(maximumvalue);
 					val.value = maximumvalue;
 				}
-				<?php } else { ?>
-				if(znak=='+') input_val.val(quantity+1);
-				else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-				else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
-				if (quantity < 1 || quantity < minimumvalue) {
-					input_val.val(minimumvalue);
-					val.value = minimumvalue;
-				}
-				<?php } ?>
-				update_quantity_product_products2(product_id, input_val.val());
+				update_quantity(product_id, input_val.val());
 			}
-			function update_quantity_product_products2(product_id, quantity) {
-				<?php if ($recalc_price) { ?>
-					quantity = quantity;
-				<?php } else { ?>
+
+			function update_quantity(product_id, quantity) {
+				var minimumvalue = 1;
+				if(quantity == 0 || quantity < minimumvalue) {
+					quantity = $('.product-info.product_informationss .plus-minus').val(minimumvalue);
+					return;
+				} else if(quantity < 1) {
 					quantity = 1;
-				<?php } ?>
-				
-				data = $('#product_products2 .product_'+product_id+' .options input[type=\'text\'], #product_products2 .product_'+product_id+' .options input[type=\'hidden\'], #product_products2 .product_'+product_id+' .options input[type=\'radio\']:checked, #product_products2 .product_'+product_id+' .options input[type=\'checkbox\']:checked, #product_products2 .product_'+product_id+' .options select');
-				$.ajax({
-				  url: 'index.php?route=product/product/update_prices',
-				  type: 'post',
-				  dataType: 'json',
-				  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-				  success: function(json) {
-					<?php if ($recalc_price) { ?>
-					
-						<?php if ($description_options['zamena_description'] && $description_options['weight']) { ?>
+					return;
+				}
+				data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea'),
+					$.ajax({
+						url: 'index.php?route=product/product/update_prices',
+						type: 'post',
+						dataType: 'json',
+						data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
+						success: function(json) {
 							var weight = json['weight'];
-							<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-								var start_weight = parseFloat($('#product_products2 .pr_weight_'+product_id).attr('data-weight'));
-								$({val:start_weight}).animate({val:weight}, {
-									duration: 500,
-									easing: 'swing',
-									step: function(val) {
-										$('#product_products2 .pr_weight_'+product_id).html(weight_format(val, product_id));
-									}
-								});
-								$('#product_products2 .pr_weight_'+product_id).attr('data-weight', json['weight']);
-							<?php } else { ?>
-								$('#product_products2 .pr_weight_'+product_id).html(weight_format(weight, product_id));
-							<?php } ?>
-						<?php } ?>
-
-						<?php if ($stikers_status) { ?>
+							var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
+							$({
+								val: start_weight
+							}).animate({
+								val: weight
+							}, {
+								duration: 500,
+								easing: 'swing',
+								step: function(val) {
+									$('.product_informationss .pr_weight').html(weight_format(val));
+								}
+							});
+							$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
 							var price = json['price_n'];
-							<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-								var start_price = parseFloat($('#product_products2 .special_no_format'+product_id).html().replace(/\s*/g,''));
-								$({val:start_price}).animate({val:price}, {
-									duration: 500,
-									easing: 'swing',
-									step: function(val) {
-										$('#product_products2 .special_no_format'+product_id).html(price_format(val));
-									}
-								});
-							<?php } else { ?>
-								$('#product_products2 .special_no_format'+product_id).html(price_format(price));
-							<?php } ?>
-						<?php } ?>
-						
-						
-						var special = json['special_n'];
-						<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-							var start_special = parseFloat($('#product_products2 .price_no_format'+product_id).html().replace(/\s*/g,''));
-							$({val:start_special}).animate({val:special}, {
+							var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g, ''));
+							$({
+								val: start_price
+							}).animate({
+								val: price
+							}, {
 								duration: 500,
 								easing: 'swing',
 								step: function(val) {
-									$('#product_products2 .price_no_format'+product_id).html(price_format(val));
+									$('.product_informationss .update_price').html(price_format(val));
 								}
 							});
-						<?php } else { ?>
-							$('#product_products2 .price_no_format'+product_id).html(price_format(special));
-						<?php } ?>
-					<?php } ?>
-				  }
-				});
+							var special = json['special_n'];
+							var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g, ''));
+							$({
+								val: start_special
+							}).animate({
+								val: special
+							}, {
+								duration: 500,
+								easing: 'swing',
+								step: function(val) {
+									$('.product_informationss .update_special').html(price_format(val));
+								}
+							});
+						}
+					});
 			}
-			function update_prices_product_product_products2(product_id, minimumvalue) {
-				input_val = $('#product_products2 .product_'+product_id+' .plus-minus').val();
-				if (input_val > minimumvalue) {
+
+			function update_prices_product(product_id, minimumvalue) {
+				input_val = $('.product-info.product_informationss .plus-minus').val();
+				if(input_val > minimumvalue) {
 					input_val = minimumvalue;
-					$('#product_products2 .product_'+product_id+' .plus-minus').val(minimumvalue);
+					$('.product-info.product_informationss .plus-minus').val(minimumvalue);
 				}
-				<?php if ($recalc_price) { ?>
 				quantity = parseInt(input_val);
-				<?php } else { ?>
-				quantity = 1;
-				<?php } ?>
-				data = $('#product_products2 .product_'+product_id+' .options input[type=\'text\'], #product_products2 .product_'+product_id+' .options input[type=\'hidden\'], #product_products2 .product_'+product_id+' .options input[type=\'radio\']:checked, #product_products2 .product_'+product_id+' .options input[type=\'checkbox\']:checked, #product_products2 .product_'+product_id+' .options select');
+				data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea');
 				$.ajax({
-				  type: 'post',
-				  url:  'index.php?route=product/product/update_prices',
-				  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-				  dataType: 'json',
-				  success: function(json) {
-				  
-					<?php if ($img_slider) { ?>
-					$('#product_products2 .product_'+product_id+' .image .owl-item:first-child img').attr('src', json['opt_image']);
-					<?php } else { ?>
-					$('#product_products2 .product_'+product_id+' .image img').attr('src', json['opt_image']);
-					<?php } ?>
-					
-					<?php if ($description_options['zamena_description'] && $description_options['model']) { ?>
-					$('#product_products2 .product_'+product_id+' .pr_model_'+product_id).html(json['opt_model']);
-					<?php } ?>
-				  
-					var end_quantity = json['option_quantity'];
-					<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-						var start_quantity = parseFloat($('#product_products2 .pr_quantity_'+product_id).html().replace(/\s*/g,''));
-						$({val:start_quantity}).animate({val:end_quantity}, {
+					type: 'post',
+					url: 'index.php?route=product/product/update_prices',
+					data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
+					dataType: 'json',
+					success: function(json) {
+						$('.product_informationss .thumbnails a.main-image').attr('href', json['opt_image_2_big']);
+						$('.product_informationss .thumbnails a.main-image img').attr('src', json['opt_image_2']);
+						$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('href', json['opt_image_2_big']);
+						$('.product_informationss .thumbnails .images-additional .owl-item:first-child a img').attr('src', json['opt_image_2']).css('width', 74).css('height', 74);
+						$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('id', json['opt_image_2']);
+						$('.product_informationss .cloud-zoom').CloudZoom();
+						var end_quantity = json['option_quantity'];
+						var start_quantity = parseFloat($('.product_informationss .pr_quantity').html().replace(/\s*/g, ''));
+						$({
+							val: start_quantity
+						}).animate({
+							val: end_quantity
+						}, {
 							duration: 500,
 							easing: 'swing',
 							step: function(val) {
-								$('#product_products2 .pr_quantity_'+product_id).html(number_format(val, product_id));
+								$('.product_informationss .pr_quantity').html(number_format(val, product_id));
 							}
 						});
-					<?php } else { ?>
-						$('#product_products2 .pr_quantity_'+product_id).html(number_format(end_quantity, product_id));
-					<?php } ?>
-					
-					<?php if ($description_options['zamena_description'] && $description_options['weight']) { ?>
+						$('.product_informationss .pr_model').html(json['opt_model']);
 						var weight = json['weight'];
-						<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-							var start_weight = parseFloat($('#product_products2 .pr_weight_'+product_id).attr('data-weight'));
-							$({val:start_weight}).animate({val:weight}, {
-								duration: 500,
-								easing: 'swing',
-								step: function(val) {
-									$('#product_products2 .pr_weight_'+product_id).html(weight_format(val, product_id));
-								}
-							});
-							$('#product_products2 .pr_weight_'+product_id).attr('data-weight', json['weight']);
-						<?php } else { ?>
-							$('#product_products2 .pr_weight_'+product_id).html(weight_format(weight, product_id));
-						<?php } ?>
-					<?php } ?>
-				  
-					<?php if ($stikers_status) { ?>
+						var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
+						$({
+							val: start_weight
+						}).animate({
+							val: weight
+						}, {
+							duration: 500,
+							easing: 'swing',
+							step: function(val) {
+								$('.product_informationss .pr_weight').html(weight_format(val));
+							}
+						});
+						$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
 						var price = json['price_n'];
-						<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-							var start_price = parseFloat($('#product_products2 .special_no_format'+product_id).html().replace(/\s*/g,''));
-							$({val:start_price}).animate({val:price}, {
-								duration: 500,
-								easing: 'swing',
-								step: function(val) {
-									$('#product_products2 .special_no_format'+product_id).html(price_format(val));
-								}
-							});
-						<?php } else { ?>
-							$('#product_products2 .special_no_format'+product_id).html(price_format(price));
-						<?php } ?>
-					<?php } ?>
-					
-					var special = json['special_n'];
-					<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-						var start_special = parseFloat($('#product_products2 .price_no_format'+product_id).html().replace(/\s*/g,''));
-						$({val:start_special}).animate({val:special}, {
+						var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g, ''));
+						$({
+							val: start_price
+						}).animate({
+							val: price
+						}, {
 							duration: 500,
 							easing: 'swing',
 							step: function(val) {
-								$('#product_products2 .price_no_format'+product_id).html(price_format(val));
+								$('.product_informationss .update_price').html(price_format(val));
 							}
 						});
-					<?php } else { ?>
-						$('#product_products2 .price_no_format'+product_id).html(price_format(special));
-					<?php } ?>
-
-				  }
-				});
-			}
-			var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-			if (product_grid_width < 240) {
-				$('.product-layout').addClass('new_line');
-			} else {
-				$('.product-layout').removeClass('new_line');
-			}
-			max_height_div('#product_products2 .product-thumb h4');
-			$('#product_products2 .product-thumb .description_options').css('min-height', 'initial');
-			max_height_div('#product_products2 .product-thumb .description_options');
-			max_height_div('#product_products2 .product-thumb .price');
-			max_height_div('#product_products2 .product-thumb .number');
-			max_height_div('#product_products2 .product-thumb .product_buttons');
-			function max_height_div(div) {
-				var maxheight = 0;
-				$(div).each(function(){
-					$(this).removeAttr('style');
-					if($(this).height() > maxheight) {
-						maxheight = $(this).height();
+						var special = json['special_n'];
+						var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g, ''));
+						$({
+							val: start_special
+						}).animate({
+							val: special
+						}, {
+							duration: 500,
+							easing: 'swing',
+							step: function(val) {
+								$('.product_informationss .update_special').html(price_format(val));
+							}
+						});
 					}
 				});
-				$(div).height(maxheight);
 			}
-			//--></script>
-		</div>
-	<?php } ?>
-      <?php if ($tags) { ?>
-      <p><?php echo $text_tags; ?>
-        <?php for ($i = 0; $i < count($tags); $i++) { ?>
-        <?php if ($i < (count($tags) - 1)) { ?>
-        <a href="<?php echo $tags[$i]['href']; ?>"><?php echo $tags[$i]['tag']; ?></a>,
-        <?php } else { ?>
-        <a href="<?php echo $tags[$i]['href']; ?>"><?php echo $tags[$i]['tag']; ?></a>
-        <?php } ?>
-        <?php } ?>
-      </p>
-      <?php } ?>
-      <?php echo $content_bottom; ?></div>
 
-	<?php if ($products && $recpr_rightc) { ?>
-	<aside id="column-right" class="col-sm-3 hidden-xs hidden-sm <?php if ($columns_dd) { echo 'columns_dd'; }?>">
-	<div id="product_products">
-	<h3><?php echo $text_related; ?></h3>
-	<div class="row">
-	<div class="product_related products_category">
-	<?php foreach ($products as $product) { ?>
-	<div class="col-lg-12 item">
-	  <div class="product-thumb product_<?php echo $product['product_id']; ?>">
-		<div class="image">
-			<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if ($product['quantity'] < 1 && !$zakaz) { ?>zatemnenie_img<?php } ?>" /></a>
-			<?php if ($stikers_status) { ?>
-				<div class="stiker_panel">
-					<?php if (($product['quantity'] > 0 && $product['price_number'] != 0) || $zakaz) { ?>
-						<?php if ($product['stiker_spec']) { ?>
-							<?php if ($product['special']) { ?>
-								<span class="stiker stiker_spec"><span class="price-old special_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span></span>
-							<?php } else { ?>
-								<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-							<?php } ?>
-						<?php } else { ?>
-							<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-						<?php } ?>
-					<?php } else { ?>
-						<span class="special_no_format<?php echo $product['product_id']; ?>" style="display:none"></span>
-					<?php } ?>
-					<?php if ($product['stiker_best']) { ?>
-						<span class="stiker stiker_best"><?php echo $text_catalog_stiker_best; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_last']) { ?>
-						<span class="stiker stiker_last"><?php echo $text_catalog_stiker_last; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_sklad_status']) { ?>
-						<span class="stiker stiker_netu"><?php echo $product['stiker_sklad_status']; ?></span>
-					<?php } else if ($product['stiker_stock']) { ?>
-						<?php if ($product['price_number'] == 0 && !$zakaz_price_null) { ?>
-							<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu_2; ?></span>
-						<?php } elseif ($product['quantity'] < 1 && $product['price_number'] > 0 && !$zakaz) { ?>
-							<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-						<?php } elseif ($product['quantity'] < 1 && !$zakaz && $zakaz_price_null) { ?>
-							<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-						<?php } elseif ($product['quantity'] < 1 && $zakaz && !$zakaz_price_null) { ?>
-							<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-						<?php } elseif ($product['quantity'] < 1 && $zakaz && $zakaz_price_null) { ?>
-							<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-						<?php } ?>
-					<?php } ?>
-					<?php if ($product['stiker_upc']) { ?>
-						<span class="stiker stiker_user"><?php echo $product['stiker_upc']; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_ean']) { ?>
-						<span class="stiker stiker_user"><?php echo $product['stiker_ean']; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_jan']) { ?>
-						<span class="stiker stiker_user"><?php echo $product['stiker_jan']; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_isbn']) { ?>
-						<span class="stiker stiker_user"><?php echo $product['stiker_isbn']; ?></span>
-					<?php } ?>
-					<?php if ($product['stiker_mpn']) { ?>
-						<span class="stiker stiker_user"><?php echo $product['stiker_mpn']; ?></span>
-					<?php } ?>
-				</div>
-			<?php } ?>
-			<?php if ($revpopuporder || $popup_view) { ?>
-				<div class="fapanel">
-					<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-						<?php if ($revpopuporder) { ?>
-							<?php if ($product['price_number'] > 0) { ?>
-								<div class="zakaz">
-									<a onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="left" title="<?php echo $text_catalog_revpopup_purchase; ?>" class='fa fa-border fa-gavel'></i></a>
-								</div>
-							<?php } ?>
-						<?php } ?>
-					<?php } ?>
-					<?php if ($popup_view) { ?>
-						<div class="lupa">
-							<a onclick="get_revpopup_view('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="left" title="<?php echo $text_catalog_revpopup_view; ?>" class='fa fa-border fa-eye'></i></a>
-						</div>
-					<?php } ?>
-				</div>
-			<?php } ?>
-		</div>
-		<div class="caption clearfix">
-			<h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
-			<?php if ($product['rating']) { ?>
-			<div class="rating">
-			  <?php for ($i = 1; $i <= 5; $i++) { ?>
-			  <?php if ($product['rating'] < $i) { ?>
-			  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-			  <?php } else { ?>
-			  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-			  <?php } ?>
-			  <?php } ?>
-			</div>
-			<?php } ?>
-			<div class="product_buttons">
-				<?php if ($product['price']) { ?>
-					<?php if ($product['price_number'] > 0) { ?>
-						<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-							<div class="price">
-							<?php if ($product['price_number'] > 0) { ?>
-								<?php if (!$product['special']) { ?>
-									<?php echo $product['price']; ?>
-								<?php } else { ?>
-									<span class="price-new"><?php echo $product['special']; ?></span>
-								<?php } ?>
-							<?php } ?>
-							</div>
-						<?php } ?>
-						<?php } else { ?>
-							<?php if ($zakaz) { ?>
-								<p class="price na_zakaz"><?php echo $text_catalog_price_na_zakaz; ?></p>
-							<?php } ?>
-					<?php } ?>
-				<?php } ?>
-				<?php if ($rev_srav_prod || $rev_wish_prod) { $button_cart_class = 'prlistb'; } else { $button_cart_class = 'prlistb active'; } ?>
-				<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-					<?php if ($product['price_number'] > 0) { ?>
-						<div class="cart">
-							<a onclick="get_revpopup_cart('<?php echo $product['product_id']; ?>', 'catalog_mod', '<?php echo $product['minimum']; ?>');" <?php if ($button_cart_class != 'prlistb active') { ?>data-toggle="tooltip" title="<?php echo $button_cart; ?>"<?php } ?>><i class="fa fa-border fa-shopping-basket"><span class="<?php echo $button_cart_class; ?>"><?php echo $button_cart; ?></span></i></a>
-						</div>
-					<?php } ?>
-				<?php } ?>
-				<?php if ($rev_wish_prod) { ?>
-					<div class="wishlist">
-						<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-					</div>
-				<?php } ?>
-				<?php if ($rev_srav_prod) { ?>
-					<div class="compare">
-						<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-					</div>
-				<?php } ?>
-			</div>
-		</div>
-	  </div>
-	</div>
-	<?php } ?>
-	</div>
-	</div>
-	</div>
-	</aside>
-	<?php } ?>
-	
-	
-	
-	
-	
-
-	
-	<div class="col-sm-12 mb20">
-		<?php if ($revtheme_product_all['pr_tabs']) { ?>
-			<ul class="nav nav-tabs">
-				<?php if ($description) { ?>
-				<li class="active"><a href="#tab-description" data-toggle="tab"><?php echo $tab_description; ?></a></li>
-				<?php } ?>
-				<?php if (!$atributs) { ?>
-				<?php if ($attribute_groups) { ?>
-				<li><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
-				<?php } ?>
-				<?php } ?>
-				<?php if ($review_status) { ?>
-				<li><a href="#tab-review" data-toggle="tab"><?php echo $tab_review; ?></a></li>
-				<?php } ?>
-				<?php if ($revanswers) { ?>
-				<li><a href="#tab-answers" data-toggle="tab"><?php echo $tab_answers; ?></a></li>
-				<?php } ?>
-				<?php foreach($tab_info as $info){ ?>
-				<li><a href="#tab-extratab<?php echo $info['tab_id']; ?>" data-toggle="tab"><?php echo $info['title']; ?></a></li>
-				<?php } ?>
-				<?php foreach($product_tabs as $key => $tab){ ?>
-				<li><a href="#tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>" data-toggle="tab"><?php echo $tab['title']; ?></a></li>
-				<?php } ?>
-				<?php if ($revblogs && $blogs) { ?>
-				<li><a href="#tab-blogs" data-toggle="tab"><?php echo $text_relblogs; ?></a></li>
-				<?php } ?>
-			</ul>		  
-			<div class="tab-content">
-				<div class="tab-pane active" id="tab-description" itemprop="description"><?php echo $description; ?></div>
-				<?php foreach($tab_info as $info){ ?>
-				<div class="tab-pane" id="tab-extratab<?php echo $info['tab_id']; ?>"><?php echo $info['description']; ?></div>
-				<?php } ?>
-				<?php foreach($product_tabs as $key => $tab){ ?>
-				<div class="tab-pane" id="tab-<?php echo $product_id ?>-<?php echo $tab['product_tab_id']; ?>"><?php echo $tab['description']; ?></div>
-				<?php } ?>
-
-				<?php if (!$atributs) { ?>
-				<?php if ($attribute_groups) { ?>
-				<div class="tab-pane" id="tab-specification">         
-					<?php if ($atributs_group_name) { ?>
-						<?php foreach ($attribute_groups as $attribute_group) { ?>
-						<table class="table attrbutes mb0">
-						<thead>
-							<tr>
-							<td colspan="2"><?php echo $attribute_group['name']; ?></td>
-							</tr>
-						</thead>		
-							<tbody>
-							<?php foreach ($attribute_group['attribute'] as $attribute) { ?>
-							<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-							<td itemprop="name"><?php echo $attribute['name']; ?></td>
-							<td itemprop="value"><?php echo $attribute['text']; ?></td>
-							</tr>
-							<?php } ?>
-						</tbody>
-						</table>
-						<?php } ?>
-					<?php } else { ?>	
-						<table class="table attrbutes mb0">
-						<tbody>
-						<?php foreach ($attribute_groups as $attribute_group) { ?>
-						<?php foreach ($attribute_group['attribute'] as $attribute) { ?>
-						<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-						<td itemprop="name"><?php echo $attribute['name']; ?></td>
-						<td itemprop="value"><?php echo $attribute['text']; ?></td>
-						</tr>
-						<?php } ?>
-						<?php } ?>
-						</tbody>
-						</table>
-					<?php } ?>
-				</div>
-				<?php } ?>
-				<?php } ?>		
-				<?php if ($review_status) { ?>
-				<div class="tab-pane" id="tab-review">
-				<div id="review"></div>
-					<?php if ($review_guest) { ?>
-					<div class="form-group required mb0 mt12">
-							<div class="well well-sm otz">
-								<div class="text-right">
-									<a class="btn btn-primary" id="open-review-box"><i class="fa fa-comment-o" aria-hidden="true"></i><?php echo $text_product_wr_review; ?></a>
-								</div>						
-								<div class="row" id="post-review-box" style="display:none;">
-									<div class="col-md-12">
-										<form class="form-review form-horizontal">
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-name"><?php echo $entry_rev_p_name; ?></label>
-												<div class="col-sm-10">
-													<input type="text" name="name" value="" id="input-name" class="form-control" />
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-review"><?php echo $entry_rev_p_review; ?></label>
-												<div class="col-sm-10">
-													<textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label"><?php echo $entry_rating; ?></label>
-												<div class="col-sm-10">
-													<div class="prod-rating">
-														<input id="rat1" type="radio" name="rating" value="1" /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
-														<input id="rat2" type="radio" name="rating" value="2" /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
-														<input id="rat3" type="radio" name="rating" value="3" /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
-														<input id="rat4" type="radio" name="rating" value="4" /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
-														<input id="rat5" type="radio" name="rating" value="5" /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
-													</div>
-													<script><!--
-														$('.rat-star').hover(function () {
-															$(this).prevAll('.rat-star').addClass('active');
-															$(this).addClass('active');
-														},function () {
-															$(this).prevAll('.rat-star').removeClass('active');
-															$(this).removeClass('active');
-														});
-														
-														$('.rat-star').click(function(){
-															$('.rat-star').each(function(){
-																$(this).removeClass('checked');
-																$(this).prevAll('.rat-star').removeClass('checked');
-															});
-															
-															$(this).addClass('checked');
-															$(this).prevAll('.rat-star').addClass('checked');
-														});
-														
-													//--></script>
-												</div>
-											</div>
-											<?php echo $captcha; ?>
-											<div class="pull-right text-right">
-												<a class="btn btn-default" href="#" id="close-review-box" style="display:none; margin-right: 10px;"><?php echo $text_product_otmena; ?></a>
-												<button type="button" id="button-review" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><?php echo $entry_rev_p_send; ?></button>
-											</div>					
-										</form>
-									</div>
-								</div>
-							</div>
-							<script><!--
-							$('#open-review-box').click(function(e) {
-							$('#post-review-box').slideDown(400, function() {
-							$('#new-review').trigger('autosize.resize');
-							$('#new-review').focus();
-							});
-							$('#open-review-box').fadeOut(100);
-							$('#close-review-box').show();
-							});
-
-							$('#close-review-box').click(function(e) {
-							e.preventDefault();
-							$('#post-review-box').slideUp(300, function() {
-							$('#new-review').focus();
-							$('#open-review-box').fadeIn(100);
-							});
-							$('#close-review-box').hide();
-							});
-							//--></script>
-					</div>              
-					<?php } else { ?>
-					<?php echo $text_login; ?>
-					<?php } ?>
-				</div>
-				<?php } ?>
-				<?php if ($revanswers) { ?>
-					<div class="tab-pane" id="tab-answers">
-						<div id="answers">
-							<?php if ($answers) { ?>
-								<?php foreach ($answers as $review) { ?>
-								<div class="review-list">
-								  <div class="author"><?php echo $review['author']; ?><span> <span class="rdate">/ <?php echo $review['date_added']; ?></span></span></div>
-								  <div class="text"><?php echo $review['text']; ?></div>
-								  <?php if ($review['answer']) { ?>
-									<div class="name_admin"><?php echo $review['answer_from']; ?></div>
-									<div class="answer_admin">
-										<div><?php echo $review['answer']; ?></div>
-									</div>
-								  <?php } ?>
-								</div>
-								<?php } ?>
-									<?php if ($results_answers > 10) { ?>
-									  <div class="row">
-										<div class="pagpages clearfix">
-											<div class="col-sm-6 text-left"><?php echo $pagination_answers; ?></div>
-											<div class="col-sm-6 text-right"><?php echo $results_answers; ?></div>
-										</div>
-									  </div>
-									<?php } ?>
-							<?php } else { ?>
-							<p><?php echo $answers_no_reviews; ?></p>
-							<?php } ?>
-						</div>
-						<div class="form-group required mb0 mt12">
-							<div class="well well-sm otz">
-								<div class="text-right">
-									<a class="btn btn-primary" id="open-answers-box"><i class="fa fa-comment-o" aria-hidden="true"></i><?php echo $entry_rev_p_answer_wrt; ?></a>
-								</div>						
-								<div class="row" id="post-answers-box" style="display:none;">
-									<div class="col-md-12">
-										<form class="form-answers form-horizontal">
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-name-2"><?php echo $entry_rev_p_name; ?></label>
-												<div class="col-sm-10">
-													<input type="text" name="name_answer" value="" id="input-name-2" class="form-control" />
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-answer"><?php echo $entry_rev_p_answer; ?></label>
-												<div class="col-sm-10">
-													<textarea name="text_answer" rows="5" id="input-answer" class="form-control"></textarea>
-												</div>
-											</div>
-											<?php echo $captcha2; ?>
-											<div class="pull-right text-right">
-												<a class="btn btn-default" href="#" id="close-answers-box" style="display:none; margin-right: 10px;"><?php echo $text_product_otmena; ?></a>
-												<button type="button" id="button-answers" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><?php echo $entry_rev_p_send; ?></button>
-											</div>					
-										</form>
-									</div>
-								</div>
-							</div>
-							<script><!--
-							$('#open-answers-box').click(function(e) {
-							$('#post-answers-box').slideDown(400, function() {
-							$('#new-answers').trigger('autosize.resize');
-							$('#new-answers').focus();
-							});
-							$('#open-answers-box').fadeOut(100);
-							$('#close-answers-box').show();
-							});
-
-							$('#close-answers-box').click(function(e) {
-							e.preventDefault();
-							$('#post-answers-box').slideUp(300, function() {
-							$('#new-answers').focus();
-							$('#open-answers-box').fadeIn(100);
-							});
-							$('#close-answers-box').hide();
-							});
-							//--></script>
-						</div>
-					</div>
-				<?php } ?>
-				<?php if ($revblogs && $blogs) { ?>
-					<div class="tab-pane" id="tab-blogs">
-						<?php foreach ($blogs as $blog) { ?>
-							<div class="tab_rb">
-								<a href="<?php echo $blog['href']; ?>">
-									<?php if ($blog['image']) { ?>
-										<div class="tab_rb_image">
-										<img src="<?php echo $blog['image']; ?>" alt="<?php echo $blog['title']; ?>" title="<?php echo $blog['title']; ?>" class="img-responsive"/>
-										</div>
-									<?php } ?>
-									<div class="tab_rb_title"><?php echo $blog['title']; ?></div>
-								</a>
-								<div class="tab_rb_description"><?php echo $blog['description']; ?></div>
-							</div>
-						<?php } ?>
-					</div>
-				<?php } ?>
-			</div>
-		<?php } else { ?>
-			<div class="alt_pt_descript">
-				<?php if ($description) { ?>
-					<div class="rev_slider">
-						<div class="heading_h"><h3><?php echo $tab_description; ?></h3></div>
-						<?php echo $description; ?>
-					</div>
-				<?php } ?>
-				<?php if (!$atributs) { ?>
-					<?php if ($attribute_groups) { ?>
-						<div class="tab-specification rev_slider">
-							<div class="heading_h"><h3><?php echo $tab_attribute; ?></h3></div>
-							<?php foreach ($attribute_groups as $attribute_group) { ?>
-								<table class="table attrbutes mb0">
-									<?php if ($atributs_group_name) { ?>
-										<thead>
-											<tr>
-												<td colspan="2"><?php echo $attribute_group['name']; ?></td>
-											</tr>
-										</thead>
-									<?php } ?>
-									<tbody>
-										<?php foreach ($attribute_group['attribute'] as $attribute) { ?>
-											<tr itemprop="additionalProperty" itemscope itemtype="http://schema.org/PropertyValue">
-												<td itemprop="name"><?php echo $attribute['name']; ?></td>
-												<td itemprop="value"><?php echo $attribute['text']; ?></td>
-											</tr>
-										<?php } ?>
-									</tbody>
-								</table>
-							<?php } ?>							
-						</div>
-					<?php } ?>
-				<?php } ?>
-				<?php if ($review_status) { ?>
-					<div class="tab-review rev_slider">
-						<div class="heading_h"><h3><?php echo $tab_review; ?></h3></div>
-						<div id="review"></div>
-						<?php if ($review_guest) { ?>
-							<div class="form-group required mb0 mt12">
-								<div class="well well-sm otz">
-									<div class="text-right">
-										<a class="btn btn-primary" id="open-review-box"><i class="fa fa-comment-o" aria-hidden="true"></i><?php echo $text_product_wr_review; ?></a>
-									</div>						
-									<div class="row" id="post-review-box" style="display:none;">
-										<div class="col-md-12">
-											<form class="form-review form-horizontal">
-												<div class="form-group required">
-													<label class="col-sm-2 control-label" for="input-name"><?php echo $entry_name; ?></label>
-													<div class="col-sm-10">
-														<input type="text" name="name" value="" id="input-name" class="form-control" />
-													</div>
-												</div>
-												<div class="form-group required">
-													<label class="col-sm-2 control-label" for="input-review"><?php echo $entry_review; ?></label>
-													<div class="col-sm-10">
-														<textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
-													</div>
-												</div>
-												<div class="form-group required">
-													<label class="col-sm-2 control-label"><?php echo $entry_rating; ?></label>
-													<div class="col-sm-10">
-														<div class="prod-rating">
-															<input id="rat1" type="radio" name="rating" value="1" /><label class="rat-star" for="rat1"><i class="fa fa-star"></i></label>
-															<input id="rat2" type="radio" name="rating" value="2" /><label class="rat-star" for="rat2"><i class="fa fa-star"></i></label>
-															<input id="rat3" type="radio" name="rating" value="3" /><label class="rat-star" for="rat3"><i class="fa fa-star"></i></label>
-															<input id="rat4" type="radio" name="rating" value="4" /><label class="rat-star" for="rat4"><i class="fa fa-star"></i></label>
-															<input id="rat5" type="radio" name="rating" value="5" /><label class="rat-star" for="rat5"><i class="fa fa-star"></i></label>
-														</div>
-														<script><!--
-															$('.rat-star').hover(function () {
-																$(this).prevAll('.rat-star').addClass('active');
-																$(this).addClass('active');
-															},function () {
-																$(this).prevAll('.rat-star').removeClass('active');
-																$(this).removeClass('active');
-															});
-															
-															$('.rat-star').click(function(){
-																$('.rat-star').each(function(){
-																	$(this).removeClass('checked');
-																	$(this).prevAll('.rat-star').removeClass('checked');
-																});
-																
-																$(this).addClass('checked');
-																$(this).prevAll('.rat-star').addClass('checked');
-															});
-															
-														//--></script>
-													</div>
-												</div>
-												<?php echo $captcha; ?>
-												<div class="pull-right text-right">
-													<a class="btn btn-default" href="#" id="close-review-box" style="display:none; margin-right: 10px;"><?php echo $text_product_otmena; ?></a>
-													<button type="button" id="button-review" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><?php echo $entry_rev_p_send; ?></button>
-												</div>					
-											</form>
-										</div>
-									</div>
-								</div>
-								<script><!--
-								$('#open-review-box').click(function(e) {
-								$('#post-review-box').slideDown(400, function() {
-								$('#new-review').trigger('autosize.resize');
-								$('#new-review').focus();
-								});
-								$('#open-review-box').fadeOut(100);
-								$('#close-review-box').show();
-								});
-
-								$('#close-review-box').click(function(e) {
-								e.preventDefault();
-								$('#post-review-box').slideUp(300, function() {
-								$('#new-review').focus();
-								$('#open-review-box').fadeIn(100);
-								});
-								$('#close-review-box').hide();
-								});
-								//--></script>
-							</div>
-						<?php } else { ?>
-							<?php echo $text_login; ?>
-						<?php } ?>
-					</div>
-				<?php } ?>
-				<?php if ($revanswers) { ?>
-					<div class="tab-review rev_slider">
-						<div class="heading_h"><h3><?php echo $tab_answers; ?></h3></div>
-						<div id="answers">
-							<?php if ($answers) { ?>
-								<?php foreach ($answers as $review) { ?>
-								<div class="review-list">
-								  <div class="author"><?php echo $review['author']; ?><span> <span class="rdate">/ <?php echo $review['date_added']; ?></span></span></div>
-								  <div class="text"><?php echo $review['text']; ?></div>
-								  <?php if ($review['answer']) { ?>
-									<div class="name_admin"><?php echo $review['answer_from']; ?></div>
-									<div class="answer_admin">
-										<div><?php echo $review['answer']; ?></div>
-									</div>
-								  <?php } ?>
-								</div>
-								<?php } ?>
-									<?php if ($results_answers > 10) { ?>
-									  <div class="row">
-										<div class="pagpages clearfix">
-											<div class="col-sm-6 text-left"><?php echo $pagination_answers; ?></div>
-											<div class="col-sm-6 text-right"><?php echo $results_answers; ?></div>
-										</div>
-									  </div>
-									<?php } ?>
-							<?php } else { ?>
-							<p><?php echo $answers_no_reviews; ?></p>
-							<?php } ?>
-						</div>
-						<div class="form-group required mb0 mt12">
-							<div class="well well-sm otz">
-								<div class="text-right">
-									<a class="btn btn-primary" id="open-answers-box"><i class="fa fa-comment-o" aria-hidden="true"></i><?php echo $entry_rev_p_answer_wrt; ?></a>
-								</div>						
-								<div class="row" id="post-answers-box" style="display:none;">
-									<div class="col-md-12">
-										<form class="form-answers form-horizontal">
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-name"><?php echo $entry_rev_p_name; ?></label>
-												<div class="col-sm-10">
-													<input type="text" name="name_answer" value="" id="input-name" class="form-control" />
-												</div>
-											</div>
-											<div class="form-group required">
-												<label class="col-sm-2 control-label" for="input-answer"><?php echo $entry_rev_p_answer; ?></label>
-												<div class="col-sm-10">
-													<textarea name="text_answer" rows="5" id="input-answer" class="form-control"></textarea>
-												</div>
-											</div>
-											<?php echo $captcha; ?>
-											<div class="pull-right text-right">
-												<a class="btn btn-default" href="#" id="close-answers-box" style="display:none; margin-right: 10px;"><?php echo $text_product_otmena; ?></a>
-												<button type="button" id="button-answers" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-danger"><?php echo $entry_rev_p_send; ?></button>
-											</div>					
-										</form>
-									</div>
-								</div>
-							</div>
-							<script><!--
-							$('#open-answers-box').click(function(e) {
-							$('#post-answers-box').slideDown(400, function() {
-							$('#new-answers').trigger('autosize.resize');
-							$('#new-answers').focus();
-							});
-							$('#open-answers-box').fadeOut(100);
-							$('#close-answers-box').show();
-							});
-
-							$('#close-answers-box').click(function(e) {
-							e.preventDefault();
-							$('#post-answers-box').slideUp(300, function() {
-							$('#new-answers').focus();
-							$('#open-answers-box').fadeIn(100);
-							});
-							$('#close-answers-box').hide();
-							});
-							//--></script>
-						</div>
-					</div>
-				<?php } ?>
-				<?php if ($tab_info) { ?>
-					<?php foreach($tab_info as $info){ ?>
-						<div class="rev_slider">
-							<div class="heading_h"><h3><?php echo $info['title']; ?></h3></div>
-							<?php echo $info['description']; ?>
-						</div>
-					<?php } ?>
-				<?php } ?>
-				<?php if ($product_tabs) { ?>
-					<?php foreach($product_tabs as $key => $tab){ ?>
-						<div class="rev_slider">
-							<div class="heading_h"><h3><?php echo $tab['title']; ?></h3></div>
-							<?php echo $tab['description']; ?>
-						</div>
-					<?php } ?>
-				<?php } ?>
-				<?php if ($blogs) { ?>
-					<div class="rev_slider">
-						<div class="heading_h"><h3><?php echo $text_relblogs; ?></h3></div>
-						<ul>
-							<?php foreach ($blogs as $blog) { ?>
-								<li><a href="<?php echo $blog['href']; ?>"><?php echo $blog['title']; ?></a></li>
-							<?php } ?>
-						</ul>
-					</div>
-				<?php } ?>
-			</div>
-		<?php } ?>
-		  
-  <?php if ($products && !$recpr_rightc) { ?>
-	  <div id="product_products" class="rev_slider">
-	  <div class="heading_h"><h3><?php echo $text_related; ?></h3></div>
-      <div class="row">
-	  <div class="product_related">
-        <?php foreach ($products as $product) { ?>
-			<div class="product-layout col-lg-12 item">
-			  <div class="product-thumb product_<?php echo $product['product_id']; ?>">
-				<div class="image">
-					<?php if ($product['product_in_cart']) { ?>
-						<div class="pr_in_cart_i"><i class="fa fa-check"></i></div>
-					<?php } ?>
-					<?php if ($img_slider) { ?>
-						<div class="image owl-carousel owlproduct">
-							<div class="item text-center">
-								<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" /></a>
-							</div>			
-							<?php if ($product['images']) { ?>
-								<?php foreach ($product['images'] as $image) { ?>
-									<!--noindex-->
-									<div class="item text-center">
-										<a href="<?php echo $product['href']; ?>"><img src="<?php echo $image['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" rel="nofollow" /></a>
-									</div>
-									<!--/noindex-->
-								<?php } ?>
-							<?php } ?>
-						</div>
-					<?php } else { ?>
-						<a href="<?php echo $product['href']; ?>"><img src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>" class="img-responsive <?php if (($product['quantity'] < 1 && !$zakaz) || ($product['price_number'] == 0 && !$zakaz_price_null)) { ?>zatemnenie_img<?php } ?>" /></a>
-					<?php } ?>
-					<?php if ($stikers_status) { ?>
-						<div class="stiker_panel">
-							<?php if (($product['quantity'] > 0 && $product['price_number'] != 0) || $zakaz) { ?>
-								<?php if ($product['stiker_spec']) { ?>
-									<?php if ($product['special']) { ?>
-										<span class="stiker stiker_spec"><span class="price-old special_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span></span>
-									<?php } else { ?>
-										<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-									<?php } ?>
-								<?php } else { ?>
-									<span class="hidden special_no_format<?php echo $product['product_id']; ?>"></span>
-								<?php } ?>
-							<?php } else { ?>
-								<span class="special_no_format<?php echo $product['product_id']; ?>" style="display:none"></span>
-							<?php } ?>
-							<?php if ($product['stiker_best']) { ?>
-								<span class="stiker stiker_best"><?php echo $text_catalog_stiker_best; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_last']) { ?>
-								<span class="stiker stiker_last"><?php echo $text_catalog_stiker_last; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_sklad_status']) { ?>
-								<span class="stiker stiker_netu"><?php echo $product['stiker_sklad_status']; ?></span>
-							<?php } else if ($product['stiker_stock']) { ?>
-								<?php if ($product['price_number'] == 0 && !$zakaz_price_null) { ?>
-									<span class="stiker stiker_netu"><?php echo $text_catalog_stiker_netu_2; ?></span>
-								<?php } elseif ($product['quantity'] < 1 && $product['price_number'] > 0 && !$zakaz) { ?>
-									<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-								<?php } elseif ($product['quantity'] < 1 && !$zakaz && $zakaz_price_null) { ?>
-									<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-								<?php } elseif ($product['quantity'] < 1 && $zakaz && !$zakaz_price_null) { ?>
-									<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-								<?php } elseif ($product['quantity'] < 1 && $zakaz && $zakaz_price_null) { ?>
-									<span class="stiker stiker_netu"><?php echo $product['text_catalog_stiker_netu']; ?></span>
-								<?php } ?>
-							<?php } ?>
-							<?php if ($product['stiker_upc']) { ?>
-								<span class="stiker stiker_user"><?php echo $product['stiker_upc']; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_ean']) { ?>
-								<span class="stiker stiker_user"><?php echo $product['stiker_ean']; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_jan']) { ?>
-								<span class="stiker stiker_user"><?php echo $product['stiker_jan']; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_isbn']) { ?>
-								<span class="stiker stiker_user"><?php echo $product['stiker_isbn']; ?></span>
-							<?php } ?>
-							<?php if ($product['stiker_mpn']) { ?>
-								<span class="stiker stiker_user"><?php echo $product['stiker_mpn']; ?></span>
-							<?php } ?>
-						</div>
-					<?php } ?>
-					<?php if ($revpopuporder || $popup_view || (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod'])) { ?>
-						<div class="fapanel <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'rev_wish_srav_prod'; } ?>">		
-							<?php if (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod']) { ?>
-								<?php if ($rev_wish_prod) { ?>
-									<div class="wishlist">
-										<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-									</div>
-								<?php } ?>
-								<?php if ($rev_srav_prod) { ?>
-									<div class="compare">
-										<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-									</div>
-								<?php } ?>
-							<?php } ?>
-							<?php if ($popup_view) { ?>
-								<div class="lupa">
-									<a onclick="get_revpopup_view('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'data-placement="left"'; } ?> title="<?php echo $text_catalog_revpopup_view; ?>" class='fa fa-border fa-eye'></i></a>
-								</div>
-							<?php } ?>
-							<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-								<?php if ($revpopuporder) { ?>
-									<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-										<div class="zakaz">
-											<a onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" <?php if (!$setting_catalog_all['rev_wish_srav_prod']) { echo 'data-placement="left"'; } ?> title="<?php echo $text_catalog_revpopup_purchase; ?>" class='fa fa-border fa-gavel'></i></a>
-										</div>
-									<?php } ?>
-								<?php } ?>
-							<?php } ?>
-						</div>
-					<?php } ?>
-				</div>
-				<div class="caption product-info clearfix">
-					<h4><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a></h4>
-					<?php if ($product['rating']) { ?>
-					<div class="rating">
-					  <?php for ($i = 1; $i <= 5; $i++) { ?>
-					  <?php if ($product['rating'] < $i) { ?>
-					  <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-					  <?php } else { ?>
-					  <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-					  <?php } ?>
-					  <?php } ?>
-					</div>
-					<?php } ?>
-					
-					<div class="description_options">
-						<div class="description <?php echo (($product['options'] && $product['options_buy']) ? 'description_options_buy_price' : ''); ?>">
-							<?php if ($description_options['short_desc'] && $product['short_description']) { ?>
-								<div class="short_description"><?php echo $product['short_description']; ?></div>
-							<?php } ?>
-							<?php echo $product['description']; ?>
-							<?php if (!$description_options['zamena_description']) { ?><span class="hidden pr_quantity_<?php echo $product['product_id']; ?>"></span><?php } ?>
-						</div>
-						<?php if ($revtheme_product_all['options_buy'] && $product['options'] && $product['options_buy']) { ?>
-							<div class="well well-sm product-info options_buy">
-								<div id="option_<?php echo $product['product_id']; ?>" class="options">
-									<div class="form-group">
-										<?php if ($revtheme_product_all['options_buy_optionname_one']) { ?>
-											<label class="control-label options_buy_label"><?php foreach ($product['options'] as $option) { ?><?php echo $option['name']; ?>:<?php } ?></label>
-										<?php } else { ?>
-											<label class="control-label options_buy_label"><?php echo $text_option_option; ?>:</label>
-										<?php } ?>
-										<select class="form-control" onchange="get_product_option_id_product_products('<?php echo $product['product_id']; ?>')" name="" id="product_products_soption_<?php echo $product['product_id']; ?>">
-												<?php foreach ($product['options'] as $option) { ?>
-													<?php if ($revtheme_product_all['options_buy_optionname']) { ?>
-														<optgroup label="<?php echo $option['name']; ?>:" >
-													<?php } ?>
-													<?php foreach ($option['product_option_value'] as $option_value) { ?>
-														<?php if ($option_value['price'] > 0 && $option_value['quantity'] > 0) { ?>
-															<option product_option_id="<?php echo $option['product_option_id']; ?>" value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-															<?php if ($opt_price) { ?>
-																<?php if ($option_value['price']) { ?>
-																<span class="option_price">(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)</span>
-																<?php } ?>
-															<?php } ?>
-															</option>
-														<?php } ?>
-													<?php } ?>
-													<?php if ($revtheme_product_all['options_buy_optionname']) { ?>
-														</optgroup>
-													<?php } ?>
-												<?php } ?>
-										</select>
-									</div>
-								</div>
-							</div>
-							<script><!--
-							$('#product_products select.form-control option:nth-child(1)').attr('selected', 'selected');
-							$( document ).ready(function() {
-								get_product_option_id_product_products (<?php echo $product['product_id']; ?>);
-							});
-							function get_product_option_id_product_products (product_id) {
-								var sel_option_id = document.getElementById('product_products_soption_'+product_id);
-								var option_id = sel_option_id.options[sel_option_id.selectedIndex].getAttribute('product_option_id');
-								sel_option_id.setAttribute('name', 'option['+option_id+']');
-								update_prices_product_product_products(product_id,1);
-							}
-							--></script>
-						<?php } else if ($product['options']) { ?>
-							<div class="well well-sm product-info">
-								<div id="option_<?php echo $product['product_id']; ?>" class="options">
-								<?php foreach ($product['options'] as $option) { ?>
-									<?php if ($option['type'] == 'select') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-											<label class="control-label" for="product_products_input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-											<select onchange="update_prices_product_product_products(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" name="option[<?php echo $option['product_option_id']; ?>]" id="product_products_input-option<?php echo $option['product_option_id']; ?>" class="form-control">
-												<option value=""><?php echo $text_select; ?></option>
-												<?php foreach ($option['product_option_value'] as $option_value) { ?>
-													<option value="<?php echo $option_value['product_option_value_id']; ?>"><?php echo $option_value['name']; ?>
-														<?php if ($opt_price) { ?>
-															<?php if ($option_value['price']) { ?>
-																<span class="option_price">(<?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?>)</span>
-															<?php } ?>
-														<?php } ?>
-													</option>
-												<?php } ?>
-											</select>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'radio') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-											<label class="control-label"><?php echo $option['name']; ?>:</label>
-											<div id="input-option<?php echo $option['product_option_id']; ?>">
-												<?php foreach ($option['product_option_value'] as $option_value) { ?>
-													<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-														<input onchange="update_prices_product_product_products(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-														<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-															<?php if ($option_value['image']) { ?>
-																<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-															<?php } else { ?>
-																<span><?php echo $option_value['name']; ?></span>
-															<?php } ?>
-															<?php if ($option_value['price']) { ?>
-																<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-															<?php } ?>
-															<i class="fa fa-check"></i>	
-														</label>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'checkbox') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-											<label class="control-label"><?php echo $option['name']; ?>:</label>
-											<div id="input-option<?php echo $option['product_option_id']; ?>">
-												<?php foreach ($option['product_option_value'] as $option_value) { ?>
-													<div class="radio checkbox<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-														<input onchange="update_prices_product_product_products(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="checkbox" name="option[<?php echo $option['product_option_id']; ?>][]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-														<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-															<?php if ($option_value['image']) { ?>
-																<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-															<?php } else { ?>
-																<span><?php echo $option_value['name']; ?></span>
-															<?php } ?>
-															<?php if ($option_value['price']) { ?>
-																<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-															<?php } ?>
-															<i class="fa fa-check"></i>
-														</label>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'image') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-											<label class="control-label"><?php echo $option['name']; ?>:</label>
-											<div id="input-option<?php echo $option['product_option_id']; ?>">
-												<?php foreach ($option['product_option_value'] as $option_value) { ?>
-													<div class="radio<?php if ($option['opt_image']) { ?> opt_with_img<?php } ?>">
-														<input onchange="update_prices_product_product_products(<?php echo $product['product_id']; ?>,<?php echo $product['minimum']; ?>);" type="radio" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option_value['product_option_value_id']; ?>" id="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>" />
-														<label <?php if ($option['opt_image']) { ?>data-toggle="tooltip" title="<?php echo $option_value['name']; ?>"<?php } ?> class="btn btn-default <?php if ($option_value['image']) { ?>label-in-img<?php } ?>" for="product_products_<?php echo $option['product_option_id']; ?>_<?php echo $option_value['product_option_value_id']; ?>">
-															<?php if ($option_value['image']) { ?>
-																<img src="<?php echo $option_value['image']; ?>" alt="<?php echo $option_value['name'] . ($option_value['price'] ? ' ' . $option_value['price_prefix'] . $option_value['price'] : ''); ?>" class="img-thumbnail" /> <?php if (!$option['opt_image']) { ?><?php echo $option_value['name']; ?><?php } ?>
-															<?php } else { ?>
-																<span><?php echo $option_value['name']; ?></span>
-															<?php } ?>
-															<?php if ($option_value['price']) { ?>
-																<span class="option_price"><?php echo $option_value['price_prefix']; ?><?php echo $option_value['price']; ?></span>
-															<?php } ?>
-															<i class="fa fa-check"></i>	
-														</label>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'text') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-										  <input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'textarea') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-										  <textarea name="option[<?php echo $option['product_option_id']; ?>]" rows="5" placeholder="<?php echo $option['name']; ?>" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control"><?php echo $option['value']; ?></textarea>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'file') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label"><?php echo $option['name']; ?>:</label>
-										  <button type="button" id="button-upload<?php echo $option['product_option_id']; ?>" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default btn-block"><i class="fa fa-upload"></i> <?php echo $button_upload; ?></button>
-										  <input type="hidden" name="option[<?php echo $option['product_option_id']; ?>]" value="" id="input-option<?php echo $option['product_option_id']; ?>" />
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'date') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-										  <div class="input-group date">
-											<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-											<span class="input-group-btn">
-											<button class="btn btn-default" type="button"><i class="fa fa-calendar"></i></button>
-											</span></div>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'datetime') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-										  <div class="input-group datetime">
-											<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="YYYY-MM-DD HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-											<span class="input-group-btn">
-											<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-											</span></div>
-										</div>
-									<?php } ?>
-									<?php if ($option['type'] == 'time') { ?>
-										<div class="form-group<?php echo ($option['required'] ? ' required' : ''); ?>">
-										  <label class="control-label" for="input-option<?php echo $option['product_option_id']; ?>"><?php echo $option['name']; ?>:</label>
-										  <div class="input-group time">
-											<input type="text" name="option[<?php echo $option['product_option_id']; ?>]" value="<?php echo $option['value']; ?>" data-date-format="HH:mm" id="input-option<?php echo $option['product_option_id']; ?>" class="form-control" />
-											<span class="input-group-btn">
-											<button type="button" class="btn btn-default"><i class="fa fa-calendar"></i></button>
-											</span></div>
-										</div>
-									<?php } ?>
-								<?php } ?>
-								</div>
-							</div>
-						<?php } ?>
-					</div>
-					<div class="product_buttons">
-						<?php if ($revpopuporder || $popup_view || (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod'])) { ?>
-							<div class="fapanel-price">
-								<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-									<?php if ($revpopuporder) { ?>
-										<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-											<div class="zakaz">
-												<a onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="top" title="<?php echo $text_catalog_revpopup_purchase; ?>" class='fa fa-border fa-gavel'></i></a>
-											</div>
-										<?php } ?>
-									<?php } ?>
-								<?php } ?>
-								<?php if ($popup_view) { ?>
-									<div class="lupa">
-										<a onclick="get_revpopup_view('<?php echo $product['product_id']; ?>');"><i data-toggle="tooltip" data-placement="top" title="<?php echo $text_catalog_revpopup_view; ?>" class='fa fa-border fa-eye'></i></a>
-									</div>
-								<?php } ?>
-								<?php if (($rev_srav_prod || $rev_wish_prod) && $setting_catalog_all['rev_wish_srav_prod']) { ?>
-								<?php if ($rev_srav_prod) { ?>
-									<div class="compare">
-										<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-									</div>
-								<?php } ?>
-								<?php if ($rev_wish_prod) { ?>
-									<div class="wishlist">
-										<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-									</div>
-								<?php } ?>
-							<?php } ?>
-							</div>
-						<?php } ?>
-						<?php if ($product['price']) { ?>
-							<?php if ($product['price_number'] > 0) { ?>
-								<?php if ($product['quantity'] > 0 || $zakaz) { ?>
-									<div class="price">
-									<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-										<?php if (!$product['special']) { ?>
-											<span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span>
-										<?php } else { ?>
-											<span class="price-new"><span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['special']; ?></span></span>
-										<?php } ?>
-									<?php } ?>
-									</div>
-								<?php } else { ?>
-									<?php if ($predzakaz_button) { ?>
-										<div class="price">
-										<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-											<?php if (!$product['special']) { ?>
-												<span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['price']; ?></span>
-											<?php } else { ?>
-												<span class="price-new"><span class="price_no_format<?php echo $product['product_id']; ?>"><?php echo $product['special']; ?></span></span>
-											<?php } ?>
-										<?php } ?>
-										</div>
-									<?php } else { ?>
-										<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-									<?php } ?>
-								<?php } ?>
-								<?php if ($ch_quantity && ($product['price_number'] > 0 || $zakaz_price_null) && ($product['quantity'] > 0 || $zakaz)) { ?>
-									<div class="number">
-										<div class="frame-change-count">
-											<div class="btn-plus">
-												<button type="button" onclick="validate_pole_product_products(this,<?php echo $product['product_id']; ?>,'+',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">+</button>
-											</div>
-											<div class="btn-minus">
-												<button type="button" onclick="validate_pole_product_products(this,<?php echo $product['product_id']; ?>,'-',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">-</button>
-											</div>
-										</div>
-										<input type="text" name="quantity" class="plus-minus" value='<?php echo $product['minimum']; ?>' onchange="validate_pole_product_products(this);" onkeyup="validate_pole_product_products(this,<?php echo $product['product_id']; ?>,'=',<?php echo $product['minimum']; ?>,<?php echo $product['quantity']; ?>);">
-									</div>
-								<?php } else { ?>
-									<div class="number bordnone"></div>
-									<input type="hidden" name="quantity" class="plus-minus" value='<?php echo $product['minimum']; ?>'>
-								<?php } ?>
-								<div class="clearfix"></div>
-							<?php } else { ?>
-								<?php if ($zakaz || $zakaz_price_null) { ?>
-									<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-									<?php if ($product['price_number'] == 0 && !$zakaz_price_null) { ?>
-									<?php } else if ($product['quantity'] > 0 || $zakaz) { ?>
-										<div class="price_na_zakaz"><?php echo $text_catalog_price_na_zakaz; ?></div>
-									<?php } ?>
-								<?php } else { ?>
-									<div class="price"><span class="hidden price_no_format<?php echo $product['product_id']; ?>"></span></div>
-								<?php } ?>
-							<?php } ?>
-						<?php } ?>
-						<?php if (($rev_srav_prod || $rev_wish_prod) && !$setting_catalog_all['rev_wish_srav_prod']) { ?>
-							<?php if ($rev_srav_prod) { ?>
-								<div class="compare">
-									<a class="<?php echo $product['compare_class'] ?>" data-toggle="tooltip" onclick="compare.add('<?php echo $product['product_id']; ?>', '<?php echo $product['brand']; ?>');" title="<?php echo $product['button_compare']; ?>"><i class="fa fa-border fa-bar-chart-o"></i></a>
-								</div>
-							<?php } ?>
-							<?php if ($rev_wish_prod) { ?>
-								<div class="wishlist">
-									<a class="<?php echo $product['wishlist_class'] ?>" data-toggle="tooltip" onclick="wishlist.add('<?php echo $product['product_id']; ?>');" title="<?php echo $product['button_wishlist']; ?>"><i class="fa fa-border fa-heart"></i></a>
-								</div>
-							<?php } ?>
-						<?php $button_cart_class = 'prlistb'; } else { $button_cart_class = 'prlistb active'; }?>
-						<?php if ($product['quantity'] > 0 || $zakaz || $predzakaz_button) { ?>
-							<?php if ($product['price_number'] > 0 || $zakaz_price_null) { ?>
-								<?php if ($product['quantity'] < 1 && $predzakaz_button) { ?>
-									<div class="cart predzakaz_cart">
-										<a onclick="get_revpopup_predzakaz(<?php echo $product['product_id']; ?>);" <?php if ($button_cart_class != 'prlistb active') { ?>data-toggle="tooltip" title="<?php echo $text_predzakaz; ?>"<?php } ?>><i class="fa fa-border fa-shopping-basket predzakaz"><span class="<?php echo $button_cart_class; ?>"><?php echo $text_predzakaz; ?></span></i></a>
-									</div>
-								<?php } else { ?>
-									<div class="cart">
-										<a onclick="get_revpopup_cart(<?php echo $product['product_id']; ?>,'module_in_product',get_revpopup_cart_quantity_product_products('<?php echo $product['product_id']; ?>'),'product_products');" <?php if ($button_cart_class != 'prlistb active') { ?>data-toggle="tooltip" title="<?php echo $button_cart; ?>"<?php } ?>><i class="fa fa-border fa-shopping-basket"><span class="<?php echo $button_cart_class; ?>"><?php echo $button_cart; ?></span></i></a>
-									</div>
-									<?php if ($revpopuporder_settings['quick_btn']) { ?>
-										<a class="quick_btn btn btn-default btn-xs pull-right" onclick="get_revpopup_purchase('<?php echo $product['product_id']; ?>');"><i class="fa fa-hand-pointer-o"></i><?php echo $text_catalog_revpopup_purchase; ?></a>
-									<?php } ?>
-								<?php } ?>
-							<?php } ?>
-						<?php } ?>
-					</div>
-				</div>
-					
-			  </div>
-			</div>
-        <?php } ?>
-      </div>
-	  </div>
-	<script><!--
-		$('.product_related').owlCarousel({
-			responsiveBaseWidth: '.product_related',
-			<?php if ($chislo_ryad) { ?>
-				<?php if ($setting_all_settings['mobil_two']) { ?>
-					itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [1170, 4]],
-				<?php } else { ?>
-					itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [1170, 4]],
-				<?php } ?>
-			<?php } else { ?>
-				<?php if ($setting_all_settings['mobil_two']) { ?>
-					itemsCustom: [[0, 1], [294, 2], [375, 2], [750, 3], [970, 4], [980, 5]],
-				<?php } else { ?>
-					itemsCustom: [[0, 1], [375, 1], [750, 3], [970, 4], [980, 5]],
-				<?php } ?>
-			<?php } ?>
-			mouseDrag: true,
-			navigation: true,
-			navigationText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
-			pagination: true
-		});
-		
-		<?php foreach ($products as $product) { if ($product['minimum'] > 1 && $recalc_price) { ?>
-			update_quantity_product_products(<?php echo $product['product_id']; ?>, <?php echo $product['minimum']; ?>);
-		<?php } } ?>
-		function get_revpopup_cart_quantity_product_products(product_id) {
-			input_val = $('#product_products .product_'+product_id+' .plus-minus').val();
-			quantity  = parseInt(input_val);
-			return quantity;
-		}
-		function validate_pole_product_products(val, product_id, znak, minimumvalue, maximumvalue) {
-			val.value = val.value.replace(/[^\d,]/g, '');
-			if (val.value == '') val.value = minimumvalue;
-			maximumvalue = Number($('#product_products .pr_quantity_'+product_id).text());
-			if (maximumvalue < 1) maximumvalue = 9999;
-			input_val = $('#product_products .product_'+product_id+' .plus-minus');	
-			quantity = parseInt(input_val.val());
-			<?php if ($q_zavisimost) { ?>
-			if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
-			else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-			else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
-			if (quantity < 1 || quantity < minimumvalue) {
-				input_val.val(minimumvalue);
-				val.value = minimumvalue;
-			} else if (quantity > maximumvalue) {
-				input_val.val(maximumvalue);
-				val.value = maximumvalue;
+			function price_format(n) {
+				c = 0;
+				d = '.';
+				t = ' ';
+				s_left = '';
+				s_right = ' р.';
+				n = n * 1.00000000;
+				i = parseInt(n = Math.abs(n).toFixed(c)) + '';
+				j = ((j = i.length) > 3) ? j % 3 : 0;
+				return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right;
 			}
-			<?php } else { ?>
-			if(znak=='+') input_val.val(quantity+1);
-			else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-			else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
-			if (quantity < 1 || quantity < minimumvalue) {
-				input_val.val(minimumvalue);
-				val.value = minimumvalue;
-			}
-			<?php } ?>
-			update_quantity_product_products(product_id, input_val.val());
-		}
-		function update_quantity_product_products(product_id, quantity) {
-			<?php if ($recalc_price) { ?>
-				quantity = quantity;
-			<?php } else { ?>
-				quantity = 1;
-			<?php } ?>
-			
-			data = $('#product_products .product_'+product_id+' .options input[type=\'text\'], #product_products .product_'+product_id+' .options input[type=\'hidden\'], #product_products .product_'+product_id+' .options input[type=\'radio\']:checked, #product_products .product_'+product_id+' .options input[type=\'checkbox\']:checked, #product_products .product_'+product_id+' .options select');
-			$.ajax({
-			  url: 'index.php?route=product/product/update_prices',
-			  type: 'post',
-			  dataType: 'json',
-			  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-			  success: function(json) {
-				<?php if ($recalc_price) { ?>
-				
-					<?php if ($description_options['zamena_description'] && $description_options['weight']) { ?>
-						var weight = json['weight'];
-						<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-							var start_weight = parseFloat($('#product_products .pr_weight_'+product_id).attr('data-weight'));
-							$({val:start_weight}).animate({val:weight}, {
-								duration: 500,
-								easing: 'swing',
-								step: function(val) {
-									$('#product_products .pr_weight_'+product_id).html(weight_format(val, product_id));
-								}
-							});
-							$('#product_products .pr_weight_'+product_id).attr('data-weight', json['weight']);
-						<?php } else { ?>
-							$('#product_products .pr_weight_'+product_id).html(weight_format(weight, product_id));
-						<?php } ?>
-					<?php } ?>
 
-					<?php if ($stikers_status) { ?>
-						var price = json['price_n'];
-						<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-							var start_price = parseFloat($('#product_products .special_no_format'+product_id).html().replace(/\s*/g,''));
-							$({val:start_price}).animate({val:price}, {
-								duration: 500,
-								easing: 'swing',
-								step: function(val) {
-									$('#product_products .special_no_format'+product_id).html(price_format(val));
-								}
-							});
-						<?php } else { ?>
-							$('#product_products .special_no_format'+product_id).html(price_format(price));
-						<?php } ?>
-					<?php } ?>
-					
-					var special = json['special_n'];
-					<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-						var start_special = parseFloat($('#product_products .price_no_format'+product_id).html().replace(/\s*/g,''));
-						$({val:start_special}).animate({val:special}, {
-							duration: 500,
-							easing: 'swing',
-							step: function(val) {
-								$('#product_products .price_no_format'+product_id).html(price_format(val));
-							}
-						});
-					<?php } else { ?>
-						$('#product_products .price_no_format'+product_id).html(price_format(special));
-					<?php } ?>
-					
-				<?php } ?>
-			  }
+			function weight_format(n, product_id) {
+				c = 2;
+				d = '.';
+				t = ',';
+				i = parseInt(n = Math.abs(n).toFixed(c)) + '';
+				j = ((j = i.length) > 3) ? j % 3 : 0;
+				return(j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
+			}
+
+			function number_format(n, product_id) {
+				i = parseInt(n = Math.abs(n).toFixed(0)) + '';
+				return i;
+			}
+			$('.owl-carousel.owlproduct').remove();
+			-->
+			</script>
+		</section>
+		<footer>
+			<div id="revsubscribe">
+				<div class="container">
+					<div class="row">
+						<form id="revsubscribe_form">
+							<div class="col-sm-5 col-xs-12">
+								<div class="revtext"> <i class="fa fa-envelope-o" aria-hidden="true"></i> <span class="susbs_head_text">Подписка на новости</span>
+									<br> Получайте дополнителоьные скидки </div>
+								<div id="revsubscribe_success"></div>
+							</div>
+							<div class="col-sm-4 col-xs-6">
+								<input type="text" class="form-control" name="revs_email" id="revs_email" placeholder="Ваш e-mail" value="">
+								<input type="hidden" name="language_id" id="language_id" value="1">
+								<input type="hidden" name="store_id" id="store_id" value="0"> </div>
+							<div class="col-sm-3 col-xs-6"> <a id="revsubscribe_submit" class="btn btn-primary">Подписаться</a> </div>
+							<div class="col-sm-9 col-xs-12">
+								<div class="rev_pol_konf pull-right text-right"> <span>Ознакомлен и согласен с <a href="https://apple.oc-mod.ru/politika_konfidencialnosti" target="_blank">условиями политики конфиденциальности</a></span>
+									<input type="checkbox" name="agree_pol_konf"> </div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<script>
+			<!--
+			$("#revsubscribe_form").submit(function(event) {
+				$('#revsubscribe_submit').click();
+				event.preventDefault();
 			});
-		}
-		function update_prices_product_product_products(product_id, minimumvalue) {
-			input_val = $('#product_products .product_'+product_id+' .plus-minus').val();
-			if (input_val > minimumvalue) {
-				input_val = minimumvalue;
-				$('#product_products .product_'+product_id+' .plus-minus').val(minimumvalue);
-			}
-			<?php if ($recalc_price) { ?>
-			quantity = parseInt(input_val);
-			<?php } else { ?>
-			quantity = 1;
-			<?php } ?>
-			data = $('#product_products .product_'+product_id+' .options input[type=\'text\'], #product_products .product_'+product_id+' .options input[type=\'hidden\'], #product_products .product_'+product_id+' .options input[type=\'radio\']:checked, #product_products .product_'+product_id+' .options input[type=\'checkbox\']:checked, #product_products .product_'+product_id+' .options select');
-			$.ajax({
-			  type: 'post',
-			  url:  'index.php?route=product/product/update_prices',
-			  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-			  dataType: 'json',
-			  success: function(json) {
-			  
-				<?php if ($img_slider) { ?>
-				$('#product_products .product_'+product_id+' .image .owl-item:first-child img').attr('src', json['opt_image']);
-				<?php } else { ?>
-				$('#product_products .product_'+product_id+' .image img').attr('src', json['opt_image']);
-				<?php } ?>
-				
-				<?php if ($description_options['zamena_description'] && $description_options['model']) { ?>
-				$('#product_products .product_'+product_id+' .pr_model_'+product_id).html(json['opt_model']);
-				<?php } ?>
-			  
-				var end_quantity = json['option_quantity'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_quantity = parseFloat($('#product_products .pr_quantity_'+product_id).html().replace(/\s*/g,''));
-					$({val:start_quantity}).animate({val:end_quantity}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('#product_products .pr_quantity_'+product_id).html(number_format(val, product_id));
+			$('#revsubscribe_submit').on('click', function() {
+				var email_validate = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+				if((document.getElementById("revs_email").value.length == 0)) {
+					var message = 'Укажите Ваш e-mail адрес.';
+					get_revpopup_notification('alert-danger', 'Ошибка', message);
+				} else if(!document.getElementById("revs_email").value.match(email_validate)) {
+					var message = 'Не верно указан e-mail адрес.';
+					get_revpopup_notification('alert-danger', 'Ошибка', message);
+				} else {
+					$.ajax({
+						url: 'index.php?route=revolution/revsubscribe/subscribecustomer',
+						type: 'post',
+						dataType: 'json',
+						data: $('#revsubscribe_form').serialize(),
+						success: function(json) {
+							$('.text-danger').remove();
+							if(json['error']) {
+								$('.text-danger').remove();
+								$('.rev_pol_konf').after('<div class="text-danger text-right" style="clear: both;">' + json['error'] + '</div>');
+							} else {
+								var text = json['text'];
+								get_revpopup_notification('alert-success', 'Спасибо за подписку', text);
+								$('#revs_email').val('');
+							}
 						}
 					});
-				<?php } else { ?>
-					$('#product_products .pr_quantity_'+product_id).html(number_format(end_quantity, product_id));
-				<?php } ?>
-				
-				<?php if ($description_options['zamena_description'] && $description_options['weight']) { ?>
-					var weight = json['weight'];
-					<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-						var start_weight = parseFloat($('#product_products .pr_weight_'+product_id).attr('data-weight'));
-						$({val:start_weight}).animate({val:weight}, {
-							duration: 500,
-							easing: 'swing',
-							step: function(val) {
-								$('#product_products .pr_weight_'+product_id).html(weight_format(val, product_id));
-							}
-						});
-						$('#product_products .pr_weight_'+product_id).attr('data-weight', json['weight']);
-					<?php } else { ?>
-						$('#product_products .pr_weight_'+product_id).html(weight_format(weight, product_id));
-					<?php } ?>
-				<?php } ?>
-			  
-				<?php if ($stikers_status) { ?>
-					var price = json['price_n'];
-					<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-						var start_price = parseFloat($('#product_products .special_no_format'+product_id).html().replace(/\s*/g,''));
-						$({val:start_price}).animate({val:price}, {
-							duration: 500,
-							easing: 'swing',
-							step: function(val) {
-								$('#product_products .special_no_format'+product_id).html(price_format(val));
-							}
-						});
-					<?php } else { ?>
-						$('#product_products .special_no_format'+product_id).html(price_format(price));
-					<?php } ?>
-				<?php } ?>
-				
-				var special = json['special_n'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_special = parseFloat($('#product_products .price_no_format'+product_id).html().replace(/\s*/g,''));
-					$({val:start_special}).animate({val:special}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('#product_products .price_no_format'+product_id).html(price_format(val));
-						}
-					});
-				<?php } else { ?>
-					$('#product_products .price_no_format'+product_id).html(price_format(special));
-				<?php } ?>
-
-			  }
-			});
-		}
-		var product_grid_width = $('.product-layout .product-thumb').outerWidth();
-		if (product_grid_width < 240) {
-			$('.product-layout').addClass('new_line');
-		} else {
-			$('.product-layout').removeClass('new_line');
-		}
-		max_height_div('#product_products .product-thumb h4');
-		$('#product_products .product-thumb .description_options').css('min-height', 'initial');
-		max_height_div('#product_products .product-thumb .description_options');
-		max_height_div('#product_products .product-thumb .price');
-		max_height_div('#product_products .product-thumb .number');
-		max_height_div('#product_products .product-thumb .product_buttons');
-		function max_height_div(div) {
-			var maxheight = 0;
-			$(div).each(function(){
-				$(this).removeAttr('style');
-				if($(this).height() > maxheight) {
-					maxheight = $(this).height();
 				}
 			});
-			$(div).height(maxheight);
-		}
-	//--></script>
+			//-->
+			</script>
+			<div class="footer">
+				<div class="container">
+					<div class="row">
+						<div class="footer_cfs hidden-sm">
+							<div class="hidden-xs hidden-sm col-sm-12 cf_1_width" style="width:20%">
+								<ul class="list-unstyled">
+									<li class="zag_dm_cf_li"> <span class="zag_dm_cf">
+																											Каталог																										</span>
+										<ul class="list-unstyled last_ul_cf">
+											<li> <a href="mac">Mac</a> </li>
+											<li> <a href="iphone">iPhone</a> </li>
+											<li> <a href="watch">Watch</a> </li>
+											<li> <a href="ipad">iPad</a> </li>
+											<li> <a href="ipod">iPod</a> </li>
+											<li> <a href="aksessuary">Аксессуары</a> </li>
+											<li> <a href="specials">Распродажа</a> </li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="hidden-xs hidden-sm col-sm-12 cf_2_width" style="width:25%">
+								<ul class="list-unstyled">
+									<li class="zag_dm_cf_li"> <span class="zag_dm_cf">
+																											Меню																										</span>
+										<ul class="list-unstyled last_ul_cf">
+											<li> <a href="o_kompanii">О компании</a> </li>
+											<li> <a href="dostavka_i_oplata">Доставка и Оплата</a> </li>
+											<li> <a href="garantiya">Гарантия</a> </li>
+										</ul>
+									</li>
+									<li class="zag_dm_cf_li"> <span class="zag_dm_cf">
+																											Информация																										</span>
+										<ul class="list-unstyled last_ul_cf">
+											<li> <a href="novosti_i_obzory">Новости и Обзоры</a> </li>
+											<li> <a href="politika_konfidencialnosti">Политика конфиденциальности</a> </li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div class="hidden-xs hidden-sm col-sm-12 cf_3_width" style="width:50%">
+								<p>Интернет магазин Apple – это большой ассортимент техники Apple, удобно рассортированной по разделам каталога. Мы продаем только сертифицированную продукцию с фирменной гарантией сроком в 1 год и более. Работаем для Вас без выходных 7 дней в неделю, 365 дней в году.</p>
+								<p>Мы предлагаем клиентам самую оперативную доставку продукции по Москве и Подмосковью, также есть возможность самовывоза. Оплата после получения и проверки товара, тест-драйв 14 дней. Очень демократичные цены, наша техника доступна широкой аудитории покупателей.</p>
+							</div>
+						</div>
+						<div style="text-align:left" class="powered col-sm-12 col-xs-12"> apple.oc-mod.ru - Мой Магазин © 2026 </div>
+					</div>
+				</div>
+			</div>
+		</footer>
 	</div>
-      <?php } ?>
-		</div>
-		
-		
-      </div>  
-
-
-
-
-	
-
-    <?php echo $column_right; ?></div>
-</div>
-<script><!--
-<?php if ($text_blocks) { ?>
-	var div_mh_text_blocks = '.p_text_blocks';
-	var maxheight = 0;$(div_mh_text_blocks).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();}});$(div_mh_text_blocks).height(maxheight);
-<?php } ?>
-<?php if ($text_blocks_all) { ?>
-	var div_mh_text_blocks_all = '.p_text_blocks_all';
-	var maxheight = 0;$(div_mh_text_blocks_all).each(function(){$(this).removeAttr('style');if($(this).height() > maxheight) {maxheight = $(this).height();}});$(div_mh_text_blocks_all).height(maxheight);
-<?php } ?>
-$(document).ready(function(){
-	$('.nav.nav-tabs li:first-child a').tab('show');
-});
-var owl = $("#owl-images");
-owl.owlCarousel({
-  responsiveBaseWidth: '.container',
-  itemsCustom: [[0, 2], [448, 3], [650, 3], [750, 3], [970, 4]],
-  navigation : true,
-  navigationText: ['<i class="fa fa-chevron-left fa-5x"></i>', '<i class="fa fa-chevron-right fa-5x"></i>'],
-  pagination: false
-}); 
-
-$('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
-	$.ajax({
-		url: 'index.php?route=product/product/getRecurringDescription',
-		type: 'post',
-		data: $('input[name=\'product_id\'], input[name=\'quantity\'], select[name=\'recurring_id\']'),
-		dataType: 'json',
-		beforeSend: function() {
-			$('#recurring-description').html('');
-		},
-		success: function(json) {
-			$('.alert, .text-danger').remove();
-
-			if (json['success']) {
-				$('#recurring-description').html(json['success']);
-			}
-		}
-	});
-});
-
-$('.date').datetimepicker({
-	pickTime: false
-});
-
-$('.datetime').datetimepicker({
-	pickDate: true,
-	pickTime: true
-});
-
-$('.time').datetimepicker({
-	pickDate: false
-});
-
-$('button[id^=\'button-upload\']').on('click', function() {
-	var node = this;
-
-	$('#form-upload').remove();
-
-	$('body').prepend('<form enctype="multipart/form-data" id="form-upload" style="display: none;"><input type="file" name="file" /></form>');
-
-	$('#form-upload input[name=\'file\']').trigger('click');
-
-	if (typeof timer != 'undefined') {
-    	clearInterval(timer);
-	}
-
-	timer = setInterval(function() {
-		if ($('#form-upload input[name=\'file\']').val() != '') {
-			clearInterval(timer);
-
-			$.ajax({
-				url: 'index.php?route=tool/upload',
-				type: 'post',
-				dataType: 'json',
-				data: new FormData($('#form-upload')[0]),
-				cache: false,
-				contentType: false,
-				processData: false,
-				beforeSend: function() {
-					$(node).button('loading');
-				},
-				complete: function() {
-					$(node).button('reset');
-				},
-				success: function(json) {
-					$('.text-danger').remove();
-
-					if (json['error']) {
-						$(node).parent().find('input').after('<div class="text-danger">' + json['error'] + '</div>');
-					}
-
-					if (json['success']) {
-						alert(json['success']);
-
-						$(node).parent().find('input').attr('value', json['code']);
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
+	<div class="popup-phone-wrapper" data-toggle="tooltip" data-placement="left" title="Заказать звонок"> <span class="scroll-top-inner">
+			<i class="fa fa-phone"></i>
+		</span> </div>
+	<div class="scroll-top-wrapper "> <span class="scroll-top-inner">
+			<i class="fa fa-arrow-circle-up"></i>
+		</span> </div>
+	<script src="catalog/view/javascript/revolution/javascript_min.js"></script>
+	<script>
+	<!--
+	(function($) {
+		$.fn.revFilter = function(f) {
+			var g = this.selector;
+			var h = $(g).attr('action');
+			$(document).ready(function() {
+				init_revfilter();
 			});
-		}
-	}, 500);
-});
-
-$('#review').delegate('.pagination a', 'click', function(e) {
-    e.preventDefault();
-
-    $('#review').fadeOut('slow');
-
-    $('#review').load(this.href);
-
-    $('#review').fadeIn('slow');
-});
-
-$('#review').load('index.php?route=product/product/review&product_id=<?php echo $product_id; ?>');
-
-$('#button-review').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=product/product/write&product_id=<?php echo $product_id; ?>',
-		type: 'post',
-		dataType: 'json',
-		data: $(".form-review").serialize(),
-		beforeSend: function() {
-			$('#button-review').button('loading');
-		},
-		complete: function() {
-			$('#button-review').button('reset');
-		},
-		success: function(json) {
-			$('.alert-success, .alert-danger').remove();
-
-			if (json['error']) {
-				get_revpopup_notification('alert-danger', '<?php echo $text_product_oshibka; ?>', json['error']);
-			}
-
-			if (json['success']) {
-				get_revpopup_notification('alert-success', '<?php echo $text_product_spasibo_otz; ?>', json['success']);
-
-				$('input[name=\'name\']').val('');
-				$('textarea[name=\'text\']').val('');
-				$('input[name=\'rating\']:checked').prop('checked', false);
-				
-				$('#post-review-box').slideUp(300);
-				$('#new-review').focus();
-				$('#open-review-box').fadeIn(100);
-				$('#close-review-box').hide();
-				$('#ratings-hidden').val('');
-				$('.stars .glyphicon').removeClass('glyphicon-star').addClass('glyphicon-star-empty');
-				
-			}
-		}
-	});
-});
-
-$('#button-answers').on('click', function() {
-	$.ajax({
-		url: 'index.php?route=revolution/revstorereview/writeanswer&product_id=<?php echo $product_id; ?>',
-		type: 'post',
-		dataType: 'json',
-		data: $(".form-answers").serialize(),
-		beforeSend: function() {
-			$('#button-answers').button('loading');
-		},
-		complete: function() {
-			$('#button-answers').button('reset');
-		},
-		success: function(json) {
-			$('.alert-success, .alert-danger').remove();
-			if (json['error']) {
-				get_revpopup_notification('alert-danger', '<?php echo $text_product_oshibka; ?>', json['error']);
-			}
-			if (json['success']) {
-				get_revpopup_notification('alert-success', '<?php echo $text_product_spasibo_answer; ?>', json['success']);
-				$('input[name=\'name_answer\']').val('');
-				$('textarea[name=\'text_answer\']').val('');
-				$('#post-answers-box').slideUp(300);
-				$('#new-answers').focus();
-				$('#open-answers-box').fadeIn(100);
-				$('#close-answers-box').hide();
-			}
-		}
-	});
-});
-
-$('.thumbnails .main-image').magnificPopup({
-	type:'image',
-	removalDelay: 170,
-	callbacks: {
-	beforeOpen: function() {
-	   this.st.mainClass = 'mfp-zoom-in';
-	},
-	open: function() {
-		$('body').addClass('razmiv2');
-		$('#pagefader2').fadeIn(70);
-		if (document.body.scrollHeight > document.body.offsetHeight) {
-			<?php if ($setting_all_settings['all_document_width']) { ?>
-				$('#top3').css('right', '8.5px');
-			<?php } ?>
-		}
-	}, 
-	close: function() {
-		$('body').removeClass('razmiv2');
-		$('#pagefader2').fadeOut(70);
-		$('#top3').css('right', 'initial');
-	}
-	}
-});
-$('.thumbnails .images-additional').magnificPopup({
-	type:'image',
-	delegate: 'a',
-	gallery: {
-		enabled:true
-	},
-	removalDelay: 170,
-	callbacks: {
-	beforeOpen: function() {
-	   this.st.mainClass = 'mfp-zoom-in';
-	},
-	open: function() {
-		$('body').addClass('razmiv2');
-		$('#pagefader2').fadeIn(70);
-		if (document.body.scrollHeight > document.body.offsetHeight) {
-			<?php if ($setting_all_settings['all_document_width']) { ?>
-				$('#top3').css('right', '8.5px');
-			<?php } ?>
-		}
-	}, 
-	close: function() {
-		$('body').removeClass('razmiv2');
-		$('#pagefader2').fadeOut(70);
-		$('#top3').css('right', 'initial');
-	}
-	}
-});
-<?php if ($zoom) { ?>
-	if ($(window).width() > 991) {
-		$('#imageWrap > a').addClass('cloud-zoom');
-	
-		$('.images-additional img').click(function(){
-			var oldsrc = $(this).attr('src');
-			newsrc = $(this).parent().attr('id');
-			newhref = $(this).parent().attr('href');
-			number = $(this).attr('data-number');
-			
-			$('#imageWrap img').attr('src', newsrc);
-			
-			$('.main-image img').attr('src', newsrc);
-			$('.main-image').attr('href', newhref);
-			$('.main-image').attr('data-number', number);
-			$('.cloud-zoom').CloudZoom();
-			return false;
-		});
-		$('#imageWrap.image').bind('click',function(){
-			if ($('.images-additional').length > 0) {
-				var startnumber = $('.cloud-zoom.main-image').attr('data-number');
-				$('.images-additional').magnificPopup('open', startnumber);
-				return false
-			} else {
-				$('.cloud-zoom.main-image').magnificPopup('open');
-				return false
-			}
-		});
-		$('.cloud-zoom').attr('rel','position:\'inside\'').CloudZoom();
-	} else {
-		$('.thumbnails .main-image img').click(function(){
-			if ($('.images-additional').length > 0) {
-				var startnumber = $(this).parent().attr('data-number');
-				$('.images-additional').magnificPopup('open', startnumber);
-				return false
-			} else {
-				$('.main-image').magnificPopup('open');
-				return false
-			}
-		});
-	}
-<?php } else { ?>
-	$('.thumbnails .main-image img').click(function(){
-		if ($('.images-additional').length > 0) {
-			var startnumber = $(this).parent().attr('data-number');
-			$('.images-additional').magnificPopup('open', startnumber);
-			return false
-		} else {
-			$('.main-image').magnificPopup('open');
-			return false
-		}
-	});
-<?php } ?>
-<?php if ($minimum > 1 && $recalc_price) { ?>
-	update_quantity(<?php echo $product_id ?>,<?php echo $minimum ?>);
-<?php } ?>
-function get_revpopup_cart_quantity() {
-	input_val = $('.product-info.product_informationss .plus-minus').val();
-	quantity  = parseInt(input_val);
-	return quantity;
-}
-function validate_pole(val, product_id, znak, minimumvalue, maximumvalue) {
-	val.value = val.value.replace(/[^\d,]/g, '');
-	if (val.value == '') val.value = minimumvalue;
-	maximumvalue = Number($('.product_informationss .pr_quantity').text());
-	if (maximumvalue < 1) maximumvalue = 9999;
-	input_val = $('.product-info.product_informationss .plus-minus');
-	quantity = parseInt(input_val.val());
-	<?php if ($q_zavisimost) { ?>
-	if(znak=='+' && input_val.val() < maximumvalue) input_val.val(quantity+1);
-	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-	else if(znak=='=' && input_val.val() < maximumvalue && input_val.val() < maximumvalue) input_val.val(input_val.val());
-	if (quantity < 1 || quantity < minimumvalue) {
-		input_val.val(minimumvalue);
-		val.value = minimumvalue;
-	} else if (quantity > maximumvalue) {
-		input_val.val(maximumvalue);
-		val.value = maximumvalue;
-	}
-	<?php } else { ?>
-	if(znak=='+') input_val.val(quantity+1);
-	else if(znak=='-' && input_val.val() > minimumvalue) input_val.val(quantity-1);
-	else if(znak=='=' && input_val.val() > minimumvalue) input_val.val(input_val.val());
-	if (quantity < 1 || quantity < minimumvalue) {
-		input_val.val(minimumvalue);
-		val.value = minimumvalue;
-	}
-	<?php } ?>
-
-	update_quantity(product_id, input_val.val());
-}
-function update_quantity(product_id, quantity) {
-	var minimumvalue = <?php echo $minimum ?>;
-	if (quantity == 0 || quantity < minimumvalue) {
-		quantity = $('.product-info.product_informationss .plus-minus').val(minimumvalue);
-		return;
-	} else if (quantity < 1) {
-		quantity = 1;
-		return;
-	}
-	
-	data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea'),
-	$.ajax({
-	  url: 'index.php?route=product/product/update_prices',
-	  type: 'post',
-	  dataType: 'json',
-	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-	  success: function(json) {
-
-		<?php if ($recalc_price) { ?>
-		
-			<?php if ($points) { ?>
-				var end_quantity = json['points'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-					$({val:start_quantity}).animate({val:end_quantity}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_points').html(number_format(val, product_id));
-						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-				<?php } ?>
-			<?php } ?>
-		
-			<?php if ($weight_status) { ?>
-				var weight = json['weight'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-					$({val:start_weight}).animate({val:weight}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_weight').html(weight_format(val));
-						}
-					});
-					$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-				<?php } else { ?>
-					$('.product_informationss .pr_weight').html(weight_format(weight));
-				<?php } ?>
-			<?php } ?>
-		  
-			<?php if ($price_number > 0 || $zakaz_price_null) { ?>
-				<?php if ($discounts && !$special) { ?>
-					var price = json['special_n'];
-				<?php } else { ?>
-					var price = json['price_n'];
-				<?php } ?>
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g,''));
-					$({val:start_price}).animate({val:price}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_price').html(price_format(val));
-						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .update_price').html(price_format(price));
-				<?php } ?>
-				
-				var special = json['special_n'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g,''));
-					$({val:start_special}).animate({val:special}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_special').html(price_format(val));
-						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .update_special').html(price_format(special));
-				<?php } ?>
-			<?php } ?>
-		
-		<?php } ?>
-	  } 
-	});
-}
-function update_prices_product(product_id, minimumvalue) {
-	input_val = $('.product-info.product_informationss .plus-minus').val();
-	if (input_val > minimumvalue) {
-		input_val = minimumvalue;
-		$('.product-info.product_informationss .plus-minus').val(minimumvalue);
-	}
-	<?php if ($recalc_price) { ?>
-	quantity = parseInt(input_val);
-	<?php } else { ?>
-	quantity = 1;
-	<?php } ?>
-	data = $('.product-info.product_informationss input[type=\'text\'], .product-info.product_informationss input[type=\'hidden\'], .product-info.product_informationss input[type=\'radio\']:checked, .product-info.product_informationss input[type=\'checkbox\']:checked, .product-info.product_informationss select, .product-info.product_informationss textarea');
-	$.ajax({
-	  type: 'post',
-	  url:  'index.php?route=product/product/update_prices',
-	  data: data.serialize() + '&product_id=' + product_id + '&quantity=' + quantity,
-	  dataType: 'json',
-	  success: function(json) {
-
-		$('.product_informationss .thumbnails a.main-image').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails a.main-image img').attr('src', json['opt_image_2']);
-		<?php if ($images_slider) { ?>
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a img').attr('src', json['opt_image_2']).css('width', <?php echo $config_image_additional_width; ?>).css('height', <?php echo $config_image_additional_height; ?>);
-		<?php } else { ?>
-		$('.product_informationss .thumbnails .images-additional a:first-child').attr('href', json['opt_image_2_big']);
-		$('.product_informationss .thumbnails .images-additional a:first-child img').attr('src', json['opt_image_2']).css('width', <?php echo $config_image_additional_width; ?>).css('height', <?php echo $config_image_additional_height; ?>);
-		<?php } ?>
-		<?php if ($zoom) { ?>
-		<?php if ($images_slider) { ?>
-		$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('id', json['opt_image_2']);
-		<?php } else { ?>
-		$('.product_informationss .thumbnails .images-additional a:first-child').attr('id', json['opt_image_2']);
-		<?php } ?>
-		$('.product_informationss .cloud-zoom').CloudZoom();
-		<?php } ?>
-		
-		var end_quantity = json['option_quantity'];
-		<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-			var start_quantity = parseFloat($('.product_informationss .pr_quantity').html().replace(/\s*/g,''));
-			$({val:start_quantity}).animate({val:end_quantity}, {
-				duration: 500,
-				easing: 'swing',
-				step: function(val) {
-					$('.product_informationss .pr_quantity').html(number_format(val, product_id));
-				}
+			$(document).on('submit', g, function(e) {
+				e.preventDefault();
+				var a = $(this).serialize();
+				loadProds(h, a, f.revload);
 			});
-		<?php } else { ?>
-			$('.product_informationss .pr_quantity').html(number_format(end_quantity, product_id));
-		<?php } ?>
-		
-		<?php if ($points) { ?>
-			var end_quantity = json['points'];
-			<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-				var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-				$({val:start_quantity}).animate({val:end_quantity}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_points').html(number_format(val, product_id));
+			$(document).on('click', '#' + f.reset_id, function(e) {
+				$(g + ' input, ' + g + ' select').not('[type=hidden]').each(function(a) {
+					if($(this).hasClass('irs-hidden-input')) {
+						var b = $(this).data('ionRangeSlider');
+						b.reset();
+					}
+					if($(this).is(':checkbox') || $(this).is(':radio')) {
+						$(this).removeAttr("checked");
+					} else {
+						$(this).val('');
 					}
 				});
-			<?php } else { ?>
-				$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-			<?php } ?>
-		<?php } ?>
-		
-		<?php if ($model_status) { ?>
-			$('.product_informationss .pr_model').html(json['opt_model']);
-		<?php } ?>
-			
-		<?php if ($weight_status) { ?>
-			var weight = json['weight'];
-			<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-				var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-				$({val:start_weight}).animate({val:weight}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_weight').html(weight_format(val));
+				var c = $(g).serialize();
+				loadProds(h, c, f.revload);
+			});
+			if(f.mode == 'auto') {
+				$(document).on('change', g + ' input:not([type=hidden]):not(.irs-hidden-input), ' + g + ' select', function() {
+					$(g).submit();
+				})
+			}
+
+			function init_revfilter() {
+				$('#input-sort').removeAttr('onchange');
+				$('#input-limit').removeAttr('onchange');
+				$(f.selector).addClass('revcontainer');
+				if(localStorage.getItem('display') == 'list') {
+					list_view();
+				} else if(localStorage.getItem('display') == 'price') {
+					price_view();
+				} else if(localStorage.getItem('display') == 'grid') {
+					grid_view();
+				} else {
+					grid_view();
+				}
+				$('.owl-carousel.owlproduct').remove();
+				podgon_fona();
+				$('#column-left #revfilter_box .mobil_wellsm .well.well-sm').remove();
+				if($(window).width() < 991) {
+					$('#column-left #revfilter_box .mobil_wellsm .collapsible').append($('.revfilter_container > .well.well-sm'));
+				}
+			}
+
+			function loadProds(c, d, e) {
+				d = d || '';
+				e = e || false;
+				filterurl = c + '&isrevfilter=1';
+				$.ajax({
+					url: filterurl,
+					type: 'get',
+					data: d,
+					processData: false,
+					dataType: e ? 'json' : 'html',
+					beforeSend: function() {
+						$(g + ' button').button('loading');
+						masked('.products_category > .product-layout > .product-thumb', true);
+						$('.load_more .fa-refresh').addClass('fa-spin');
+					},
+					success: function(a) {
+						var b = $.parseHTML((e && (typeof a.html != 'undefined')) ? a.html : a);
+						$(f.selector).children().remove();
+						$(f.selector).append($(b).find(f.selector).children());
+						init_revfilter();
+					},
+					complete: function() {
+						setTimeout(function() {
+							masked('.products_category > .product-layout > .product-thumb', false);
+							autoscroll_loading = false;
+							$(g + ' button').button('reset');
+							var pr_opts_cat = $('.products_category .options_buy')
+							pr_opts_cat.find('select:first').each(function() {
+								this.onchange();
+							});
+							var pr_opts_cat_no_buy = $('.description_options .product-info .form-group');
+							pr_opts_cat_no_buy.find('input[type="checkbox"]:first, .radio:first-child input[type="radio"]').each(function() {
+								this.checked = true;
+								this.onchange();
+							});
+							pr_opts_cat_no_buy.find('select:first').each(function() {
+								if($(this).find('option:selected').length < 1) {
+									this.options[1].selected = true;
+									this.onchange();
+								}
+							});
+						}, 250);
+						if(f.mode == 'manual' && $(window).width() > 767) {
+							element = $('.breadcrumb');
+							offset = element.offset();
+							offsetTop = offset.top;
+							//$('html, body').animate({scrollTop:offsetTop}, 250, 'linear');
+						};
+						$('.load_more .fa-refresh').removeClass('fa-spin').css('hover');
+						$('.pagpages .pagination').hide();
 					}
-				});
-				$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-			<?php } else { ?>
-				$('.product_informationss .pr_weight').html(weight_format(weight));
-			<?php } ?>
-		<?php } ?>
-	  
-		<?php if (($options && !$revtheme_product_all['options_buy']) || !$options_buy) { ?>
-			<?php if ($price_number > 0 || $zakaz_price_null) { ?>
-				<?php if ($discounts && !$special) { ?>
-					var price = json['special_n'];
-				<?php } else { ?>
-					var price = json['price_n'];
-				<?php } ?>
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_price = parseFloat($('.product_informationss .update_price').html().replace(/\s*/g,''));
-					$({val:start_price}).animate({val:price}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_price').html(price_format(val));
+				})
+			}
+			$(document).on('click', '.pagination a', function(e) {
+				loadProds($(this).attr('href'), null, true);
+				element = $('.breadcrumb');
+				offset = element.offset();
+				offsetTop = offset.top;
+				$('html, body').animate({
+					scrollTop: offsetTop
+				}, 250, 'linear');
+				return false;
+			});
+			$(document).on('change', '#input-sort', function(e) {
+				var a = $(this).val();
+				sort = a.match('sort=([A-Za-z.]+)');
+				$('input[name="sort"]').val(sort[1]);
+				order = a.match('order=([A-Z]+)');
+				$('input[name="order"]').val(order[1]);
+				$(g).submit();
+			});
+			$(document).on('change', '#input-limit', function(e) {
+				var a = $(this).val();
+				if(a) {
+					limit = a.match('limit=([0-9]+)');
+					$('input[name="limit"]').val(limit[1]);
+				}
+				$(g).submit();
+			});
+			var i = $('#input-limit').val();
+			limit = i.match('limit=([0-9]+)');
+			$i = limit[1];
+			autoscroll_loading = false;
+			$('.pagpages .pagination').hide();
+			$(window).scroll(function() {
+				if(inZone('.pagpages') && !autoscroll_loading) {
+					autoscroll_loading = true;
+					var c = $(".pagpages .pagination li.active").next("li").children("a");
+					if(c.length == 0) return;
+					setTimeout(function() {
+						var a = $('#input-limit').val();
+						limit = a.match('limit=([0-9]+)');
+						limit3 = $('#revfilter input[name="limit"]').val();
+						if(limit3) {
+							limit21 = limit3;
+						} else {
+							limit21 = limit[1];
+							$('#revfilter input[name="limit"]').val(limit21);
 						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .update_price').html(price_format(price));
-				<?php } ?>
-				
-				var special = json['special_n'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_special = parseFloat($('.product_informationss .update_special').html().replace(/\s*/g,''));
-					$({val:start_special}).animate({val:special}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .update_special').html(price_format(val));
-						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .update_special').html(price_format(special));
-				<?php } ?>
-			<?php } ?>
-		<?php } ?>
-	  }
-	});
-}
-<?php if ($revtheme_product_all['options_buy_click']) { ?>
-	function update_options_buy(product_id, opt_id, option) {
-		$('.product-info.product_informationss .options_buy .pro_'+option+' input[name=\'option['+opt_id+']\']').val(option);
-		data = $('.product-info.product_informationss .options_buy .pro_'+option+' input[type=\'text\'], .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'hidden\'], .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'radio\']:checked, .product-info.product_informationss .options_buy .pro_'+option+' input[type=\'checkbox\']:checked, .product-info.product_informationss .options_buy .pro_'+option+' select, .product-info.product_informationss .options_buy .pro_'+option+' textarea');
+						limit2 = Number(limit21) + Number($i);
+						limitnumber = 'limit=' + limit21;
+						a = a.replace('limit=' + $i, '');
+						a = a.replace(limitnumber, '');
+						var b = a + 'limit=' + limit2;
+						$('#revfilter input[name="limit"]').val(limit2);
+						$(g).submit();
+					}, 250);
+				}
+			});
+
+			function inZone(a) {
+				if($(a).length) {
+					var b = $(window).scrollTop();
+					var c = $(window).height();
+					var d = $(a).offset();
+					if(b <= d.top && ($(a).height() + d.top) < (b + c)) return true
+				};
+				return false;
+			}
+			$(document).on('click', '#list-view', function() {
+				list_view();
+			});
+			$(document).on('click', '#grid-view', function() {
+				grid_view();
+			});
+			$(document).on('click', '#price-view', function() {
+				price_view();
+			});
+		}
+	})(jQuery);
+	var button_more = false;
+	var pagination_exist = true;
+	var autoscroll = true;
+	var window_height = 0;
+	var product_block_offset = 0;
+	var product_block = '.row > .product-layout';
+	var pages_count = 0;
+	var pages = [];
+
+	function gettNextProductPage(pages, pages_count) {
+		if(pages_count >= pages.length) return;
+		masked('.row > .product-layout > .product-thumb', true);
 		$.ajax({
-		  type: 'post',
-		  url:  'index.php?route=product/product/update_prices',
-		  data: data.serialize() + '&product_id=' + product_id,
-		  dataType: 'json',
-		  success: function(json) {
-			
-			$('.product_informationss .thumbnails a.main-image').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails a.main-image img').attr('src', json['opt_image_2']);
-			<?php if ($images_slider) { ?>
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a img').attr('src', json['opt_image_2']).css('width', <?php echo $config_image_additional_width; ?>).css('height', <?php echo $config_image_additional_height; ?>);
-			<?php } else { ?>
-			$('.product_informationss .thumbnails .images-additional a:first-child').attr('href', json['opt_image_2_big']);
-			$('.product_informationss .thumbnails .images-additional a:first-child img').attr('src', json['opt_image_2']).css('width', <?php echo $config_image_additional_width; ?>).css('height', <?php echo $config_image_additional_height; ?>);
-			<?php } ?>
-			<?php if ($zoom) { ?>
-			<?php if ($images_slider) { ?>
-			$('.product_informationss .thumbnails .images-additional .owl-item:first-child a').attr('id', json['opt_image_2']);
-			<?php } else { ?>
-			$('.product_informationss .thumbnails .images-additional a:first-child').attr('id', json['opt_image_2']);
-			<?php } ?>
-			$('.product_informationss .cloud-zoom').CloudZoom();
-			<?php } ?>
-			  
-			var end_quantity = json['option_quantity'];
-			<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-				var start_quantity = parseFloat($('.product_informationss .pr_quantity').html().replace(/\s*/g,''));
-				$({val:start_quantity}).animate({val:end_quantity}, {
-					duration: 500,
-					easing: 'swing',
-					step: function(val) {
-						$('.product_informationss .pr_quantity').html(number_format(val, product_id));
+			url: pages[pages_count],
+			type: "GET",
+			data: '',
+			beforeSend: function() {
+				$('.load_more .fa-refresh').addClass('fa-spin');
+			},
+			success: function(data) {
+				$data = $(data);
+				masked('.row > .product-layout > .product-thumb', false);
+				$data.find('.row > .product-layout > .product-thumb').addClass('op_dblock1');
+				if($data) {
+					if(localStorage.getItem('display') == 'list') {
+						$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+						list_view();
+						if(product_block == '.product-grid') {
+							grid_view();
+						};
+					} else if(localStorage.getItem('display') == 'price') {
+						$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+						price_view();
+					} else {
+						$(product_block).parent().append($data.find('#content .product-layout').parent().html());
+						grid_view();
 					}
-				});
-			<?php } else { ?>
-				$('.product_informationss .pr_quantity').html(number_format(end_quantity, product_id));
-			<?php } ?>
-			
-			<?php if ($points) { ?>
-				var end_quantity = json['points'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_quantity = parseFloat($('.product_informationss .pr_points').html().replace(/\s*/g,''));
-					$({val:start_quantity}).animate({val:end_quantity}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_points').html(number_format(val, product_id));
-						}
-					});
-				<?php } else { ?>
-					$('.product_informationss .pr_points').html(number_format(end_quantity, product_id));
-				<?php } ?>
-			<?php } ?>
-			
-			<?php if ($model_status) { ?>
-				$('.product_informationss .pr_model').html(json['opt_model']);
-			<?php } ?>
-			
-			<?php if ($weight_status) { ?>
-				var weight = json['weight'];
-				<?php if ($revtheme_product_all['recalc_price_animate']) { ?>
-					var start_weight = parseFloat($('.product_informationss .pr_weight').attr('data-weight'));
-					$({val:start_weight}).animate({val:weight}, {
-						duration: 500,
-						easing: 'swing',
-						step: function(val) {
-							$('.product_informationss .pr_weight').html(weight_format(val));
-						}
-					});
-					$('.product_informationss .pr_weight').attr('data-weight', json['weight']);
-				<?php } else { ?>
-					$('.product_informationss .pr_weight').html(weight_format(weight));
-				<?php } ?>
-			<?php } ?>
-		  }
+					if(pagination_exist) {
+						$('.pagination').html($data.find('.pagination'));
+					}
+					$('.load_more .fa-refresh').removeClass('fa-spin').css('hover');
+					if(pages_count + 1 >= pages.length) {
+						$('.load_more').hide();
+					};
+					setTimeout(function() {
+						$('.row > .product-layout > .product-thumb').removeClass('op_dblock1').addClass('op_dblock2');
+					}, 220)
+				}
+			}
 		});
 	}
-<?php } ?>
-function price_format(n) {
-	c = <?php echo (empty($currency['decimals']) ? "0" : $currency['decimals'] ); ?>;
-    d = '<?php echo $currency['decimal_point']; ?>';
-    t = '<?php echo $currency['thousand_point']; ?>';
-    s_left = '<?php echo $currency['symbol_left']; ?>';
-    s_right = '<?php echo $currency['symbol_right']; ?>';
-    n = n * <?php echo $currency['value']; ?>;
-    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
-    j = ((j = i.length) > 3) ? j % 3 : 0; 
-    return s_left + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '') + s_right; 
-}
-function weight_format(n, product_id) {
-    c = 2;
-    d = '.';
-    t = ',';
-    i = parseInt(n = Math.abs(n).toFixed(c)) + ''; 
-    j = ((j = i.length) > 3) ? j % 3 : 0; 
-    return (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
-}
-function number_format(n, product_id) {
-    i = parseInt(n = Math.abs(n).toFixed(0)) + ''; 
-    return i;
-}
-<?php if ($img_slider) { ?>
-	$('.product_related .owlproduct').owlCarousel({
-		items: 1,
-		singleItem: true,
-		mouseDrag: false,
-		touchDrag: false,
-		autoPlay: false,
-		navigation: true,
-		navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
-		pagination: false
+	$(document).ready(function() {
+		window_height = $(window).height();
+		var button_more_block = $('#load_more').html();
+		if($(product_block).length > 0) {
+			product_block_offset = $(product_block).offset().top;
+			var href = $('.pagination').find('li:last a').attr('href');
+			$('.pagination').each(function() {
+				if(href) {
+					TotalPages = href.substring(href.indexOf("page=") + 5);
+					First_index = $(this).find('li.active span').html();
+					i = parseInt(First_index) + 1;
+					while(i <= TotalPages) {
+						pages.push(href.substring(0, href.indexOf("page=") + 5) + i);
+						i++;
+					}
+				}
+			});
+			if(button_more && href) {
+				$('.pagination').parent().parent().before(button_more_block);
+				if(!pagination_exist) {
+					$('.pagpages').addClass('dnone');
+				}
+				$(".load_more").click(function(event) {
+					event.preventDefault();
+					gettNextProductPage(pages, pages_count);
+					pages_count++;
+					setTimeout(function() {
+						if(pages_count > 0) {
+							var $next = $(".pagpages .pagination li.active").next("li").children("a");
+							if($next.length == 0) return;
+							$.get($next.attr("href"), function(data) {
+								$data = $(data);
+								var pag = $data.find(".pagpages > *");
+								var pag2 = pag.filter(".text-right").html();
+								var pag_ch = pag2.substr(0, pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
+								pag2 = pag2.replace(pag_ch, "1");
+								$(".pagpages").html(pag);
+								$(".pagpages .text-right").html(pag2);
+								$(".owlproduct").not(".owl-theme").owlCarousel({
+									beforeInit: true,
+									items: 1,
+									singleItem: true,
+									mouseDrag: false,
+									autoPlay: false,
+									navigation: true,
+									navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+									pagination: false
+								});
+							}, "html")
+						}
+					}, 350);
+				});
+			} else if(autoscroll) {
+				$('.pagpages .pagination').hide();
+				autoscroll_loading = false;
+				$(window).scroll(function() {
+					if(inZone('.pagpages') && !autoscroll_loading) {
+						autoscroll_loading = true;
+						setTimeout(function() {
+							gettNextProductPage(pages, pages_count);
+							pages_count++;
+							if(pages_count > 0) {
+								var $next = $(".pagpages .pagination li.active").next("li").children("a");
+								if($next.length == 0) return;
+								$.get($next.attr("href"), function(data) {
+									$data = $(data);
+									var pag = $data.find(".pagpages > *");
+									var pag2 = pag.filter(".text-right").html();
+									var pag_ch = pag2.substr(0, pag2.indexOf(" по")).replace(/[^\d.]/ig, '');
+									pag2 = pag2.replace(pag_ch, "1");
+									$(".pagpages .text-right").html(pag2);
+									$(".owlproduct").not(".owl-theme").owlCarousel({
+										beforeInit: true,
+										items: 1,
+										singleItem: true,
+										mouseDrag: false,
+										autoPlay: false,
+										navigation: true,
+										navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
+										pagination: false
+									});
+									autoscroll_loading = false;
+								}, "html")
+							}
+						}, 350);
+					}
+				});
+			}
+		}
 	});
-	$('.viewed_products .owlproduct').owlCarousel({
-		items: 1,
-		singleItem: true,
-		mouseDrag: false,
-		touchDrag: false,
-		autoPlay: false,
-		navigation: true,
-		navigationText: ['<i class="fa fa-chevron-left fa-3x"></i>', '<i class="fa fa-chevron-right fa-3x"></i>'],
-		pagination: false
-	});
-<?php } else { ?>
-	$('.owl-carousel.owlproduct').remove();
-<?php } ?>
---></script>
-<?php echo $footer; ?>
+
+	function inZone(el) {
+		if($(el).length) {
+			var scrollTop = $(window).scrollTop();
+			var windowHeight = $(window).height();
+			var offset = $(el).offset();
+			if(scrollTop <= offset.top && ($(el).height() + offset.top) < (scrollTop + windowHeight)) return true;
+		};
+		return false;
+	}
+	//-->
+	</script>
+	<div id="load_more" style="display:none;">
+		<div class="col-sm-12 text-center"><a href="#" class="load_more btn btn-primary" rel="nofollow"><i class="fa fa-refresh"></i>Показать еще</a></div>
+	</div>
+</body>
+
+</html>
